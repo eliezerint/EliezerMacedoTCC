@@ -1,0 +1,26 @@
+package br.grupointegrado.appmetaforadevenda.Pedido;
+
+/**
+ * Created by eli on 27/07/2015.
+ */
+public class Filial {
+
+    Integer Idfilial;
+    String descricao;
+
+    public Integer getIdfilial() {
+        return Idfilial;
+    }
+
+    public void setIdfilial(Integer idfilial) {
+        this.Idfilial = idfilial;
+    }
+
+    public String getDescricao() {
+        return descricao;
+    }
+
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+}
