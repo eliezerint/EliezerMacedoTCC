@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        jar="C:\Users\eli\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="e9b63380f3a242dbdbf103a2355ad7e43bad17cb">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\library-2.4.0-239db41cca4712b23c96917e289c0d5d49138fd9.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.afollestad\material-dialogs\0.7.8.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="332c3fb3a17fa7a66f84c701047aac964653fdf6">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-61c761c812811942432cbd1a3a82a3782d403086.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\net.i2p.android.ext\floatingactionbutton\1.10.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4eff90a2da3e42cbea5706a72aae2aa9b12f55b3">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-68945af4469583a045914bb77b88b6d472f07c32.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\22.2.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-8f9529670a9608200bfa5e747b7bd033e0000849.jar" />
+    </item>
+
+</items>
