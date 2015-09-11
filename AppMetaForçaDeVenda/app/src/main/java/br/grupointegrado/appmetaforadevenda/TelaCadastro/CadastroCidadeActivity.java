@@ -85,6 +85,7 @@ public class CadastroCidadeActivity extends ActionBarActivity {
                 break;
             case R.id.Salvarcidade:
              //  esatdodao.saveEstado();
+
                 save();
                 break;
         }
@@ -96,22 +97,17 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     //Adicionado o pais em uma spinner com array
     public void Addspinnerpais (){
 
-        String[] ITEMS = {"BR"};
+        String[] ITEMS = {"BR","EUA","PY"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
 
         SpinnerPais.setAdapter(adapter);
 
-        SpinnerPais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        SpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 conteudopais = SpinnerPais.getText().toString();
-                Toast.makeText(getApplication(), conteudoestado,Toast.LENGTH_SHORT).show();
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
         });
 
 
@@ -123,23 +119,20 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     //Adicionado o estado em uma spinner com array
     public void Addspinnerestado (){
 
-        String[] ITEMS = {"PR"};
+        String[] ITEMS = {"PR","SP","SC","DF"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
 
 
         SpinnerEstado.setAdapter(adapter);
 
-        SpinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        SpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                conteudoestado =  SpinnerEstado.getHelperText();
-                Toast.makeText(getApplication(), conteudoestado,Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudoestado = SpinnerEstado.getText().toString();
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
+
         });
 
 
@@ -148,8 +141,8 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     //pegar dados da tela e passar para o modelo
     public Cidade getCidade(){
         return  new  Cidade (
-               "BR",
-               "PR",
+                conteudopais,
+                conteudoestado,
                 EditCidade.getText().toString(),
                 EditIbge.getText().toString());
 
@@ -158,7 +151,7 @@ public class CadastroCidadeActivity extends ActionBarActivity {
 
     public void save(){
 
-
+       if (validacao(getCidade())== 1){
         try {
                 cidadedao.saveCidade(getCidade());
                 Toast.makeText(this, " salvo com sucesso ", Toast.LENGTH_SHORT).show();
@@ -166,9 +159,27 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         } catch (Exception e) {
                 Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
 
-        }
+        }}else Toast.makeText(this," Preencher todos os campos", Toast.LENGTH_SHORT).show();
 
 
+
+
+    }
+    public Integer validacao(Cidade cidade){
+        Integer retorno = 0;
+
+       if( !cidade.getDescricao().equals(" ") && !cidade.getDescricao().isEmpty() ){
+           if(!cidade.getIbge().equals(" ") && !cidade.getIbge().isEmpty()){
+              if (conteudopais != null && conteudoestado != null){
+                  retorno = 1;
+              }
+
+           }
+
+       }
+
+
+        return retorno;
     }
 
 }

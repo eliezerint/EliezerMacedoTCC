@@ -216,8 +216,11 @@ public class CadastroPessoaActivity extends ActionBarActivity {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
                         EditText ed = (EditText) dialog.findViewById(R.id.EditNumero);
-                        if (cadastrarTelefone(ed.getText().toString()))
+                        if (cadastrarTelefone(ed.getText().toString())) {
+
+                            SpinnerTelefone.setText(ed.getText());
                             dialog.dismiss();
+                        }
                         else
                             Toast.makeText(getApplication(), "Falha ao cadastrar telefone.", Toast.LENGTH_SHORT).show();
                     }
@@ -228,7 +231,7 @@ public class CadastroPessoaActivity extends ActionBarActivity {
                     }
                 })
                 .show();
-
+         ;
     }
 
     //cadastrar telefone

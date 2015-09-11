@@ -30,13 +30,16 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     private Toolbar atoolbar;
     private RecyclerView RecyviewCidade;
     private List listacidade;
-    private MaterialEditText MaterialEditCidade;
+    public MaterialEditText MaterialEditCidade;
     private MaterialBetterSpinner MaterialSpinnerPais;
     private MaterialBetterSpinner MaterialSpinnerEstado;
 
 
     private String nomecidade;
+    private String conteudopais ;
+    private String conteudoestado ;
     private Integer idCidade;
+
 
     private Cidade cidade;
     private CidadeDao cidadedao;
@@ -94,11 +97,45 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.ConsultarCidade:
-                Consultacidade();
+                if ((conteudopais == null)&&(conteudoestado == null) ){
+                    Consultacidade();
+                }else Consultacidade(conteudopais, conteudoestado);
                 break;
         }
 
         return true;
+    }
+
+    private void Consultacidade(String conteudopais, String conteudoestado) {
+        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        RecyviewCidade.setLayoutManager(llm);
+
+
+        adaptercidade = new AdapterCidade(this,cidadedao.list() ) {
+            @Override
+            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento de click simples
+                MaterialDialogCidade();
+                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
+
+            }
+            @Override
+            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento e click longo
+
+                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
+
+                MaterialDialogCidade();
+                return true;
+            }
+        };
+
+
+
+
+        RecyviewCidade.setAdapter(adaptercidade);
+
     }
 
 
@@ -110,48 +147,55 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
     }
 
-    public void Consultacidade() {
+    public void Consultacidade( ) {
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         RecyviewCidade.setLayoutManager(llm);
 
-        adaptercidade = new AdapterCidade(this, cidadedao.list()) {
-            @Override
-            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento de click simples
-                MaterialDialogCidade();
-                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                nomecidade = adaptercidade.getItems().get(adapterPosition).getDescricao();
-            }
-            @Override
-            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento e click longo
 
-                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                nomecidade = adaptercidade.getItems().get(adapterPosition).getDescricao();
-                MaterialDialogCidade();
-                return true;
-            }
-        };
+            adaptercidade = new AdapterCidade(this,cidadedao.list() ) {
+                @Override
+                protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                    // evento de click simples
+                    MaterialDialogCidade();
+                    idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
+
+                }
+                @Override
+                protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
+                    // evento e click longo
+
+                    idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
+
+                    MaterialDialogCidade();
+                    return true;
+                }
+            };
+
+
+
 
         RecyviewCidade.setAdapter(adaptercidade);
 
     }
+
 
     public void MaterialDialogCidade() {
         boolean wrapInScrollView = true;
         MaterialDialog app = new MaterialDialog.Builder(this)
                 .title("Cidade")
                 .customView(R.layout.activity_opcao, wrapInScrollView)
+
                 .negativeText("Sair")
                 .autoDismiss(true)
 
                 .show();
+
+
         ;
     }
 
     public void EditarCidade(View view){
-       MaterialEditCidade.setText(nomecidade);
 
         boolean wrapInScrollView = true;
         MaterialDialog app = new MaterialDialog.Builder(this)
@@ -162,34 +206,43 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
 
                 .show();
-        ;
+
+
+
 
 
     }
     public void DeletarCidade(View view){
+        try{
+            cidadedao.delete(idCidade);
+            Toast.makeText(this, "Cidade Excluida" ,Toast.LENGTH_SHORT).show();
+            Consultacidade();
+        }catch (Exception e){
+            Toast.makeText(this,  e.toString()  ,Toast.LENGTH_SHORT).show();
+        }
+
+
 
     }
 
 
     public void Addspinnerpais() {
 
-        String[] ITEMS = {"BR"};
+        String[] ITEMS = {"BR","EUA","PY"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         MaterialSpinnerPais.setAdapter(adapter);
 
-        MaterialSpinnerPais.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        MaterialSpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudopais = MaterialSpinnerPais.getText().toString();
 
-                // conteudopais = String.valueOf(SpinnerPais.getListSelection());
+
             }
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
 
-            }
         });
 
 
@@ -198,22 +251,20 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
     public void Addspinnerestado() {
 
-        String[] ITEMS = {"PR"};
+        String[] ITEMS = {"PR","SP","SC","DF"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
         MaterialSpinnerEstado.setAdapter(adapter);
 
-        MaterialSpinnerEstado.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        MaterialSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // conteudoestado = String.valueOf(SpinnerEstado.getListSelection());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                 conteudoestado = MaterialSpinnerEstado.getText().toString();
 
             }
+
+
         });
 
 
