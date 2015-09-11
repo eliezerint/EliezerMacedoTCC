@@ -16,8 +16,15 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+import br.grupointegrado.appmetaforadevenda.Dao.ClienteDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 
 public class CadastroPessoaActivity extends ActionBarActivity {
@@ -35,23 +42,25 @@ public class CadastroPessoaActivity extends ActionBarActivity {
     private EditText EditRG;
     private EditText EditRua;
     private EditText EditBairro;
-    private Spinner  SpinnerCidade;
+    private Spinner SpinnerCidade;
     private EditText EditDataCadastro;
     private EditText EditDataUltima;
     private EditText EditEndereco;
     private EditText EditNumero;
     private EditText EditNome;
     private EditText EditValorUtimacompra;
-    private Spinner SpinnerTelefone;
-
-
-
+    private EditText EditCidade;
+    private MaterialBetterSpinner SpinnerTelefone;
 
 
     private boolean cpf;
     private boolean cnpj;
     private Integer cdCidade;
     private String Cidade;
+    private Integer idpessoa;
+
+
+    private ClienteDao clientedao;
 
 
     @Override
@@ -92,13 +101,18 @@ public class CadastroPessoaActivity extends ActionBarActivity {
         tvRG = (TextView) findViewById(R.id.tvRG);
         radioFisica = (RadioButton) findViewById(R.id.radioFisica);
         radioJuridica = (RadioButton) findViewById(R.id.radioJuridica);
-        EditRG = (EditText)findViewById(R.id.EditRG);
-        EditBairro = (EditText)findViewById(R.id.EditBairro);
-        SpinnerCidade = (Spinner)findViewById(R.id.SpinnerCidade);
-        EditDataCadastro = (EditText)findViewById(R.id.EditDataCadastro);
-        EditNumero = (EditText)findViewById(R.id.EditNumero);
-        SpinnerTelefone = (Spinner)findViewById(R.id.SpinnerTelefone);
+        EditRG = (EditText) findViewById(R.id.EditRG);
+        EditBairro = (EditText) findViewById(R.id.EditBairro);
+        //  SpinnerCidade = (Spinner)findViewById(R.id.SpinnerCidade);
+        EditDataCadastro = (EditText) findViewById(R.id.EditDataCadastro);
+        EditNumero = (EditText) findViewById(R.id.EditNumero);
+        EditCidade = (EditText) findViewById(R.id.EditCidade);
+        SpinnerTelefone = (MaterialBetterSpinner) findViewById(R.id.SpinnerTelefone);
 
+        //colocando data de cadastro
+        EditDataCadastro.setText(getDateTime().toString());
+
+        clientedao = new ClienteDao(this);
 
         //click na spinner
 
@@ -144,17 +158,15 @@ public class CadastroPessoaActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
 
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.home:
                 finish();
                 break;
             case R.id.Salvarpessoa:
+
                 break;
         }
-
-
-
-        return true;
+        return  true;
     }
 
     //ChecBoxFisica
@@ -191,7 +203,7 @@ public class CadastroPessoaActivity extends ActionBarActivity {
     }
 
     //Cadastrar telefone
-    public void CadastrarTelefone(View view){
+    public void CadastrarTelefone(View view) {
 
         boolean wrapInScrollView = true;
         MaterialDialog app = new MaterialDialog.Builder(this)
@@ -207,7 +219,7 @@ public class CadastroPessoaActivity extends ActionBarActivity {
                         if (cadastrarTelefone(ed.getText().toString()))
                             dialog.dismiss();
                         else
-                            Toast.makeText(getApplication(), "Falha aoi cadastrar telefone.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getApplication(), "Falha ao cadastrar telefone.", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -219,9 +231,40 @@ public class CadastroPessoaActivity extends ActionBarActivity {
 
     }
 
+    //cadastrar telefone
     private boolean cadastrarTelefone(String numero) {
-        return false;
+        try {
+            idpessoa = 1;
+            clientedao.saveTelefone(getTelefone(numero));
+            return true;
+        }catch (Exception ex){
+            return false;
+        }
+
+
     }
+
+    //Cadastrar Cidade
+    public void ConsultaCidade(View ciew) {
+
+        EditCidade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                boolean wrapInScrollView = true;
+                MaterialDialog app = new MaterialDialog.Builder(getApplication().getBaseContext())
+                        .title("Consulta Cidade")
+                        .customView(R.layout.activity_dialogsconsultacidade, wrapInScrollView)
+                        .negativeText("Sair")
+                        .show();
+
+
+            }
+
+        });
+
+    }
+
+
 
     //Método para calcular digito verificador
     private static int calcularDigito(String str, int[] peso) {
@@ -258,6 +301,29 @@ public class CadastroPessoaActivity extends ActionBarActivity {
 
 
    // }
+
+
+    public void save(){
+
+
+
+    }
+
+
+    //Telefone
+    public Telefone getTelefone (String numero){
+        return new Telefone  (
+                idpessoa,
+                numero.toString(),
+                EditCpf.toString()
+
+        );
+    }
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date(); return dateFormat.format(date);
+    }
 
 
 

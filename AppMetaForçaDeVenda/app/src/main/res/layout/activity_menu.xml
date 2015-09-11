@@ -45,6 +45,8 @@
             android:src="@drawable/ic_perm_id"
             app:elevation="4dp"
             android:layout_gravity="right|bottom"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorgrey"
             />
 
         <android.support.design.widget.FloatingActionButton
@@ -54,6 +56,8 @@
             android:layout_height="70dp"
             android:src="@drawable/ic_description_black_18dp"
             app:elevation="4dp"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorgrey"
 
 
             />
@@ -78,6 +82,8 @@
             android:src="@drawable/ic_import_export_black_24dp"
             app:elevation="4dp"
             android:layout_gravity="right|bottom"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorgrey"
 
 
             />
@@ -103,6 +109,8 @@
             android:src="@drawable/ic_car_shopping"
             app:elevation="4dp"
             android:layout_gravity="right|bottom"
+            fab:fab_colorNormal="@color/colorPrimary"
+            fab:fab_colorPressed="@color/colorgrey"
 
 
             />

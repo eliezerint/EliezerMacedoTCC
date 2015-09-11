@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/accent_material_light"
+    android:orientation="vertical">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+      >
+       <LinearLayout
+           android:layout_width="match_parent"
+           android:layout_height="wrap_content"
+           android:layout_margin="16dp"
+           android:orientation="vertical">
+
+
+         <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/MaterialSpinnerPais"
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:hint="Pais"
+             app:met_baseColor="@android:color/white"
+             app:met_floatingLabel="highlight"
+             app:met_primaryColor="?colorAccent"
+             app:met_singleLineEllipsis="true"
+            />
+
+           <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+               android:id="@+id/MaterialSpinnerEstado"
+               android:layout_width="match_parent"
+               android:layout_height="wrap_content"
+               android:hint="Estado"
+               app:met_baseColor="@android:color/white"
+               app:met_floatingLabel="highlight"
+               app:met_primaryColor="?colorAccent"
+               app:met_singleLineEllipsis="true"
+               />
+
+
+
+          <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/MaterialEditCidadeDelete"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Cidade"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true"
+
+            />
+       </LinearLayout>
+
+    </ScrollView>
+
+</LinearLayout>

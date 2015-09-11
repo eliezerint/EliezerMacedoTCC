@@ -1,45 +1,82 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:fab="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity"
-    android:orientation="vertical">
+    android:orientation="vertical"
+
+    tools:context="br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity">
 
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_main"
-        android:elevation="4dp"
-        android:layout_height="?attr/actionBarSize"
         android:layout_width="match_parent"
-        android:minHeight="?attr/actionBarSize"
-        android:background="?attr/colorPrimary"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-        android:layout_alignParentTop="true"
+        android:layout_height="?attr/actionBarSize"
         android:layout_alignParentBottom="false"
-        android:layout_alignParentRight="true"
         android:layout_alignParentEnd="false"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
         android:layout_alignParentStart="true"
-        android:layout_alignParentLeft="true" />
+        android:layout_alignParentTop="true"
+        android:background="?attr/colorPrimary"
+        android:elevation="4dp"
+        android:minHeight="?attr/actionBarSize"
+        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_below="@+id/tb_main"
-        android:layout_alignParentLeft="true"
         android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="false"
+        android:layout_below="@+id/tb_main"
+        android:layout_weight="1"
+        android:orientation="vertical"
         android:padding="16dp">
 
-      <TextView
-        android:text="Consultar Cidade"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+
+            android:id="@+id/SpinnerPais"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="País"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true"/>
+
+        />
+
+        <com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner
+            android:id="@+id/SpinnerEstado"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Estado"
+            app:met_baseColor="@android:color/white"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true"
+
+            />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Cidade" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyviewCidade"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent">
+
+        </android.support.v7.widget.RecyclerView>
+
 
     </LinearLayout>
 
@@ -47,24 +84,19 @@
         android:id="@+id/cidade"
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        fab:fab_icon="@drawable/ic_add_black"
-        fab:fab_colorNormal="@color/colorPrimary"
-        fab:fab_colorPressed="@color/colorgrey"
-        app:elevation="4dp"
-        android:onClick="CadastrarCidade"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentEnd="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentBottom="true"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginBottom="16dp"
         android:layout_marginRight="16dp"
         android:layout_marginTop="16dp"
-        android:layout_marginBottom="16dp" />
-
-
-
-
-
+        android:onClick="CadastrarCidade"
+        android:orientation="vertical"
+        app:elevation="4dp"
+        fab:fab_colorNormal="@color/colorPrimary"
+        fab:fab_colorPressed="@color/colorgrey"
+        fab:fab_icon="@drawable/ic_add_black" />
 
 
 </RelativeLayout>

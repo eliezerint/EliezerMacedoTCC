@@ -23,7 +23,9 @@
     <string name="title_activity_consulta_cliente">ConsultaClienteActivity</string>
     <string name="title_activity_consulta__cidade">Consulta_CidadeActivity</string>
     <string name="title_activity_telefone">TelefoneActivity</string>
-
+    <string name="app_label">searchConsulta</string>
+    <string name="search_hint">Consultar Cidade</string>
+    <string name="title_activity_searchable">SearchableActivity</string>
 
 
 </resources>

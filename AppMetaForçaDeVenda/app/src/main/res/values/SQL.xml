@@ -2,140 +2,186 @@
 <resources>
 
     <string name="SQL_CREATE_BANCO">
-        CREATE TABLE estado (
-  id_estado VARCHAR(2) PRIMARY KEY ,
-  Descricao  VARCHAR(50) NULL
-);
 
-CREATE TABLE Cidade (
-  id_Cidade INTEGER PRIMARY KEY AUTOINCREMENT,
-  id_estado VARCHAR(2) NOT NULL,
-  descricao VARCHAR(40) NULL,
-  IBGE VARCHAR(7) NULL,
-  Pais VARCHAR(30) NULL,
-  FOREIGN KEY(id_estado)
-  REFERENCES estado(id_estado)
-);
+        CREATE TABLE Pais (idPais CHAR (4) PRIMARY KEY ASC, Nome STRING (20));
 
-CREATE TABLE Condicao_pagamento (
-  idcondicaopagamento INTEGER PRIMARY KEY AUTOINCREMENT,
-  Descricao VARCHAR(20) NULL,
-  Nr_parcelas DOUBLE(5,2) NULL
-);
+        CREATE TABLE estado (id_estado VARCHAR (2) PRIMARY KEY,
+        idPais CHAR (4) REFERENCES Pais (Pais),
+        Descricao VARCHAR (50));
+
+        CREATE TABLE Cidade (
+        id_Cidade INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_estado VARCHAR(2) NOT NULL,
+        descricao VARCHAR(40) UNIQUE,
+        IBGE VARCHAR(7) NULL,
+        Pais VARCHAR(30) NULL,
+        FOREIGN KEY(id_estado)
+        REFERENCES estado(id_estado)
+       );
+
+        CREATE TABLE UnidadeMedida (
+          idUnidadeMedida INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(50) NULL,
+          Sigla VARCHAR(2) NULL
+        );
+
+
+        CREATE TABLE Itens_pedido (
+          idProduto INTEGER  NOT NULL,
+          idPessoa INTEGER  NOT NULL,
+          idVendedor INTEGER  NOT NULL,
+          idPedido INTEGER  NOT NULL,
+          Desconto DOUBLE(5,2) NULL,
+          Quantidade DOUBLE(5,2) NULL,
+          Valor_unitario DOUBLE(5,2) NULL,
+          PRIMARY KEY(idProduto, idPessoa, idVendedor, idPedido)
+        );
 
 
 
-CREATE TABLE Filial (
-  idFilial INTEGER PRIMARY KEY AUTOINCREMENT,
-  Descricao VARCHAR(50) NULL
-);
+        CREATE TABLE Condicao_pagamento (
+          idcondicaopagamento INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(20) NULL,
+          Nr_parcelas DOUBLE(5,2) NULL
+        );
 
-CREATE TABLE Grupo_produtos (
-  idGrupo_produtos INTEGER PRIMARY KEY AUTOINCREMENT,
-  Descricao VARCHAR(50) NULL
-);
 
-CREATE TABLE Itens_pedido (
-  idProduto INTEGER  NOT NULL,
-  idPessoa INTEGER  NOT NULL,
-  idVendedor INTEGER  NOT NULL,
-  idPedido INTEGER  NOT NULL,
-  Desconto DOUBLE(5,2) NULL,
-  Quantidade DOUBLE(5,2) NULL,
-  Valor_unitario DOUBLE(5,2) NULL,
-  PRIMARY KEY(idProduto, idPessoa, idVendedor, idPedido)
-);
+        CREATE TABLE Parametro (
+          idParametro INTEGER  PRIMARY KEY AUTOINCREMENT,
+          idVendedor INTEGER  NOT NULL,
+          Faixa_inicial INTEGER  NULL,
+          Faixa_final INTEGER  NULL,
+          Ultimo_cadastro INTEGER  NULL,
+          FOREIGN KEY(idVendedor)
+          REFERENCES Vendedor(idVendedor)
 
-CREATE TABLE Lista_preco (
-  idLista_preco INTEGER PRIMARY KEY AUTOINCREMENT,
-  idProduto INTEGER  NOT NULL,
-  Descricao VARCHAR(20) NULL,
-  FOREIGN KEY(idProduto)
-  REFERENCES Produto(idProduto)
-);
+        );
 
-CREATE TABLE Parametro (
-  idParametro INTEGER  PRIMARY KEY AUTOINCREMENT,
-  idVendedor INTEGER  NOT NULL,
-  Faixa_inicial INTEGER  NULL,
-  Faixa_final INTEGER  NULL,
-  Ultimo_cadastro INTEGER  NULL,
-  FOREIGN KEY(idVendedor)
-  REFERENCES Vendedor(idVendedor)
+        CREATE TABLE Produto (
+          idProduto INTEGER PRIMARY KEY AUTOINCREMENT,
+          idGrupo_produtos INTEGER NOT NULL,
+          idUnidadeMedida INTEGER  NOT NULL,
+          Descricao VARCHAR(50) NULL,
+          Quantidade_estoque DOUBLE(5,2) NULl,
+          FOREIGN KEY(idGrupo_produtos)
+          REFERENCES Grupo_produtos(idGrupo_produtos),
+          FOREIGN KEY(idUnidadeMedida)
+          REFERENCES UnidadeMedida(idUnidadeMedida)
+        );
 
-);
 
-CREATE TABLE Pedido (
-  idPedido INTEGER NOT NULL,
-  idVendedor INTEGER  NOT NULL,
-  idPessoa INTEGER  NOT NULL,
-  idFilial INTEGER  REFERENCES Filial(idFilial)NOT NULL,
-  idcondicaopagamento INTEGER REFERENCES Filial(idFilial) NOT NULL,
-  Data_pedido DATE NULL,
-  Valor_total DOUBLE(5,2) NULL,
-  PRIMARY KEY(idPedido,idVendedor,idPessoa)
-);
+        CREATE TABLE Grupo_produtos (
+          idGrupo_produtos INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(50) NULL
+        );
 
-CREATE TABLE Pessoa (
-  idPessoa INTEGER  PRIMARY KEY AUTOINCREMENT,
-  id_Cidade INTEGER NOT NULL,
-  CPNJCPF VARCHAR(14) NULL,
-  Endereco VARCHAR(50) NULL,
-  Numero VARCHAR(10) NULL,
-  Bairro VARCHAR(50) NULL,
-  Telefone  VARCHAR(20) NULL,
-  Data_Cadastro DATE NULL,
-  Complemento VARCHAR(10) NULL,
-  Email VARCHAR(50) NULL,
-  Razao_socialNome VARCHAR(60) NULL,
-  Nome_fantasiaApelido VARCHAR(60) NULL,
-  inscriEstadualRG VARCHAR(14) NULL,
-  Data_ultima_compra DATE NULL,
-  Valor_ultima_compra DOUBLE(5,2) NULL,
-  FOREIGN KEY(id_Cidade)
-  REFERENCES Cidade(id_Cidade)
-);
 
-CREATE TABLE Produto (
-  idProduto INTEGER PRIMARY KEY AUTOINCREMENT,
-  idGrupo_produtos INTEGER NOT NULL,
-  idUnidadeMedida INTEGER  NOT NULL,
-  Descricao VARCHAR(50) NULL,
-  Quantidade_estoque DOUBLE(5,2) NULl,
-  FOREIGN KEY(idGrupo_produtos)
-  REFERENCES Grupo_produtos(idGrupo_produtos),
-  FOREIGN KEY(idUnidadeMedida)
-  REFERENCES UnidadeMedida(idUnidadeMedida)
-);
+        CREATE TABLE Pessoa (
+          idPessoa INTEGER  PRIMARY KEY AUTOINCREMENT,
+          id_Cidade INTEGER NOT NULL,
+          CPNJCPF VARCHAR(14) NULL,
+          Endereco VARCHAR(50) NULL,
+          Numero VARCHAR(10) NULL,
+          Bairro VARCHAR(50) NULL,
+          Telefone  VARCHAR(20) NULL,
+          Data_Cadastro DATE NULL,
+          Complemento VARCHAR(10) NULL,
+          Email VARCHAR(50) NULL,
+          Razao_socialNome VARCHAR(60) NULL,
+          Nome_fantasiaApelido VARCHAR(60) NULL,
+          inscriEstadualRG VARCHAR(14) NULL,
+          Data_ultima_compra DATE NULL,
+          Valor_ultima_compra DOUBLE(5,2) NULL,
+          FOREIGN KEY(id_Cidade)
+          REFERENCES Cidade(id_Cidade)
+        );
 
-CREATE TABLE Tabela_preco (
-  idTabela_preco INTEGER  not null ,
-  idLista_preco INTEGER  NOT NULL,
-  Preco1 DOUBLE(5,2) NULL,
-  Preco2 DOUBLE(5,2) NULL,
-  Preco3 DOUBLE(5,2) NULL,
-  Preco4 DOUBLE(5,2) NULL,
-  Preco5 DOUBLE(5,2) NULL,
-  Preco6 DOUBLE(5,2) NULL,
-  FOREIGN KEY(idLista_preco)
-  REFERENCES Lista_preco(idLista_preco),
-  PRIMARY KEY(idLista_preco,idTabela_preco)
-);
 
-CREATE TABLE UnidadeMedida (
-  idUnidadeMedida INTEGER PRIMARY KEY AUTOINCREMENT,
-  Descricao VARCHAR(50) NULL,
-  Sigla VARCHAR(2) NULL
-);
 
-CREATE TABLE Vendedor (
-  idVendedor INTEGER PRIMARY KEY AUTOINCREMENT,
-  Nome VARCHAR(50) NULL
+        CREATE TABLE Lista_preco (
+          idLista_preco INTEGER PRIMARY KEY AUTOINCREMENT,
+          idProduto INTEGER  NOT NULL,
+          Descricao VARCHAR(20) NULL,
+          FOREIGN KEY(idProduto)
+          REFERENCES Produto(idProduto)
+        );
 
-);
+
+        CREATE TABLE Pedido (
+          idPedido INTEGER NOT NULL,
+          idVendedor INTEGER  NOT NULL,
+          idPessoa INTEGER  NOT NULL,
+          idFilial INTEGER  REFERENCES Filial(idFilial)NOT NULL,
+          idcondicaopagamento INTEGER REFERENCES Filial(idFilial) NOT NULL,
+          Data_pedido DATE NULL,
+          Valor_total DOUBLE(5,2) NULL,
+          PRIMARY KEY(idPedido,idVendedor,idPessoa)
+        );
+
+
+        CREATE TABLE Tabela_preco (
+          idTabela_preco INTEGER  not null ,
+          idLista_preco INTEGER  NOT NULL,
+          Preco1 DOUBLE(5,2) NULL,
+          Preco2 DOUBLE(5,2) NULL,
+          Preco3 DOUBLE(5,2) NULL,
+          Preco4 DOUBLE(5,2) NULL,
+          Preco5 DOUBLE(5,2) NULL,
+          Preco6 DOUBLE(5,2) NULL,
+          FOREIGN KEY(idLista_preco)
+          REFERENCES Lista_preco(idLista_preco),
+          PRIMARY KEY(idLista_preco,idTabela_preco)
+        );
+
+
+
+        CREATE TABLE Telefone (
+                idTelefone INTEGER,
+                idPessoa INTEGER REFERENCES Pessoa (idPessoa),
+                Numero STRING, "CPF/CNPJ" STRING (14) NOT NULL,
+                PRIMARY KEY (idTelefone, idPessoa));
+
+
+        CREATE TABLE Vendedor (
+          idVendedor INTEGER PRIMARY KEY AUTOINCREMENT,
+          Nome VARCHAR(50) NULL
+
+        );
+
+
+        CREATE TABLE Filial (
+          idFilial INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(50) NULL
+        );
 
 
 
      </string>
+    <string name="SQL_CREATE_CIDADE">
+        CREATE TABLE Cidade (
+        id_Cidade INTEGER PRIMARY KEY AUTOINCREMENT,
+        id_estado VARCHAR(2) NOT NULL,
+        descricao VARCHAR(40) UNIQUE,
+        IBGE VARCHAR(7) NULL,
+        Pais VARCHAR(30) NULL,
+        FOREIGN KEY(id_estado)
+         REFERENCES estado(id_estado)
+          );
+
+        </string>
+    <string name="SQL_CREATE_ESTADO">
+          CREATE TABLE estado (id_estado VARCHAR (2) PRIMARY KEY, idPais CHAR (4) REFERENCES Pais (Pais), Descricao VARCHAR (50));
+        </string>
+    <string name="SQL_CREATE_PAIS">
+           CREATE TABLE Pais (idPais CHAR (4) PRIMARY KEY ASC, Nome STRING (20));
+
+        </string>
+    <string name="SQL_CREATE_TELEFONE">
+           CREATE TABLE Telefone (
+                idTelefone INTEGER PRIMARY KEY AUTOINCREMENT,
+                idPessoa INTEGER ,
+                Numero STRING NOT NULL,
+                "CPFCNPJ" STRING (14) NOT NULL);
+    </string>
 
 </resources>

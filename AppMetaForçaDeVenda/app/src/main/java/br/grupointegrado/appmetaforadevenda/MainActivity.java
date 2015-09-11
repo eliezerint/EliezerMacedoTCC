@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Estado;
@@ -18,6 +18,7 @@ public class MainActivity extends ActionBarActivity {
      private Estado estado;
      public static String IdVendedor;
      private EditText edtcdVendedor;
+     private Toolbar  atoolbar;
 
 
 
@@ -25,6 +26,12 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        atoolbar = (Toolbar) findViewById(R.id.tb_main);
+        atoolbar.setTitle(" Login ");
+        atoolbar.setLogo(R.drawable.ic_logo);
+        setSupportActionBar(atoolbar);
+
         DAO = new AppDao(this);
 
         edtcdVendedor = (EditText)findViewById(R.id.edtcdVendedor);

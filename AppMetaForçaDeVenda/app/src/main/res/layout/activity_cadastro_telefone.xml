@@ -1,26 +1,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-
+    android:background="@color/accent_material_light"
     >
 
 
-    <TextView
-        android:id="@+id/tvNumero"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-
-        android:text="Numero" />
-
-
-    <EditText
+    <com.rengwuxian.materialedittext.MaterialEditText
         android:id="@+id/EditNumero"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:hint="Numero"
+        app:met_baseColor="@android:color/white"
+        app:met_floatingLabel="highlight"
+        app:met_primaryColor="?colorAccent"
+        app:met_singleLineEllipsis="true"
         android:digits="1234567890"
-        android:inputType="number|phone"/>
+        android:inputType="number|phone"
+        app:met_iconLeft="@drawable/ic_phone_black_18dp"
+        app:met_iconPadding="0dp"/>
 
 
 

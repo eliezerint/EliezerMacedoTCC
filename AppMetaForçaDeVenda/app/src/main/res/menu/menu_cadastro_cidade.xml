@@ -3,8 +3,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroCidadeActivity">
     <item
-        android:id="@+id/Salvar"
-        android:icon="@drawable/ic_save_black_18dp"
+        android:id="@+id/ConsultarCidade"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:title="Salvar"
+        android:orderInCategory="100"
+        app:showAsAction="always" />
+    <item
+        android:id="@+id/Salvarcidade"
+        android:icon="@drawable/ic_save_black_24dp"
         android:title="Salvar"
         android:orderInCategory="100"
         app:showAsAction="always" />

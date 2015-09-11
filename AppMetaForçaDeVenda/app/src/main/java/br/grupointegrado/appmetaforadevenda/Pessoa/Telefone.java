@@ -8,11 +8,22 @@ public class Telefone {
     Integer idTelefone;
     Integer idPessoa;
     String Numero;
+    String CPF;
 
-    public Telefone(Integer idTelefone, Integer idPessoa, String numero) {
-        this.idTelefone = idTelefone;
+    public Telefone( Integer idPessoa, String numero,String cpf) {
         this.idPessoa = idPessoa;
-        Numero = numero;
+        this.Numero = numero;
+        this.CPF = cpf;
+    }
+
+    public Telefone(){}
+
+    public String getCPF() {
+        return CPF;
+    }
+
+    public void setCPF(String CPF) {
+        this.CPF = CPF;
     }
 
     public Integer getIdTelefone() {

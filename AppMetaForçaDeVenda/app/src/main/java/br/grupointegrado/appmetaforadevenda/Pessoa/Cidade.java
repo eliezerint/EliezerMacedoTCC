@@ -10,13 +10,42 @@ public class Cidade {
     String descricao;
     String ibge;
     String Pais;
+    String nomeestado;
 
-    public Cidade(Integer idcidade, String ibge, String pais, String descricao, String idestado) {
-        this.idcidade = idcidade;
-        this.ibge = ibge;
-        Pais = pais;
-        this.descricao = descricao;
+
+    public Cidade( String pais, String idestado,String descricao, String ibge) {
+        this.Pais = pais;
         this.idestado = idestado;
+        this.descricao = descricao;
+        this.ibge = ibge;
+    }
+
+    public Cidade() {
+
+    }
+
+    public Cidade(int idcidade, String descricao , String idEstado) {
+
+        this.idestado = idEstado;
+        this.descricao = descricao;
+        this.idcidade = idcidade;
+    }
+
+
+    public Integer getIdcidade() {
+        return idcidade;
+    }
+
+    public void setIdcidade(Integer idcidade) {
+        this.idcidade = idcidade;
+    }
+
+    public String getNomeestado() {
+        return nomeestado;
+    }
+
+    public void setNomeestado(String nomeestado) {
+        this.nomeestado = nomeestado;
     }
 
     public Integer getId() {
@@ -57,5 +86,10 @@ public class Cidade {
 
     public void setPais(String pais) {
         Pais = pais;
+    }
+
+    @Override
+    public String toString() {
+        return "Cidade :" + descricao.toString() + " Estado :" + idestado.toString();
     }
 }

@@ -2,6 +2,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity">
-    <item android:id="@+id/action_settings" android:title="@string/action_settings"
-        android:orderInCategory="100" app:showAsAction="never" />
+
+
+    <item
+        android:id="@+id/ConsultarCidade"
+        android:icon="@drawable/ic_search_black_24dp"
+        android:orderInCategory="100"
+        app:showAsAction="always"
+        android:title="Consultar" />
+
 </menu>
+
