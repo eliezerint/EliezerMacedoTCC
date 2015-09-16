@@ -32,6 +32,19 @@ public class CidadeDao extends AppDao {
 
     }
 
+    public void Update(Cidade cidade) {
+        ContentValues cv = new ContentValues();
+        cv.put("Pais", cidade.getPais());
+        cv.put("id_estado", cidade.getIdestado());
+        cv.put("Descricao", cidade.getDescricao());
+        cv.put("IBGE", cidade.getIbge());
+
+        getWritableDatabase().update("Cidade", cv, "idCidade = ?", new String[]{cidade.getIdcidade().toString()});
+
+
+
+    }
+
     //consulta de cidade
     public List<Cidade> list() {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade ",null);
@@ -56,7 +69,7 @@ public class CidadeDao extends AppDao {
     }
     public List<Cidade> list(String Pais,String estado) {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade where" +
-                " Pais like '?' and id_estado like '?' ",new String[]{Pais,estado});
+                " Pais like '?%' and id_estado like '?%' ",new String[]{Pais,estado});
 
         List<Cidade> cidades = new ArrayList<>();
 
@@ -75,6 +88,7 @@ public class CidadeDao extends AppDao {
         }
         c.close();
         return cidades;
+
     }public List<Cidade> list(String nomecidade) {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade where" +
                 " descricao like '%?' ",new String[]{nomecidade});

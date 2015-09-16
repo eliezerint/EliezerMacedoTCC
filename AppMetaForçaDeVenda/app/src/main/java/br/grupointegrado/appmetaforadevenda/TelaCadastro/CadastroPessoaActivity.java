@@ -8,6 +8,8 @@ import android.view.ContextMenu;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -21,6 +23,7 @@ import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.ClienteDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
@@ -53,11 +56,13 @@ public class CadastroPessoaActivity extends ActionBarActivity {
     private MaterialBetterSpinner SpinnerTelefone;
 
 
+
     private boolean cpf;
     private boolean cnpj;
     private Integer cdCidade;
     private String Cidade;
     private Integer idpessoa;
+    private List listasppiner;
 
 
     private ClienteDao clientedao;
@@ -219,7 +224,10 @@ public class CadastroPessoaActivity extends ActionBarActivity {
                         if (cadastrarTelefone(ed.getText().toString())) {
 
                             SpinnerTelefone.setText(ed.getText());
+
                             dialog.dismiss();
+                            Addspinnertelefone(ed.getText().toString());
+
                         }
                         else
                             Toast.makeText(getApplication(), "Falha ao cadastrar telefone.", Toast.LENGTH_SHORT).show();
@@ -238,7 +246,7 @@ public class CadastroPessoaActivity extends ActionBarActivity {
     private boolean cadastrarTelefone(String numero) {
         try {
             idpessoa = 1;
-            clientedao.saveTelefone(getTelefone(numero));
+          //  clientedao.saveTelefone(getTelefone(numero));
             return true;
         }catch (Exception ex){
             return false;
@@ -266,6 +274,8 @@ public class CadastroPessoaActivity extends ActionBarActivity {
         });
 
     }
+
+
 
 
 
@@ -311,6 +321,30 @@ public class CadastroPessoaActivity extends ActionBarActivity {
 
 
     }
+    public void Addspinnertelefone(String telefone) {
+        Integer tamanho = 0 ;
+
+
+        listasppiner.add(telefone);
+
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listasppiner);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+
+        SpinnerTelefone.setAdapter(adapter);
+
+        SpinnerTelefone.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+
+
+
+            }
+
+
+        });
+
+
+    }
 
 
     //Telefone
@@ -327,6 +361,9 @@ public class CadastroPessoaActivity extends ActionBarActivity {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date(); return dateFormat.format(date);
     }
+
+
+
 
 
 

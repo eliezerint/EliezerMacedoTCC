@@ -14,7 +14,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
-import br.grupointegrado.appmetaforadevenda.TelaCadastro.*;
+import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.*;
 
 public class MenuActivity extends ActionBarActivity {
@@ -135,7 +135,7 @@ public class MenuActivity extends ActionBarActivity {
 
     public void FazerPedido() {
 
-        Intent i = new Intent(this.getApplication(), PedidoActivity.class);
+        Intent i = new Intent(this.getApplication(), CadastroPedidoActivity.class);
 
 
         startActivity(i);
@@ -201,7 +201,7 @@ public class MenuActivity extends ActionBarActivity {
 
         switch (item.getItemId()) {
             case R.id.Produto:
-                Intent i = new Intent(this.getApplication(), ProdutoActivity.class);
+                Intent i = new Intent(this.getApplication(), ConsultaProdutoActivity.class);
 
 
                 startActivity(i);

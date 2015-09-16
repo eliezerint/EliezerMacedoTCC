@@ -58,14 +58,13 @@
         android:padding="16dp" />
 
 
-    <ListView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:id="@+id/ListaPessoa"
-        android:padding="16dp">
 
-    </ListView>
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/RecyviewPessoa"
+            android:layout_width="match_parent"
+            android:layout_height="500dp">
+
+        </android.support.v7.widget.RecyclerView>
 
     </LinearLayout>
 

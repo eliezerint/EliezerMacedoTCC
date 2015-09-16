@@ -1,10 +1,19 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.design.widget.CoordinatorLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="br.grupointegrado.appmetaforadevenda.PedidoActivity">
+    tools:context="br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity">
+
+    <android.support.design.widget.AppBarLayout
+        android:id="@+id/appbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:fitsSystemWindows="true">
+
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/tb_main"
@@ -17,80 +26,21 @@
 
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tb_main"
-        android:orientation="vertical">
-
-        <TextView
+        <br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout
+            android:id="@+id/stl_tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Pedido" />
+            android:fitsSystemWindows="true">
+        </br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout>
+
+    </android.support.design.widget.AppBarLayout>
+
+    <android.support.v4.view.ViewPager
+        android:id="@+id/vp_tabs"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+
+</android.support.design.widget.CoordinatorLayout>
 
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Cliente" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:text="Filial" />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="10dip"
-            android:text="Condição Pag." />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" codigo do Vendedor" />
-
-        <EditText
-
-            android:id="@+id/idvendedor"
-            android:layout_width="200dip"
-            android:layout_height="wrap_content"
-            android:text=" " />
-
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text=" Produto " />
-
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:onClick="Produtos"
-            android:text="+" />
-
-    </LinearLayout>
-
-    <ListView
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent">
-
-    </ListView>
-
-
-</RelativeLayout>

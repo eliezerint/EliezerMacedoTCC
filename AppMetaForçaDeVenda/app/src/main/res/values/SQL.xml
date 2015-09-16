@@ -83,7 +83,6 @@
           Endereco VARCHAR(50) NULL,
           Numero VARCHAR(10) NULL,
           Bairro VARCHAR(50) NULL,
-          Telefone  VARCHAR(20) NULL,
           Data_Cadastro DATE NULL,
           Complemento VARCHAR(10) NULL,
           Email VARCHAR(50) NULL,
@@ -182,6 +181,27 @@
                 idPessoa INTEGER ,
                 Numero STRING NOT NULL,
                 "CPFCNPJ" STRING (14) NOT NULL);
+    </string>
+      <string name="SQL_CREATE_PESSOA">
+           CREATE TABLE Pessoa (
+          idPessoa INTEGER  PRIMARY KEY AUTOINCREMENT,
+          id_Cidade INTEGER NOT NULL,
+          CNPJCPF VARCHAR(14) NULL,
+          Endereco VARCHAR(50) NULL,
+          Numero VARCHAR(10) NULL,
+          Bairro VARCHAR(50) NULL,
+          Telefone  VARCHAR(20) NULL,
+          Data_Cadastro DATE NULL,
+          Complemento VARCHAR(10) NULL,
+          Email VARCHAR(50) NULL,
+          Razao_socialNome VARCHAR(60) NULL,
+          Nome_fantasiaApelido VARCHAR(60) NULL,
+          inscriEstadualRG VARCHAR(14) NULL,
+          Data_ultima_compra DATE NULL,
+          Valor_ultima_compra DOUBLE(5,2) NULL,
+          FOREIGN KEY(id_Cidade)
+          REFERENCES Cidade(id_Cidade)
+        );
     </string>
 
 </resources>

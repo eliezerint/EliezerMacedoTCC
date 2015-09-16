@@ -1,9 +1,12 @@
 package br.grupointegrado.appmetaforadevenda.Pessoa;
 
+import java.io.Serializable;
+import java.io.SerializablePermission;
+
 /**
  * Created by eli on 23/07/2015.
  */
-public class Cidade {
+public class Cidade  implements Serializable {
 
     Integer idcidade;
     String idestado;

@@ -4,12 +4,15 @@
     tools:context="br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity">
 
 
+
     <item
-        android:id="@+id/ConsultarCidade"
-        android:icon="@drawable/ic_search_black_24dp"
+       android:id="@+id/ConsultarCidade"
         android:orderInCategory="100"
-        app:showAsAction="always"
-        android:title="Consultar" />
+       android:icon="@drawable/ic_search_black_24dp"
+       app:showAsAction="ifRoom|collapseActionView"
+       app:actionViewClass="android.support.v7.widget.SearchView"
+       android:title="Consultar Cidade"
+      />
 
 </menu>
 

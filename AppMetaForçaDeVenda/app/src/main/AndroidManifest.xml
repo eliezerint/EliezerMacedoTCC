@@ -21,11 +21,11 @@
             android:label="@string/title_activity_menu" >
         </activity>
         <activity
-            android:name=".PedidoActivity"
+            android:name=".TelaCadastro.CadastroPedidoActivity"
             android:label="@string/title_activity_pedido" >
         </activity>
         <activity
-            android:name=".ProdutoActivity"
+            android:name=".TelaConsulta.ConsultaProdutoActivity"
             android:label="@string/title_activity_produto" >
         </activity>
         <activity
@@ -42,12 +42,21 @@
         </activity>
         <activity
             android:name=".TelaConsulta.ConsultaCidadeActivity"
-            android:label="@string/title_activity_consulta__cidade" >
+            android:windowSoftInputMode="adjustPan|adjustNothing"
+            android:label="@string/title_activity_consulta__cidade"
+            android:launchMode="singleTop">
+            <intent-filter>
+                <action android:name="android.intent.action.SEARCH"/>
+            </intent-filter>
+
+            <meta-data android:name="android.app.searchable"
+                android:resource="@xml/searchable"/>
         </activity>
         <activity
             android:name=".TelaCadastro.CadastroTelefoneActivity"
             android:label="@string/title_activity_telefone" >
         </activity>
+
     </application>
 
 </manifest>

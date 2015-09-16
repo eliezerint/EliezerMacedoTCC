@@ -36,6 +36,9 @@ dependencies {
         transitive = true
     }
 
+    compile 'com.wdullaer:materialdatetimepicker:1.5.1'
+
+
 }
 //apply plugin: 'com.android.application'
 //

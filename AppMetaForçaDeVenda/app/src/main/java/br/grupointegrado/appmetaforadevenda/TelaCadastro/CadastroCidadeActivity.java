@@ -1,5 +1,6 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
+import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -8,17 +9,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Dao.EstadoDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Cidade;
 import br.grupointegrado.appmetaforadevenda.R;
+
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
 public class CadastroCidadeActivity extends ActionBarActivity {
@@ -27,17 +26,21 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     private String conteudoestado;
 
 
-
     Toolbar toolbar;
     private MaterialBetterSpinner SpinnerPais;
-    private MaterialBetterSpinner  SpinnerEstado;
+    private MaterialBetterSpinner SpinnerEstado;
     private MaterialEditText EditCidade;
     private MaterialEditText EditIbge;
 
 
     private CidadeDao cidadedao;
     private EstadoDao esatdodao;
+    private Cidade cidadealt;
     private Cidade cidade;
+
+
+    private Intent cidadeIntent;
+
 
 
     @Override
@@ -56,15 +59,18 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         EditIbge = (MaterialEditText) findViewById(R.id.EditIbge);
 
 
-         cidadedao = new CidadeDao(this);
-         esatdodao = new EstadoDao(this);
-
+        cidadedao = new CidadeDao(this);
+        esatdodao = new EstadoDao(this);
 
 
         Addspinnerestado();
         Addspinnerpais();
 
+        cidadealt = (Cidade) getIntent().getSerializableExtra("alterarcidade");
 
+        if (cidadealt != null){
+           setCidadealt(cidadealt);
+        }
 
 
     }
@@ -84,7 +90,7 @@ public class CadastroCidadeActivity extends ActionBarActivity {
                 finish();
                 break;
             case R.id.Salvarcidade:
-             //  esatdodao.saveEstado();
+                //  esatdodao.saveEstado();
 
                 save();
                 break;
@@ -94,10 +100,11 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         return true;
 
     }
-    //Adicionado o pais em uma spinner com array
-    public void Addspinnerpais (){
 
-        String[] ITEMS = {"BR","EUA","PY"};
+    //Adicionado o pais em uma spinner com array
+    public void Addspinnerpais() {
+
+        String[] ITEMS = {"BR", "EUA", "PY"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
 
         SpinnerPais.setAdapter(adapter);
@@ -111,36 +118,36 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         });
 
 
-
-
     }
 
 
     //Adicionado o estado em uma spinner com array
-    public void Addspinnerestado (){
+    public void Addspinnerestado() {
 
-        String[] ITEMS = {"PR","SP","SC","DF"};
+        String[] ITEMS = {"PR", "SP", "SC", "DF"};
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
 
 
         SpinnerEstado.setAdapter(adapter);
 
+
         SpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 conteudoestado = SpinnerEstado.getText().toString();
-            }
 
+
+            }
 
 
         });
 
 
-
     }
+
     //pegar dados da tela e passar para o modelo
-    public Cidade getCidade(){
-        return  new  Cidade (
+    public Cidade getCidadealt() {
+        return new Cidade(
                 conteudopais,
                 conteudoestado,
                 EditCidade.getText().toString(),
@@ -148,35 +155,72 @@ public class CadastroCidadeActivity extends ActionBarActivity {
 
 
     }
+    public void setCidadealt(Cidade cidadealt){
 
-    public void save(){
+        for (int x = 0; x < SpinnerPais.getLineCount(); x++) {
+            String i = SpinnerPais.getText().toString();
 
-       if (validacao(getCidade())== 1){
-        try {
-                cidadedao.saveCidade(getCidade());
-                Toast.makeText(this, " salvo com sucesso ", Toast.LENGTH_SHORT).show();
-
-        } catch (Exception e) {
-                Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
-
-        }}else Toast.makeText(this," Preencher todos os campos", Toast.LENGTH_SHORT).show();
+            if (i.equals(cidadealt.getPais())) {
+                SpinnerPais.setSelection(x);
 
 
+                break;
+
+            }
+        }
+
+        for (int x = 0; x < SpinnerEstado.getLineCount(); x++) {
+            String i = SpinnerEstado.getText().toString();
+
+            if (i.equals(cidadealt.getIdestado())) {
+                SpinnerEstado.setSelection(x);
+
+
+                break;
+
+            }
+        }
+
+
+        EditCidade.setText(cidadealt.getDescricao());
+        EditIbge.setText(cidadealt.getIbge());
+    }
+
+
+    public void save() {
+
+        if (validacao(getCidadealt()) == 1) {
+            if (cidadeIntent == null) {
+                try {
+                    cidadedao.saveCidade(getCidadealt());
+                    Toast.makeText(this, " salvo com sucesso ", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                }
+            }else {
+
+                //cidadeIntent.
+            }
+
+        } else Toast.makeText(this, " Preencher todos os campos", Toast.LENGTH_SHORT).show();
 
 
     }
-    public Integer validacao(Cidade cidade){
+
+    public Integer validacao(Cidade cidade) {
         Integer retorno = 0;
 
-       if( !cidade.getDescricao().equals(" ") && !cidade.getDescricao().isEmpty() ){
-           if(!cidade.getIbge().equals(" ") && !cidade.getIbge().isEmpty()){
-              if (conteudopais != null && conteudoestado != null){
-                  retorno = 1;
-              }
+        if (!cidade.getDescricao().equals(" ") && !cidade.getDescricao().isEmpty()) {
+            if (!cidade.getIbge().equals(" ") && !cidade.getIbge().isEmpty()) {
+                if (conteudopais != null && conteudoestado != null) {
+                    retorno = 1;
+                }
 
-           }
+            }
 
-       }
+        }
 
 
         return retorno;
