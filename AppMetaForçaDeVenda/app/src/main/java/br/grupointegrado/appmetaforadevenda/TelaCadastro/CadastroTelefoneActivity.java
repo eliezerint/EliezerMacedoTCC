@@ -7,8 +7,7 @@ import android.view.MenuItem;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
-import br.grupointegrado.appmetaforadevenda.Dao.ClienteDao;
-import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
+import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.R;
 
 public class CadastroTelefoneActivity extends ActionBarActivity {
@@ -17,17 +16,17 @@ public class CadastroTelefoneActivity extends ActionBarActivity {
     private String cpf;
     private Integer idpessoa;
 
-    private ClienteDao clientedao;
+    private PessoaDao clientedao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cadastro_telefone);
+        setContentView(R.layout.fragment_cadastro_telefone);
 
 
-        EditNumero = (MaterialEditText)findViewById(R.id.EditNumero);
+        EditNumero = (MaterialEditText)findViewById(R.id.edit_numero);
 
-        clientedao = new ClienteDao(this);
+        clientedao = new PessoaDao(this);
 
 
     }

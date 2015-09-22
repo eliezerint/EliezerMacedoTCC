@@ -51,9 +51,9 @@ public class AdapterCliente extends AbstractAdapter<AdapterCliente.ViewHolder, P
         public ViewHolder(View view) {
             super(view);
             tvCod = (TextView) view.findViewById(R.id.tv_cod);
-            tvNome = (TextView) view.findViewById(R.id.tvNome);
+            tvNome = (TextView) view.findViewById(R.id.tvnome);
             tvApelido = (TextView) view.findViewById(R.id.tvApelido);
-            tvCPF = (TextView) view.findViewById(R.id.tvCPF);
+            tvCPF = (TextView) view.findViewById(R.id.tvcpf);
 
         }
     }

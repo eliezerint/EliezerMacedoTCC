@@ -26,6 +26,13 @@
     <string name="app_label">searchConsulta</string>
     <string name="search_hint">Consultar Cidade</string>
     <string name="title_activity_searchable">SearchableActivity</string>
+    <string name="title_activity_PedidoTabs">PedidoTabs</string>
+    <string name="title_activity_PessoaTabs">PessoaTabs</string>
+    <string name="title_pessoa">Cliente</string>
+
+
+<!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 
 </resources>

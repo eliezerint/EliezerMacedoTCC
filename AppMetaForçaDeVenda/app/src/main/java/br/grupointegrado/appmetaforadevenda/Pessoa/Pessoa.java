@@ -10,62 +10,62 @@ public class Pessoa {
     Integer idpessoa ;
     Integer idCidade ;
     String CnpjCpf;
-    String rua;
+    String Numero;
     String bairro;
+    String complemento;
     String Cidade;
     String telefone;
     Date dataCadastro;
-    String complemento;
+    String Endereco;
     String Email;
     String RazaoSocialNome;
     String fantasiaApelido;
     String inscriEstadualRG;
     Date dataUltimacompra;
     Double valorUltimacompra;
+    Date dataNascimento;
 
 
-    public Pessoa( Integer idCidade, String cnpjCpf, String rua, String bairro, String cidade, Date dataCadastro,
-                  String telefone, String complemento, String email, String razaoSocialNome, String fantasiaApelido,
-                  Date dataUltimacompra, String inscriEstadualRG, Double valorUltimacompra) {
+
+    public Pessoa( Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
+                   String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
+                  String Email,Date dataUltimacompra , Double valorUltimacompra,Date dataCadastro) {
 
         this.idCidade = idCidade;
-        CnpjCpf = cnpjCpf;
-        this.rua = rua;
+        this.CnpjCpf = cnpjCpf;
+        this.Numero = Numero;
         this.bairro = bairro;
-        Cidade = cidade;
-        this.dataCadastro = dataCadastro;
-        this.telefone = telefone;
         this.complemento = complemento;
-        Email = email;
-        RazaoSocialNome = razaoSocialNome;
+        this.Cidade = cidade;
+        this.dataCadastro = dataCadastro;
+        this.Endereco = endereco;
+        this.Email = Email;
+        this.RazaoSocialNome = razaoSocialNome;
         this.fantasiaApelido = fantasiaApelido;
         this.dataUltimacompra = dataUltimacompra;
         this.inscriEstadualRG = inscriEstadualRG;
         this.valorUltimacompra = valorUltimacompra;
     }
-    public Pessoa( Integer idpessoa,Integer idCidade, String cnpjCpf, String rua, String bairro, String cidade, Date dataCadastro,
-                   String telefone, String complemento, String email, String razaoSocialNome, String fantasiaApelido,
-                   Date dataUltimacompra, String inscriEstadualRG, Double valorUltimacompra) {
-        this.idpessoa = idpessoa;
-        this.idCidade = idCidade;
-        CnpjCpf = cnpjCpf;
-        this.rua = rua;
-        this.bairro = bairro;
-        Cidade = cidade;
-        this.dataCadastro = dataCadastro;
-        this.telefone = telefone;
-        this.complemento = complemento;
-        Email = email;
-        RazaoSocialNome = razaoSocialNome;
-        this.fantasiaApelido = fantasiaApelido;
-        this.dataUltimacompra = dataUltimacompra;
-        this.inscriEstadualRG = inscriEstadualRG;
-        this.valorUltimacompra = valorUltimacompra;
-    }
+
+
 
     public Pessoa (){}
 
+    public String getComplemento() {
+        return complemento;
+    }
 
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
+    }
+
+    public String getNumero() {
+        return Numero;
+    }
+
+    public void setNumero(String numero) {
+        Numero = numero;
+    }
 
     public String getCnpjCpf() {
         return CnpjCpf;
@@ -119,12 +119,12 @@ public class Pessoa {
         Email = email;
     }
 
-    public String getComplemento() {
-        return complemento;
+    public String getEndereco() {
+        return Endereco;
     }
 
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
+    public void setEndereco(String endereco) {
+        this.Endereco = endereco;
     }
 
     public Date getDataCadastro() {
@@ -144,11 +144,11 @@ public class Pessoa {
     }
 
     public String getRua() {
-        return rua;
+        return Numero;
     }
 
     public void setRua(String rua) {
-        this.rua = rua;
+        this.Numero = rua;
     }
 
     public String getCnpjCpf(String string) {

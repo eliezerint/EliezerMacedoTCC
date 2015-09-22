@@ -190,6 +190,7 @@
           Endereco VARCHAR(50) NULL,
           Numero VARCHAR(10) NULL,
           Bairro VARCHAR(50) NULL,
+          Cidade VARCHAR(60) NULL,
           Telefone  VARCHAR(20) NULL,
           Data_Cadastro DATE NULL,
           Complemento VARCHAR(10) NULL,

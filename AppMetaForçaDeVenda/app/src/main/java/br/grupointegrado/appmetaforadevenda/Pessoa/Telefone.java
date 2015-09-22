@@ -16,6 +16,7 @@ public class Telefone {
         this.CPF = cpf;
     }
 
+
     public Telefone(){}
 
     public String getCPF() {

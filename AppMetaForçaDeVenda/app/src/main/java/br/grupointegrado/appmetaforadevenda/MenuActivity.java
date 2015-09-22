@@ -14,6 +14,7 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.*;
 
@@ -46,7 +47,7 @@ public class MenuActivity extends ActionBarActivity {
         atoolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogsMenu();
+
             }
         });
 
@@ -59,7 +60,7 @@ public class MenuActivity extends ActionBarActivity {
         Cliente = (FloatingActionButton) findViewById(R.id.Cliente);
         Pedido = (FloatingActionButton) findViewById(R.id.Pedido);
         Exportacao = (FloatingActionButton) findViewById(R.id.Exportacao);
-        tvCadastrarCliente = (TextView) findViewById(R.id.tvCadastrarCliente);
+
 
 
         Cliente.setOnClickListener(new View.OnClickListener() {
@@ -122,20 +123,10 @@ public class MenuActivity extends ActionBarActivity {
 
     }
 
-    public void DialogsMenu() {
-        boolean wrapInScrollView = true;
-        MaterialDialog app = new MaterialDialog.Builder(this)
-                .title("Menu")
-                .customView(R.layout.activity_dialogsmenu, wrapInScrollView)
-                .positiveText("Sair")
-                .show();
-
-
-    }
 
     public void FazerPedido() {
 
-        Intent i = new Intent(this.getApplication(), CadastroPedidoActivity.class);
+        Intent i = new Intent(this.getApplication(), PedidoTabs.class);
 
 
         startActivity(i);

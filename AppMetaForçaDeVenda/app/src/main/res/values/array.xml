@@ -7,4 +7,11 @@
 
     </string-array>
 
+    <string-array name="Array_de_selecao">
+        <item>Selecionar</item>
+        <item>Dados detalhados</item>
+
+    </string-array>
+
+
 </resources>

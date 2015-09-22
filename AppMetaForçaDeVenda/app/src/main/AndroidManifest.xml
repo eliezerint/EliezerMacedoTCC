@@ -33,10 +33,6 @@
             android:label="@string/title_activity_cadastro_cidade" >
         </activity>
         <activity
-            android:name=".TelaCadastro.CadastroPessoaActivity"
-            android:label="@string/title_activity_cadastro_pessoa" >
-        </activity>
-        <activity
             android:name=".TelaConsulta.ConsultaClienteActivity"
             android:label="@string/title_activity_consulta_cliente" >
         </activity>
@@ -55,6 +51,16 @@
         <activity
             android:name=".TelaCadastro.CadastroTelefoneActivity"
             android:label="@string/title_activity_telefone" >
+        </activity>
+
+        <activity
+            android:name=".PedidoTabs"
+            android:label="@string/title_activity_PedidoTabs" >
+        </activity>
+
+        <activity
+            android:name=".TelaCadastro.CadastroPessoaActivity"
+            android:label="@string/title_activity_PessoaTabs" >
         </activity>
 
     </application>

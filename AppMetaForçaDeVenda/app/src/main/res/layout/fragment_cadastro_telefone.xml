@@ -1,0 +1,43 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="false"
+    >
+
+
+    <com.rengwuxian.materialedittext.MaterialEditText
+        android:id="@+id/edit_numero"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:hint="Numero"
+        app:met_baseColor="@android:color/black"
+        app:met_floatingLabel="highlight"
+        app:met_primaryColor="?colorAccent"
+        app:met_singleLineEllipsis="true"
+        android:digits="1234567890"
+        android:inputType="number|phone"
+        app:met_iconLeft="@drawable/ic_phone_black_18dp"
+        app:met_iconPadding="0dp"/>
+
+    <Button
+        android:id="@+id/bt_add_telefone"
+        android:layout_width="100dp"
+        android:layout_height="wrap_content"
+        android:text="Adicionar"
+        android:layout_gravity="center"/>
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        android:layout_marginTop="10dp">
+
+    </ListView>
+
+
+
+
+</LinearLayout>

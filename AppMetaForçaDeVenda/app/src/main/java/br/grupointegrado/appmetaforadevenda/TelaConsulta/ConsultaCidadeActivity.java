@@ -11,18 +11,19 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCidade;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Cidade;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroCidadeActivity;
 
@@ -43,10 +44,11 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     private String IBGE;
 
 
-
+    private Pessoa pessoa;
     private Cidade cidade;
     private CidadeDao cidadedao;
     private AdapterCidade adaptercidade;
+    private boolean selecionandoCidade = false;
 
 
     @Override
@@ -68,6 +70,52 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         cidadedao = new CidadeDao(this);
 
         MaterialEditCidade = (MaterialEditText) findViewById(R.id.MaterialEditCidadeDelete);
+
+
+
+
+        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        RecyviewCidade.setLayoutManager(llm);
+
+        adaptercidade = new AdapterCidade(this, new ArrayList<Cidade>()) {
+            @Override
+            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento de click simples
+                //  MaterialDialogCidade();
+
+
+                Cidade cidade = adaptercidade.getItems().get(adapterPosition);
+                if (selecionandoCidade) {
+                    Intent data = new Intent();
+                    data.putExtra("cidade_id", cidade.getId());
+                    setResult(RESULT_OK, data);
+                    finish();
+                }else {
+                    idCidade = cidade.getIdcidade();
+                    nomecidade = cidade.getDescricao();
+
+                }
+                selecionandoCidade = getIntent().getExtras().getBoolean("selecionar_cidade", false);
+            }
+
+            @Override
+            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento e click longo
+                 Cidade cidade = adaptercidade.getItems().get(adapterPosition);
+                idCidade = cidade.getIdcidade();
+                nomecidade = cidade.getDescricao();
+                IBGE = cidade.getIbge();
+
+
+                MaterialDialogCidade();
+                return true;
+            }
+        };
+
+
+
+        RecyviewCidade.setAdapter(adaptercidade);
 
 
         Consultacidade();
@@ -104,35 +152,9 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     }
 
     private void Consultacidade(String conteudopais, String conteudoestado) {
-        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        RecyviewCidade.setLayoutManager(llm);
 
-
-        adaptercidade = new AdapterCidade(this, cidadedao.list(conteudopais, conteudoestado)) {
-            @Override
-            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento de click simples
-                MaterialDialogCidade();
-                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                nomecidade = adaptercidade.getItems().get(adapterPosition).getDescricao();
-
-            }
-
-            @Override
-            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento e click longo
-
-                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                nomecidade = adaptercidade.getItems().get(adapterPosition).getDescricao();
-
-                MaterialDialogCidade();
-                return true;
-            }
-        };
-
-
-        RecyviewCidade.setAdapter(adaptercidade);
+        adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
+        adaptercidade.notifyDataSetChanged();
 
     }
 
@@ -146,37 +168,9 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     }
 
     public void Consultacidade() {
-        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        RecyviewCidade.setLayoutManager(llm);
 
-
-        adaptercidade = new AdapterCidade(this, cidadedao.list()) {
-            @Override
-            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento de click simples
-                //  MaterialDialogCidade();
-                // idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                //  nomecidade =adaptercidade.getItems().get(adapterPosition).getDescricao();
-
-            }
-
-            @Override
-            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento e click longo
-
-                idCidade = adaptercidade.getItems().get(adapterPosition).getIdcidade();
-                nomecidade = adaptercidade.getItems().get(adapterPosition).getDescricao();
-                IBGE = adaptercidade.getItems().get(adapterPosition).getIbge();
-
-
-                MaterialDialogCidade();
-                return true;
-            }
-        };
-
-
-        RecyviewCidade.setAdapter(adaptercidade);
+        adaptercidade.setItems(cidadedao.list());
+        adaptercidade.notifyDataSetChanged();
 
     }
 

@@ -9,14 +9,18 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
+
+import com.afollestad.materialdialogs.MaterialDialog;
 
 import java.util.List;
 
-import br.grupointegrado.appmetaforadevenda.Dao.ClienteDao;
-import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCidade;
+import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCliente;
-import br.grupointegrado.appmetaforadevenda.R;
+
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPessoaActivity;
+import br.grupointegrado.appmetaforadevenda.R;
 
 public class ConsultaClienteActivity extends ActionBarActivity {
 
@@ -25,7 +29,12 @@ public class ConsultaClienteActivity extends ActionBarActivity {
     private List lista;
     private AdapterCliente adaptercliente;
 
-    private ClienteDao clientedao;
+
+    private Integer idpessoa;
+    private String CNPJCPF;
+
+    private PessoaDao clientedao;
+    private Pessoa pessoa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,9 +50,10 @@ public class ConsultaClienteActivity extends ActionBarActivity {
 
         RecyviewPessoa =  (RecyclerView)findViewById(R.id.RecyviewPessoa);
 
-        clientedao = new ClienteDao(this);
+        clientedao = new PessoaDao(this);
 
         Consultacliente();
+
 
 
     }
@@ -101,6 +111,9 @@ public class ConsultaClienteActivity extends ActionBarActivity {
             @Override
             protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
                 // evento e click longo
+                idpessoa = adaptercliente.getItems().get(adapterPosition).getIdpessoa();
+                CNPJCPF = adaptercliente.getItems().get(adapterPosition).getCnpjCpf();
+                MaterialDialogCidade();
 
                 return true;
             }
@@ -110,6 +123,53 @@ public class ConsultaClienteActivity extends ActionBarActivity {
 
 
         RecyviewPessoa.setAdapter(adaptercliente);
+
+    }
+    public void MaterialDialogCidade() {
+        boolean wrapInScrollView = true;
+        new MaterialDialog.Builder(this)
+                .title("Cliente")
+                .items(R.array.Array_de_alterar)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+
+                        if (text.equals("Editar")) {
+
+
+                            dialog.dismiss();
+                        } else if (text.equals("Excluir")) {
+                            DeletarCliente();
+                            dialog.dismiss();
+                        }
+
+
+                    }
+
+                })
+                .show();
+
+    }
+    public void EditarPessoa(Pessoa pessoa) {
+
+        Intent i = new Intent(this.getBaseContext(), CadastroPessoaActivity.class);
+
+        
+
+
+        startActivity(i);
+
+    }
+
+    public void DeletarCliente() {
+        try {
+            clientedao.delete(idpessoa);
+            Toast.makeText(this, "Pessoa Excluido", Toast.LENGTH_SHORT).show();
+            Consultacliente();
+        } catch (Exception e) {
+            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+        }
+
 
     }
 

@@ -92,7 +92,7 @@ public class CadastroCidadeActivity extends ActionBarActivity {
             case R.id.Salvarcidade:
                 //  esatdodao.saveEstado();
 
-                save();
+                save(cidadealt);
                 break;
         }
 
@@ -160,8 +160,9 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         for (int x = 0; x < SpinnerPais.getLineCount(); x++) {
             String i = SpinnerPais.getText().toString();
 
-            if (i.equals(cidadealt.getPais())) {
-                SpinnerPais.setSelection(x);
+            if (i.equalsIgnoreCase(cidadealt.getPais())) {
+                SpinnerPais.setListSelection(x);
+
 
 
                 break;
@@ -172,8 +173,8 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         for (int x = 0; x < SpinnerEstado.getLineCount(); x++) {
             String i = SpinnerEstado.getText().toString();
 
-            if (i.equals(cidadealt.getIdestado())) {
-                SpinnerEstado.setSelection(x);
+            if (i.equalsIgnoreCase(cidadealt.getIdestado())) {
+                SpinnerEstado.setListSelection(x);
 
 
                 break;
@@ -187,10 +188,10 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     }
 
 
-    public void save() {
+    public void save(Cidade cidadealt) {
 
         if (validacao(getCidadealt()) == 1) {
-            if (cidadeIntent == null) {
+            if (cidadealt == null) {
                 try {
                     cidadedao.saveCidade(getCidadealt());
                     Toast.makeText(this, " salvo com sucesso ", Toast.LENGTH_SHORT).show();
@@ -201,7 +202,14 @@ public class CadastroCidadeActivity extends ActionBarActivity {
                 }
             }else {
 
-                //cidadeIntent.
+                try {
+                    cidadedao.Update(getCidadealt());
+                    Toast.makeText(this, " alterado com sucesso ", Toast.LENGTH_SHORT).show();
+
+                } catch (Exception e) {
+                    Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+
+                }
             }
 
         } else Toast.makeText(this, " Preencher todos os campos", Toast.LENGTH_SHORT).show();
