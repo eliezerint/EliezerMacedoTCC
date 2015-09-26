@@ -140,4 +140,27 @@ public class CidadeDao extends AppDao {
 
 
     }
+    public String ConsultaCidadeporid(String id){
+        Cursor consulta = getReadableDatabase().rawQuery("Select Descricao from Cidade " +
+                        "where id_Cidade = ? ",
+                new String[]{id});
+        String nome = "" ;
+
+        if (consulta != null) {
+            try {
+                if (consulta.moveToFirst()) {
+                    return nome = consulta.getString(0);
+                }
+            } finally {
+                consulta.close();
+            }
+
+
+
+        }
+
+        return nome;
+
+
+    }
 }

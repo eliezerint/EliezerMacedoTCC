@@ -27,7 +27,10 @@ public class CadastroPessoaActivity extends AppCompatActivity{
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
 
-    private PessoaDao pessoa;
+    private Integer posicaoPageView;
+
+    private PessoaDao pessoadao;
+    private Pessoa pessoa;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +41,9 @@ public class CadastroPessoaActivity extends AppCompatActivity{
         setSupportActionBar(atoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        pessoa = new PessoaDao(this);
+        pessoadao = new PessoaDao(this);
 
+        pessoa = new Pessoa();
 
 
 
@@ -97,7 +101,7 @@ public class CadastroPessoaActivity extends AppCompatActivity{
                 break;
             case R.id.Salvarpessoa:
 
-                pessoa.savePessoa(fragpessoa.getPessoa());
+             fragpessoa.savePessoatela();
 
                 break;
 

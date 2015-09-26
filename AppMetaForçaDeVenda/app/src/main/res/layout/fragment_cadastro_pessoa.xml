@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
 
     android:orientation="vertical"    >
     <LinearLayout
@@ -10,7 +11,7 @@
         android:layout_height="wrap_content"
         android:orientation="vertical"
         android:layout_marginTop="100dp"
-        android:focusableInTouchMode="false">
+    >
 
 
         <ScrollView
@@ -101,15 +102,18 @@
                     app:met_singleLineEllipsis="true"
 
                     />
+
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/edit_data_nascimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Data Nascimento"
+                    android:editable="false"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
                     app:met_singleLineEllipsis="true"
+
 
                     />
 

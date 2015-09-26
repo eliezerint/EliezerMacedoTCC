@@ -1,5 +1,7 @@
 package br.grupointegrado.appmetaforadevenda.Fragments;
 
+
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -16,16 +18,19 @@ import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
-import com.afollestad.materialdialogs.MaterialDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
+import com.rengwuxian.materialedittext.validation.RegexpValidator;
+import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.zip.Inflater;
 
+
+import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
@@ -37,42 +42,43 @@ import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaD
 import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDouble;
 
 
-public class PessoaFragment extends Fragment  {
+public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener {
 
 
     private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
-    private MaterialEditText editCpf;
+    public MaterialEditText editCpf;
     public RadioButton radioFisica;
     public RadioButton radioJuridica;
-    private MaterialEditText edRG;
-    private MaterialEditText edBairro;
-    private MaterialEditText edDataCadastro;
-    private MaterialEditText edDataUltima;
-    private MaterialEditText edEndereco;
-    private MaterialEditText edNumero;
-    private MaterialEditText edNome;
-    private MaterialEditText edValorUltimacompra;
-    private MaterialEditText edCidade;
-    private MaterialEditText edApelido;
-    private MaterialEditText edEmail;
-    private MaterialEditText edDataNascimento;
-    private MaterialEditText edcomplemento;
+    public MaterialEditText edRG;
+    public MaterialEditText edBairro;
+    public MaterialEditText edDataCadastro;
+    public MaterialEditText edDataUltima;
+    public MaterialEditText edEndereco;
+    public MaterialEditText edNumero;
+    public MaterialEditText edNome;
+    public MaterialEditText edValorUltimacompra;
+    public MaterialEditText edCidade;
+    public MaterialEditText edApelido;
+    public MaterialEditText edEmail;
+    public MaterialEditText edDataNascimento;
+    public MaterialEditText edcomplemento;
 
 
-    private boolean cpf;
-    private boolean cnpj;
-    private Integer cdCidade;
-    private String Cidade;
-    private Integer idpessoa;
-    private List listatelefone;
-    private Integer idCidade;
+    public boolean cpf;
+    public boolean cnpj;
+    public Integer cdCidade;
+    public String Cidade;
+    public Integer idpessoa;
+    public List listatelefone;
+    public Integer idCidade;
 
 
-    private PessoaDao clientedao;
-    private Pessoa pessoa;
-    private Telefone telefone;
+    public PessoaDao clientedao;
+    public Pessoa pessoa;
+    public Telefone telefone;
+    public CidadeDao cidadedao;
 
 
     @Override
@@ -81,12 +87,21 @@ public class PessoaFragment extends Fragment  {
         // Inflate the layout for this fragment
 
 
-
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_cadastro_pessoa, container, false);
+
+
+        return view;
+    }
+
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        //Instancia do XML do Editext e spinner
 
 
         editCpf = (MaterialEditText) view.findViewById(R.id.edit_cpf);
@@ -108,12 +123,18 @@ public class PessoaFragment extends Fragment  {
         edcomplemento = (MaterialEditText) view.findViewById(R.id.edit_complemento);
         edDataNascimento = (MaterialEditText) view.findViewById(R.id.edit_data_nascimento);
 
+        edNome.addValidator(new RegexpValidator("Nome Completo Inválido", "\\w+\\s+\\w+"));
+        edNome.setValidateOnFocusLost(true);
+
 
         //colocando data de cadastro
         edDataCadastro.setText(getDateTime().toString());
 
         clientedao = new PessoaDao(this.getActivity());
 
+        pessoa = new Pessoa();
+
+        cidadedao = new CidadeDao(this.getActivity());
 
 
         //CPF|CPNJ Validacao
@@ -144,16 +165,6 @@ public class PessoaFragment extends Fragment  {
         );
 
 
-
-
-       return  view;
-    }
-
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        //Instancia do XML do Editext e spinner
         radioFisica.setChecked(true);
 
         edCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
@@ -179,11 +190,22 @@ public class PessoaFragment extends Fragment  {
                 RadioBoxJuridica(v);
             }
         });
+
+        edDataNascimento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                dataPicker();
+
+            }
+        });
+
+
+
     }
 
 
-
-private static final int REQUEST_CONSULTA_CIDADE = 1001;
+    private static final int REQUEST_CONSULTA_CIDADE = 1001;
 
     private void selecioarCidade() {
         Intent intent = new Intent(getActivity(), ConsultaCidadeActivity.class);
@@ -195,13 +217,14 @@ private static final int REQUEST_CONSULTA_CIDADE = 1001;
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (REQUEST_CONSULTA_CIDADE == requestCode && resultCode == getActivity().RESULT_OK) {
-            int idCidade = data.getIntExtra("cidade_id", 0);
-            Toast.makeText(getActivity(), "Cidade selecionada: " + idCidade, Toast.LENGTH_SHORT).show();
-            edCidade.setText(idCidade + "");
+            idCidade = data.getIntExtra("cidade_id", 0);
+            String nomeCidade;
+            nomeCidade = cidadedao.ConsultaCidadeporid(Integer.toString(idCidade));
+            edCidade.setText(nomeCidade);
+
             // consulta a cidade e seta na pessoa
         }
     }
-
 
 
     //ChecBoxFisica
@@ -250,9 +273,6 @@ private static final int REQUEST_CONSULTA_CIDADE = 1001;
     }
 
 
-
-
-
     //Método para calcular digito verificador
     private static int calcularDigito(String str, int[] peso) {
         int soma = 0;
@@ -290,25 +310,40 @@ private static final int REQUEST_CONSULTA_CIDADE = 1001;
     // }
 
 
-    public  void savePessoa(){
-
-        try{
+    public void savePessoatela() {
+        clientedao.savePessoa(getPessoa1());
+       /* try {
             clientedao.savePessoa(getPessoa());
-            Toast.makeText(this.getActivity(), "salvo com susseço",Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
-            Toast.makeText(this.getActivity(), e.toString(),Toast.LENGTH_SHORT).show();
+            Toast.makeText(getActivity(), "salvo com susseço", Toast.LENGTH_SHORT).show();
+        } catch (Exception e) {
+            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
         }
+*/
+
+    }
+
+    public Pessoa getPessoa1() {
+        return  new Pessoa();
 
 
     }
 
-    public Pessoa getPessoa (){
-        return new Pessoa  (idCidade,
-                editCpf.getText().toString(),edNome.getText().toString(),edApelido.getText().toString(),
-                edRG.getText().toString(),edEndereco.getText().toString(),edNumero.getText().toString(),
-                edBairro.getText().toString(),edcomplemento.getText().toString(),edCidade.getText().toString(),
-                edEmail.getText().toString(),stringParaDate(edDataUltima.getText().toString()),
-                stringParaDouble(edValorUltimacompra.getText().toString()),
+
+    public Pessoa getPessoa() {
+        return new Pessoa(idCidade,
+                editCpf.getText().toString(),
+                edNome.getText().toString(),
+                edApelido.getText().toString(),
+                edRG.getText().toString(),
+                edEndereco.getText().toString(),
+                edNumero.getText().toString(),
+                edBairro.getText().toString(),
+                edcomplemento.getText().toString(),
+                edCidade.getText().toString(),
+                stringParaDate(edDataNascimento.getText().toString()),
+                edEmail.getText().toString(),
+                stringParaDate(edDataUltima.getText().toString()),
+                Double.parseDouble(edValorUltimacompra.getText().toString()),
                 stringParaDate(edDataCadastro.getText().toString())
 
         );
@@ -316,26 +351,77 @@ private static final int REQUEST_CONSULTA_CIDADE = 1001;
 
     private String getDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-        Date date = new Date(); return dateFormat.format(date);
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 
+    //Date PickerDialog
+    private int ano, mes, day;
+
+    public void dataPicker() {
+        dateTimeData();
+        Calendar datapadrao = Calendar.getInstance();
+        datapadrao.set(ano, mes, day);
+
+        DatePickerDialog datePickerDialog = DatePickerDialog.newInstance(
+                this,
+                ano = datapadrao.get(Calendar.YEAR),
+                mes = datapadrao.get(Calendar.MONTH),
+                day = datapadrao.get(Calendar.DAY_OF_MONTH)
+
+        );
+        Calendar cMax = Calendar.getInstance();
+        Calendar cMin = Calendar.getInstance();
+        cMin.set(1900,0,1);
+        cMax.set(cMax.get(Calendar.YEAR), mes, day );
+        datePickerDialog.setMaxDate(cMax);
+        datePickerDialog.setMinDate(cMin);
+
+        datePickerDialog.setOnCancelListener(this);
+        datePickerDialog.show(getActivity().getFragmentManager(), "DatePickerDialog");
+
+    }
+
+    private void dateTimeData() {
+
+        if (ano == 0) {
+            Calendar c = Calendar.getInstance();
+            ano = c.get(Calendar.YEAR);
+            mes = c.get(Calendar.MONTH);
+            day = c.get(Calendar.DAY_OF_MONTH);
+        }
+    }
 
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+    public void onCancel(DialogInterface dialog) {
 
-            case R.id.Salvarpessoa:
-                savePessoa();
-                break;
+        ano = mes = day =  0;
+        edDataNascimento.setText("");
 
-
-        }
-
-        return true;
     }
 
+    @Override
+    public void onDateSet(DatePickerDialog datePickerDialog, int i, int i1, int i2) {
+
+        Calendar tDefault = Calendar.getInstance();
+        tDefault.set(ano, mes, day);
+
+        ano = i;
+        mes = i1;
+        day = i2;
+
+        edDataNascimento.setText( (day < 10 ? "0"+day : day)+"/"+
+                (mes+1 < 10 ? "0"+(mes+1) : mes+1)+"/"+
+                ano);
+
+    }
+
+
 }
+
+
+
 
 

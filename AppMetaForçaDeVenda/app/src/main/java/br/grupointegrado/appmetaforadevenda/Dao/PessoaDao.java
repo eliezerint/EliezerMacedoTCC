@@ -45,6 +45,7 @@ public class PessoaDao extends AppDao {
         cv.put("Numero", pessoa.getNumero());
         cv.put("Bairro", pessoa.getBairro());
         cv.put("cidade", pessoa.getCidade());
+        cv.put("Data_Nascimento",(dateParaString(pessoa.getDataNascimento())));
         cv.put("Data_Cadastro",(dateParaString(pessoa.getDataCadastro())));
         cv.put("Complemento", pessoa.getComplemento());
         cv.put("Email", pessoa.getEmail());
@@ -63,6 +64,7 @@ public class PessoaDao extends AppDao {
     public List<Pessoa> list() {
         Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
                 + " id_Cidade, CNPJCPF , Endereco , Numero , Bairro , Cidade "
+                + " , Data_Nascimento ,"
                 +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
                 +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra  From Pessoa  ", null);
 
@@ -79,14 +81,15 @@ public class PessoaDao extends AppDao {
             pessoa.setNumero(c.getString(4));
             pessoa.setBairro(c.getString(5));
             pessoa.setCidade(c.getString(6));
-            pessoa.setDataCadastro(stringParaSQLDate(c.getString(7)));
-            pessoa.setComplemento(c.getString(8));
-            pessoa.setEmail(c.getString(9));
-            pessoa.setRazaoSocialNome(c.getString(10));
-            pessoa.setFantasiaApelido(c.getString(11));
-            pessoa.setInscriEstadualRG(c.getString(12));
-            pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(13)));
-            pessoa.setValorUltimacompra(c.getDouble(14));
+            pessoa.setDataNascimento(stringParaSQLDate(c.getString(7)));
+            pessoa.setDataCadastro(stringParaSQLDate(c.getString(8)));
+            pessoa.setComplemento(c.getString(9));
+            pessoa.setEmail(c.getString(10));
+            pessoa.setRazaoSocialNome(c.getString(11));
+            pessoa.setFantasiaApelido(c.getString(12));
+            pessoa.setInscriEstadualRG(c.getString(13));
+            pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
+            pessoa.setValorUltimacompra(c.getDouble(15));
 
 
             pessoas.add(pessoa);

@@ -9,10 +9,13 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
+import br.grupointegrado.appmetaforadevenda.Fragments.TelefoneFragment;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Cidade;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 
 /**
@@ -28,6 +31,8 @@ public class AdapterCidade extends AbstractAdapter<AdapterCidade.ViewHolder, Cid
     public AdapterCidade(Context context, List<Cidade> items) {
         super(context, items);
     }
+
+
 
     @Override
     public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

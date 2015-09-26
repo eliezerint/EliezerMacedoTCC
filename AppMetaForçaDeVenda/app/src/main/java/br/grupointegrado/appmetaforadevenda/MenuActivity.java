@@ -14,7 +14,6 @@ import android.widget.TextView;
 import com.afollestad.materialdialogs.MaterialDialog;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
-import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.*;
 
@@ -126,7 +125,7 @@ public class MenuActivity extends ActionBarActivity {
 
     public void FazerPedido() {
 
-        Intent i = new Intent(this.getApplication(), PedidoTabs.class);
+        Intent i = new Intent(this.getApplication(), CadastroPedidoActivity.class);
 
 
         startActivity(i);

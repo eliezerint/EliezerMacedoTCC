@@ -13,5 +13,11 @@
 
     </string-array>
 
+    <string-array name="Array_tp_telefone">
+        <item>Residencial</item>
+        <item>Comercial+</item>
+        <item>Celular</item>
+    </string-array>
+
 
 </resources>

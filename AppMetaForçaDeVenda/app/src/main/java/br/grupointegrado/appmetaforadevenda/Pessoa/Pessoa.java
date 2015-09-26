@@ -22,14 +22,14 @@ public class Pessoa {
     String fantasiaApelido;
     String inscriEstadualRG;
     Date dataUltimacompra;
-    Double valorUltimacompra;
+    Double valorUltimacompra = 0.00;
     Date dataNascimento;
 
 
 
     public Pessoa( Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
                    String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
-                  String Email,Date dataUltimacompra , Double valorUltimacompra,Date dataCadastro) {
+                  String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
 
         this.idCidade = idCidade;
         this.CnpjCpf = cnpjCpf;
@@ -49,7 +49,40 @@ public class Pessoa {
 
 
 
+
     public Pessoa (){}
+
+    public Pessoa(Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
+                  String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
+                  Date dataNascimento,String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
+        this.idCidade = idCidade;
+        this.CnpjCpf = cnpjCpf;
+        this.Numero = Numero;
+        this.bairro = bairro;
+        this.complemento = complemento;
+        this.Cidade = cidade;
+        this.dataCadastro = dataCadastro;
+        this.Endereco = endereco;
+        this.Email = Email;
+        this.RazaoSocialNome = razaoSocialNome;
+        this.fantasiaApelido = fantasiaApelido;
+        this.dataNascimento = dataNascimento;
+        this.dataUltimacompra = dataUltimacompra;
+        this.inscriEstadualRG = inscriEstadualRG;
+        this.valorUltimacompra = valorUltimacompra;
+
+
+
+    }
+
+
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
+
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 
     public String getComplemento() {
         return complemento;

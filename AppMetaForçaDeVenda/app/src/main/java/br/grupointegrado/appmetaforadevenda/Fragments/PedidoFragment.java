@@ -19,7 +19,7 @@ import br.grupointegrado.appmetaforadevenda.interfaces.RecyclerViewOnClickListen
  */
 public class PedidoFragment extends Fragment implements RecyclerViewOnClickListenerHack, View.OnClickListener{
 
-        protected List<Pedido> mList;
+
 
 
         @Override
@@ -34,7 +34,7 @@ public class PedidoFragment extends Fragment implements RecyclerViewOnClickListe
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             // Inflate the layout for this fragment
-            return inflater.inflate(R.layout.activity_cadastro_pedido, container, false);
+            return inflater.inflate(R.layout.fragment_cadastro_pedido, container, false);
         }
 
 

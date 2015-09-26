@@ -21,10 +21,6 @@
             android:label="@string/title_activity_menu" >
         </activity>
         <activity
-            android:name=".TelaCadastro.CadastroPedidoActivity"
-            android:label="@string/title_activity_pedido" >
-        </activity>
-        <activity
             android:name=".TelaConsulta.ConsultaProdutoActivity"
             android:label="@string/title_activity_produto" >
         </activity>
@@ -38,31 +34,45 @@
         </activity>
         <activity
             android:name=".TelaConsulta.ConsultaCidadeActivity"
-            android:windowSoftInputMode="adjustPan|adjustNothing"
             android:label="@string/title_activity_consulta__cidade"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:windowSoftInputMode="adjustPan|adjustNothing" >
             <intent-filter>
-                <action android:name="android.intent.action.SEARCH"/>
+                <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
 
-            <meta-data android:name="android.app.searchable"
-                android:resource="@xml/searchable"/>
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".TelaCadastro.CadastroTelefoneActivity"
-            android:label="@string/title_activity_telefone" >
-        </activity>
-
-        <activity
-            android:name=".PedidoTabs"
+            android:name=".TelaCadastro.CadastroPedidoActivity"
             android:label="@string/title_activity_PedidoTabs" >
         </activity>
-
         <activity
             android:name=".TelaCadastro.CadastroPessoaActivity"
             android:label="@string/title_activity_PessoaTabs" >
         </activity>
-
+        <activity
+            android:name=".TelaConsulta.Consulta_ProdutoActivity"
+            android:label="@string/title_activity_consulta__produto" >
+        </activity>
+        <activity
+            android:name=".TelaConsulta.ConsultaFilialActivity"
+            android:label="@string/title_activity_consulta_filial" >
+        </activity>
+        <activity
+            android:name=".TelaConsulta.Consulta_FilialActivity"
+            android:label="@string/title_activity_consulta__filial" >
+        </activity>
+        <activity
+            android:name=".TelaConsulta.Consulta_CondicaPgtoActivity"
+            android:label="@string/title_activity_consulta__condica_pgto" >
+        </activity>
+        <activity
+            android:name=".TelaConsulta.Consulta_VendedorActivity"
+            android:label="@string/title_activity_consulta__vendedor" >
+        </activity>
     </application>
 
 </manifest>

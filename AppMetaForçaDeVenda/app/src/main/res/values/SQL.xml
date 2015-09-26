@@ -193,6 +193,7 @@
           Cidade VARCHAR(60) NULL,
           Telefone  VARCHAR(20) NULL,
           Data_Cadastro DATE NULL,
+          Data_Nascimento DATE NULL,
           Complemento VARCHAR(10) NULL,
           Email VARCHAR(50) NULL,
           Razao_socialNome VARCHAR(60) NULL,

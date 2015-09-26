@@ -1,5 +1,7 @@
 package br.grupointegrado.appmetaforadevenda.Pessoa;
 
+import android.text.Editable;
+
 /**
  * Created by eli on 02/09/2015.
  */
@@ -9,15 +11,27 @@ public class Telefone {
     Integer idPessoa;
     String Numero;
     String CPF;
+    String tipo;
 
-    public Telefone( Integer idPessoa, String numero,String cpf) {
-        this.idPessoa = idPessoa;
+    public Telefone() {
+
+    }
+
+    public Telefone(String numero, String tipo) {
         this.Numero = numero;
-        this.CPF = cpf;
+        this.tipo = tipo;
     }
 
 
-    public Telefone(){}
+
+
+    public String getTipo() {
+        return tipo;
+    }
+
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
 
     public String getCPF() {
         return CPF;

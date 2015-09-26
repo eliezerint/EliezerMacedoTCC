@@ -71,7 +71,8 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
         MaterialEditCidade = (MaterialEditText) findViewById(R.id.MaterialEditCidadeDelete);
 
-
+        if ( getIntent().getExtras() != null)
+            selecionandoCidade = getIntent().getExtras().getBoolean("selecionar_cidade", false);
 
 
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -96,7 +97,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
                     nomecidade = cidade.getDescricao();
 
                 }
-                selecionandoCidade = getIntent().getExtras().getBoolean("selecionar_cidade", false);
+
             }
 
             @Override
@@ -173,6 +174,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         adaptercidade.notifyDataSetChanged();
 
     }
+
 
 
     public void MaterialDialogCidade() {

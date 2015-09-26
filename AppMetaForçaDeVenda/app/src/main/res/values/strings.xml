@@ -33,6 +33,11 @@
 
 <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="title_activity_consulta__produto">Consulta_ProdutoActivity</string>
+    <string name="title_activity_consulta_filial">ConsultaFilialActivity</string>
+    <string name="title_activity_consulta__filial">Consulta_FilialActivity</string>
+    <string name="title_activity_consulta__condica_pgto">Consulta_CondicaPGTOActivity</string>
+    <string name="title_activity_consulta__vendedor">Consulta_VendedorActivity</string>
 
 
 </resources>
