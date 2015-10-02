@@ -39,7 +39,7 @@ public class PessoaDao extends AppDao {
 
     public void savePessoa(Pessoa pessoa) {
         ContentValues cv = new ContentValues();
-        cv.put("id_Cidade", pessoa.getIdCidade());
+        cv.put("id_Cidade", 8);
         cv.put("CNPJCPF", pessoa.getCnpjCpf());
         cv.put("Endereco", pessoa.getEndereco());
         cv.put("Numero", pessoa.getNumero());
@@ -105,7 +105,7 @@ public class PessoaDao extends AppDao {
 
     public Integer CosultaCliente(String CNPJCPF){
         Cursor consulta = getReadableDatabase().rawQuery("Select CNPJCPF from Pessoa " +
-                        "where CNPJCPF like '?' ",
+                        "where CNPJCPF like ? ",
                 new String[]{CNPJCPF});
         Integer id = 0;
 

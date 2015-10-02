@@ -9,6 +9,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
 import br.grupointegrado.appmetaforadevenda.Fragments.TelefoneFragment;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 
 /**
  * Created by eli on 16/09/2015.
@@ -16,39 +17,23 @@ import br.grupointegrado.appmetaforadevenda.R;
 public class AdapterTabsViewPessoa extends FragmentPagerAdapter {
     private Context mContext;
     private String[] titles = {"PESSOA", "TELEFONE"};
-    private int[] icons = new int[]{R.drawable.ic_edit};
-    private int heightIcon;
+    private Fragment[] fragments = {new PessoaFragment(), new TelefoneFragment()};
+
 
 
     public AdapterTabsViewPessoa(FragmentManager fm, Context c) {
         super(fm);
 
         mContext = c;
-        double scale = c.getResources().getDisplayMetrics().density;
-        heightIcon = (int)( 24 * scale + 0.5f );
+
     }
 
     @Override
     public Fragment getItem(int position) {
-        Fragment frag = null;
+        Fragment frag = fragments[position];
 
-        if(position == 0){
-           frag = new PessoaFragment();
-        }
-        else if(position == 1){
-            frag = new TelefoneFragment();
-        }
-        else if(position == 2){
-
-        }
-        else if(position == 3){
-
-        }
-        else if(position == 4){
-
-        }
-
-
+        FragmentTab tab = (FragmentTab) frag;
+        tab.atualizar();
 
         Bundle b = new Bundle();
         b.putInt("position", position);
@@ -56,8 +41,6 @@ public class AdapterTabsViewPessoa extends FragmentPagerAdapter {
         frag.setArguments(b);
 
         return frag;
-
-
     }
 
     @Override
@@ -69,5 +52,9 @@ public class AdapterTabsViewPessoa extends FragmentPagerAdapter {
     public CharSequence getPageTitle(int position) {
         return (titles[position]);
 
+    }
+
+    public Fragment[] getFragments() {
+        return fragments;
     }
 }

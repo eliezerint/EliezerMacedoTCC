@@ -39,5 +39,13 @@
     <string name="title_activity_consulta__condica_pgto">Consulta_CondicaPGTOActivity</string>
     <string name="title_activity_consulta__vendedor">Consulta_VendedorActivity</string>
 
+    //string de validacao
+    <string name="Campo_vazio">Este campo não pode ser vazio </string>
+    <string name="Max_Value">CPF ter no minimo 11 digito </string>
+    <string name="MinRG_Value">RG Inválido ter no minimo 10 digitos</string>
+    <string name="MaxRG_Value">RG Inválido ter no maximo 10 digitos </string>
+    <string name="validation_valid_email">Email Inválido </string>
+
+
 
 </resources>

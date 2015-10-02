@@ -1,11 +1,15 @@
 package br.grupointegrado.appmetaforadevenda.Pessoa;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import java.io.Serializable;
 import java.util.Date;
 
 /**
  * Created by eli on 23/07/2015.
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     Integer idpessoa ;
     Integer idCidade ;
@@ -74,6 +78,7 @@ public class Pessoa {
 
 
     }
+
 
 
     public Date getDataNascimento() {
@@ -223,4 +228,11 @@ public class Pessoa {
     public void setDataUltimacompra(Date dataUltimacompra) {
         this.dataUltimacompra = dataUltimacompra;
     }
+
+
+
+
+
+
+
 }

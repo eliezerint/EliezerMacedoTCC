@@ -1,6 +1,7 @@
 package br.grupointegrado.appmetaforadevenda.Fragments;
 
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.FrameLayout;
+import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -36,58 +39,99 @@ import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity;
+import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
+import br.grupointegrado.appmetaforadevenda.Util.Mask;
 import br.grupointegrado.appmetaforadevenda.interfaces.RecyclerViewOnClickListenerHack;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.MaxLength;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.annotations.RegExp;
+
+import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
+
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDate;
 import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDouble;
 
 
-public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener {
+public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener, FragmentTab {
 
 
     private static final int[] pesoCPF = {11, 10, 9, 8, 7, 6, 5, 4, 3, 2};
     private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
-    public MaterialEditText editCpf;
-    public RadioButton radioFisica;
-    public RadioButton radioJuridica;
-    public MaterialEditText edRG;
-    public MaterialEditText edBairro;
-    public MaterialEditText edDataCadastro;
-    public MaterialEditText edDataUltima;
-    public MaterialEditText edEndereco;
-    public MaterialEditText edNumero;
-    public MaterialEditText edNome;
-    public MaterialEditText edValorUltimacompra;
-    public MaterialEditText edCidade;
-    public MaterialEditText edApelido;
-    public MaterialEditText edEmail;
-    public MaterialEditText edDataNascimento;
-    public MaterialEditText edcomplemento;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    @MinLength(value = 11, messageId = R.string.Max_Value, order = 2)
+
+    private MaterialEditText editCpf;
+
+    private RadioButton radioFisica;
+    private RadioButton radioJuridica;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    @MinLength(value = 10, messageId = R.string.MinRG_Value, order = 2)
+    @MaxLength(value = 10, messageId = R.string.MaxRG_Value, order = 2)
+    private MaterialEditText edRG;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edBairro;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edDataCadastro;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edDataUltima;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edEndereco;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edNumero;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edNome;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edValorUltimacompra;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edCidade;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edApelido;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    @RegExp(value = EMAIL, messageId = R.string.validation_valid_email)
+    private MaterialEditText edEmail;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edDataNascimento;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText edcomplemento;
 
 
-    public boolean cpf;
-    public boolean cnpj;
-    public Integer cdCidade;
-    public String Cidade;
-    public Integer idpessoa;
-    public List listatelefone;
-    public Integer idCidade;
 
 
-    public PessoaDao clientedao;
-    public Pessoa pessoa;
-    public Telefone telefone;
-    public CidadeDao cidadedao;
+    private boolean cpf;
+    private boolean cnpj;
+    private Integer cdCidade;
+    private String Cidade;
+    private Integer idpessoa;
+    private List listatelefone;
+    private Integer idCidade;
 
 
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        // Inflate the layout for this fragment
 
+    private Pessoa pessoa;
+    private Telefone telefone;
+    private CidadeDao cidadedao;
 
-    }
+    private PessoaDao clientedao;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -104,7 +148,10 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         //Instancia do XML do Editext e spinner
 
 
+
+
         editCpf = (MaterialEditText) view.findViewById(R.id.edit_cpf);
+
         radioFisica = (RadioButton) view.findViewById(R.id.radiofisica);
         radioJuridica = (RadioButton) view.findViewById(R.id.radiojuridica);
         edRG = (MaterialEditText) view.findViewById(R.id.edit_rg);
@@ -130,11 +177,13 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         //colocando data de cadastro
         edDataCadastro.setText(getDateTime().toString());
 
-        clientedao = new PessoaDao(this.getActivity());
+       // clientedao = new PessoaDao(this.getActivity());
 
         pessoa = new Pessoa();
 
         cidadedao = new CidadeDao(this.getActivity());
+
+        clientedao = new PessoaDao(this.getActivity());
 
 
         //CPF|CPNJ Validacao
@@ -195,10 +244,13 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
-                dataPicker();
+                    dataPicker();
 
             }
         });
+
+
+        FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
 
 
 
@@ -238,6 +290,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             edDataNascimento.setHint("Data Nascimento");
             radioFisica.setChecked(true);
             radioJuridica.setChecked(false);
+
 
         }
     }
@@ -311,7 +364,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
 
     public void savePessoatela() {
-        clientedao.savePessoa(getPessoa1());
+
+        clientedao.savePessoa(getPessoa());
        /* try {
             clientedao.savePessoa(getPessoa());
             Toast.makeText(getActivity(), "salvo com susseço", Toast.LENGTH_SHORT).show();
@@ -412,13 +466,44 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         mes = i1;
         day = i2;
 
-        edDataNascimento.setText( (day < 10 ? "0"+day : day)+"/"+
-                (mes+1 < 10 ? "0"+(mes+1) : mes+1)+"/"+
+        edDataNascimento.setText((day < 10 ? "0" + day : day) + "/" +
+                (mes + 1 < 10 ? "0" + (mes + 1) : mes + 1) + "/" +
                 ano);
 
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        FormValidator.stopLiveValidation(getActivity());
+    }
 
+    public boolean Validate(){
+        final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getActivity(), true));
+        if (isValid){
+           return  true;
+        }
+
+
+
+        return false;
+    }
+
+
+
+
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+
+
+    }
+
+    @Override
+    public void atualizar() {
+        System.out.println("Fragment Pessoa");
+    }
 }
 
 

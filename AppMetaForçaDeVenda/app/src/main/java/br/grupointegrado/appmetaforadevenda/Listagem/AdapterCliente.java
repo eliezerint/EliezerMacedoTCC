@@ -37,7 +37,7 @@ public class AdapterCliente extends AbstractAdapter<AdapterCliente.ViewHolder, P
         holder.tvNome.setText(item.getRazaoSocialNome());
         holder.tvApelido.setText(item.getFantasiaApelido());
         holder.tvCPF.setText(item.getFantasiaApelido());
-        holder.tvCod.setText(item.getIdpessoa());
+        holder.tvCod.setText(item.getIdpessoa()+"");
     }
 
 

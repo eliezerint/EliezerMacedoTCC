@@ -2,18 +2,18 @@
 <items version="2" >
 
     <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.afollestad\material-dialogs\0.7.8.1\jars\classes.jar"
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="332c3fb3a17fa7a66f84c701047aac964653fdf6">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-61c761c812811942432cbd1a3a82a3782d403086.jar" />
+        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-bba21432ca177f5da42b47f0b0b58612d1ccc1a8.jar" />
     </item>
     <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\22.2.0\jars\classes.jar"
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.weiwangcn.betterspinner\library-material\1.1.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-2a85220cca02bca445206ae3b951c2b878c1ad61.jar" />
+        sha1="8d8c5463a1a50691e2cf66cd7ce4751c8545b584">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-3036dde55119dea114cabe6a6939aececdc12fc9.jar" />
     </item>
     <item
         jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.rengwuxian.materialedittext\library\2.1.4\jars\classes.jar"
@@ -23,11 +23,18 @@
         <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-7c250b3d40aea8fd1f8c8be53e972f71fd37bad8.jar" />
     </item>
     <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\net.i2p.android.ext\floatingactionbutton\1.10.0\jars\classes.jar"
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\cardview-v7\22.2.0\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="4eff90a2da3e42cbea5706a72aae2aa9b12f55b3">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-68945af4469583a045914bb77b88b6d472f07c32.jar" />
+        sha1="97f7e239e86ef994de894818fdd8a71d2e89d6aa">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-2a85220cca02bca445206ae3b951c2b878c1ad61.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-f455963f8d1e25f58bd7a5919f6567a96dd91728.jar" />
     </item>
     <item
         jar="C:\Users\eli\.gradle\caches\modules-2\files-2.1\com.nineoldandroids\library\2.4.0\e9b63380f3a242dbdbf103a2355ad7e43bad17cb\library-2.4.0.jar"
@@ -37,11 +44,46 @@
         <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\library-2.4.0-239db41cca4712b23c96917e289c0d5d49138fd9.jar" />
     </item>
     <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.mikepenz.materialdrawer\library\2.8.2\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="6320445a7438321cdf32f75545581821f5759cf3">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-9a5af1db7bc0cc548ab2e1ecd0c87482fecf38e2.jar" />
+    </item>
+    <item
         jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\recyclerview-v7\22.2.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
         sha1="3abb4b88f5a8a0584a9b01d3170d7165f12f8588">
         <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-8f9529670a9608200bfa5e747b7bd033e0000849.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\eu.inmite.android.lib\android-validation-komensky\0.9.4\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="d17090479787dc0bda52b915d4ecd98f52a53f8b">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-04875023be977aadbdbd8d2808c30a4d383041b0.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.wdullaer\materialdatetimepicker\1.5.1\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="f3c15dd877bfdfbbd71f0d2f4c5139b52fd04735">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-ac38e9eb37299e4a3809dd91f91a1494b1c7def1.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\net.i2p.android.ext\floatingactionbutton\1.10.0\jars\classes.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="4eff90a2da3e42cbea5706a72aae2aa9b12f55b3">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-68945af4469583a045914bb77b88b6d472f07c32.jar" />
+    </item>
+    <item
+        jar="C:\Users\eli\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jumboMode="false"
+        revision="22.0.1"
+        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-2c9fd05b3d516a37c6e266480dec573e393f9704.jar" />
     </item>
     <item
         jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.mikepenz.iconics\library\0.9.1\jars\classes.jar"
@@ -58,27 +100,6 @@
         <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-43eb24adaad41932341610cc0667343efe07c186.jar" />
     </item>
     <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.mikepenz.materialdrawer\library\2.8.2\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="6320445a7438321cdf32f75545581821f5759cf3">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-9a5af1db7bc0cc548ab2e1ecd0c87482fecf38e2.jar" />
-    </item>
-    <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\libs\internal_impl-23.0.0.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8bd336eeae661e8311330284897ee07f8ebaa297">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\internal_impl-23.0.0-f455963f8d1e25f58bd7a5919f6567a96dd91728.jar" />
-    </item>
-    <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\support-v4\23.0.0\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8413c27b45b7fe61dca4a98159f65e2cee215f5a">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-bba21432ca177f5da42b47f0b0b58612d1ccc1a8.jar" />
-    </item>
-    <item
         jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.android.support\appcompat-v7\22.2.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
@@ -86,25 +107,11 @@
         <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-036db0d0e59b75ccbf7eeedf2d2a5b0b8868237e.jar" />
     </item>
     <item
-        jar="C:\Users\eli\AppData\Local\Android\sdk1\extras\android\m2repository\com\android\support\support-annotations\23.0.0\support-annotations-23.0.0.jar"
+        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.afollestad\material-dialogs\0.7.8.1\jars\classes.jar"
         jumboMode="false"
         revision="22.0.1"
-        sha1="990e7f98a7bad86a40b1f0bcfeb039023afd0839">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\support-annotations-23.0.0-2c9fd05b3d516a37c6e266480dec573e393f9704.jar" />
-    </item>
-    <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.wdullaer\materialdatetimepicker\1.5.1\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="f3c15dd877bfdfbbd71f0d2f4c5139b52fd04735">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-ac38e9eb37299e4a3809dd91f91a1494b1c7def1.jar" />
-    </item>
-    <item
-        jar="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\exploded-aar\com.weiwangcn.betterspinner\library-material\1.1.0\jars\classes.jar"
-        jumboMode="false"
-        revision="22.0.1"
-        sha1="8d8c5463a1a50691e2cf66cd7ce4751c8545b584">
-        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-3036dde55119dea114cabe6a6939aececdc12fc9.jar" />
+        sha1="332c3fb3a17fa7a66f84c701047aac964653fdf6">
+        <dex dex="C:\Users\eli\Google Drive\Estagio Curricular II\Desenvolvimento_App\AppMetaForçaDeVenda\app\build\intermediates\pre-dexed\debug\classes-61c761c812811942432cbd1a3a82a3782d403086.jar" />
     </item>
 
 </items>

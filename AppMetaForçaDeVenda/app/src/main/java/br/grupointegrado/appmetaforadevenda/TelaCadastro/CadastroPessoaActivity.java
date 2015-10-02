@@ -1,55 +1,66 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
+import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.accessibility.AccessibilityManager;
+import android.widget.Toast;
+
+import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout;
 import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
+import br.grupointegrado.appmetaforadevenda.Fragments.TelefoneFragment;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTabsViewPessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
+import eu.inmite.android.lib.validations.form.annotations.Length;
 
 /**
  * Created by eli on 18/09/2015.
  */
-public class CadastroPessoaActivity extends AppCompatActivity{
+public class CadastroPessoaActivity extends AppCompatActivity {
+
+
     private Toolbar atoolbar;
     private String titulo;
+    private Integer positiontab;
 
-    private PessoaFragment fragpessoa;
-
-    private CadastroPessoaActivity cad;
+    private AdapterTabsViewPessoa tabsAdapter;
     private SlidingTabLayout mSlidingTabLayout;
     private ViewPager mViewPager;
 
     private Integer posicaoPageView;
 
-    private PessoaDao pessoadao;
     private Pessoa pessoa;
+
+    private PessoaDao pessoadao;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cadastro_pessoa);
+
+
+        pessoadao = new PessoaDao(this);
+
         atoolbar = (Toolbar) findViewById(R.id.tb_main);
         atoolbar.setTitle("Cadastrar Cliente");
         setSupportActionBar(atoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        pessoadao = new PessoaDao(this);
-
-        pessoa = new Pessoa();
-
-
-
 
         mViewPager = (ViewPager) findViewById(R.id.vp_tabs);
-        mViewPager.setAdapter(new AdapterTabsViewPessoa(getSupportFragmentManager(), this));
+        tabsAdapter = new AdapterTabsViewPessoa(getSupportFragmentManager(), this);
+        mViewPager.setAdapter(tabsAdapter);
 
         mSlidingTabLayout = (SlidingTabLayout) findViewById(R.id.stl_tabs);
         //mSlidingTabLayout.setDistributeEvenly(true);
@@ -64,6 +75,7 @@ public class CadastroPessoaActivity extends AppCompatActivity{
 
             @Override
             public void onPageSelected(int position) {
+                positiontab = position;
 
 
             }
@@ -77,16 +89,12 @@ public class CadastroPessoaActivity extends AppCompatActivity{
         //mSlidingTabLayout.setHorizontalScrollBarEnabled(true);
 
 
-
-
     }
-
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_cadastro_pessoa, menu);
-
 
 
         return true;
@@ -95,34 +103,46 @@ public class CadastroPessoaActivity extends AppCompatActivity{
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case R.id.home:
                 finish();
                 break;
             case R.id.Salvarpessoa:
 
-             fragpessoa.savePessoatela();
+                PessoaFragment fragPes = (PessoaFragment) tabsAdapter.getFragments()[0];
+                TelefoneFragment fragTel = (TelefoneFragment) tabsAdapter.getFragments()[1];
+                if (fragPes.Validate() == true) {
+                    try {
+                        pessoadao.savePessoa(fragPes.getPessoa());
+                        int idpessoa = pessoadao.CosultaCliente(fragPes.getPessoa().getCnpjCpf());
+                        int tamanho = fragTel.tamanhoLista();
+
+                        if (tamanho > 0) {
+                            for (int x = 0; x < tamanho - 1; x++) {
+                                pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf()).get(x));
+                            }
+
+                            Toast.makeText(this,"Salvo com sucesso",Toast.LENGTH_SHORT).show();
+
+                        }
+                    } catch (Exception e) {
+                        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    Toast.makeText(CadastroPessoaActivity.this, "Preencher Campos Obrigatorios ", Toast.LENGTH_SHORT).show();
+                }
+
 
                 break;
 
-
         }
+
+
+
 
         return true;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 }

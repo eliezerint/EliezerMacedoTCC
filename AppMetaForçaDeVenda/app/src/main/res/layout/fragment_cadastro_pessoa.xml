@@ -5,13 +5,14 @@
     android:layout_height="match_parent"
     android:focusableInTouchMode="true"
 
-    android:orientation="vertical"    >
+    android:orientation="vertical"
+    >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:layout_marginTop="100dp"
-    >
+        android:orientation="vertical">
 
 
         <ScrollView
@@ -22,6 +23,8 @@
             android:layout_weight="1"
 
             android:fillViewport="false">
+
+
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -39,8 +42,7 @@
                         android:id="@+id/radiofisica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:text="Fisica"
-                        />
+                        android:text="Fisica" />
 
                     <RadioButton
                         android:id="@+id/radiojuridica"
@@ -54,8 +56,8 @@
                     android:id="@+id/edit_cpf"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="CPF"
                     android:digits="1234567890-"
+                    android:hint="CPF"
                     android:inputType="numberDecimal"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
@@ -107,8 +109,8 @@
                     android:id="@+id/edit_data_nascimento"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:hint="Data Nascimento"
                     android:editable="false"
+                    android:hint="Data Nascimento"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
@@ -177,7 +179,6 @@
                     />
 
 
-
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -198,6 +199,7 @@
                         android:id="@+id/edit_email"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
+                        android:inputType="textEmailAddress"
                         android:hint="Email"
                         app:met_baseColor="@android:color/black"
                         app:met_floatingLabel="highlight"
@@ -254,7 +256,6 @@
 
                     />
             </LinearLayout>
-
 
         </ScrollView>
 

@@ -1,9 +1,13 @@
 package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 
+import android.app.SearchManager;
+import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -40,6 +44,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     private String nomecidade;
     private String conteudopais;
     private String conteudoestado;
+    private String conteudoSearch;
     private Integer idCidade;
     private String IBGE;
 
@@ -56,7 +61,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consulta_cidade);
         atoolbar = (Toolbar) (findViewById(R.id.tb_main));
-        atoolbar.setTitle("");
+        atoolbar.setTitle("Consulta Cidade");
 
         setSupportActionBar(atoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -71,7 +76,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
         MaterialEditCidade = (MaterialEditText) findViewById(R.id.MaterialEditCidadeDelete);
 
-        if ( getIntent().getExtras() != null)
+        if (getIntent().getExtras() != null)
             selecionandoCidade = getIntent().getExtras().getBoolean("selecionar_cidade", false);
 
 
@@ -92,7 +97,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
                     data.putExtra("cidade_id", cidade.getId());
                     setResult(RESULT_OK, data);
                     finish();
-                }else {
+                } else {
                     idCidade = cidade.getIdcidade();
                     nomecidade = cidade.getDescricao();
 
@@ -103,7 +108,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
             @Override
             protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
                 // evento e click longo
-                 Cidade cidade = adaptercidade.getItems().get(adapterPosition);
+                Cidade cidade = adaptercidade.getItems().get(adapterPosition);
                 idCidade = cidade.getIdcidade();
                 nomecidade = cidade.getDescricao();
                 IBGE = cidade.getIbge();
@@ -115,14 +120,43 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         };
 
 
-
         RecyviewCidade.setAdapter(adaptercidade);
 
 
         Consultacidade();
 
+
         Addspinnerestado();
         Addspinnerpais();
+
+
+        getDadosSearch(this.getIntent());
+
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        getDadosSearch(intent);
+
+    }
+
+    public void getDadosSearch(Intent intent) {
+
+            String conteudoQuery = intent.getStringExtra(SearchManager.QUERY);
+            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
+            conteudoSearch = conteudoQuery;
+
+        if (conteudoSearch != null) {
+            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
+            MaterialSpinnerPais.setText(" ");
+            MaterialSpinnerEstado.setText(" ");
+            conteudopais = null;
+            conteudoestado = null;
+            adaptercidade.setItems(cidadedao.list(conteudoSearch));
+            adaptercidade.notifyDataSetChanged();
+        }
+
 
 
     }
@@ -130,8 +164,17 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_consulta_cidade, menu);
+
+        SearchManager searchmanager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView search = (SearchView) menu.findItem(R.id.ConsultarCidade).getActionView();
+
+        search.setSearchableInfo(searchmanager.getSearchableInfo(getComponentName()));
+
+        search.setQueryHint(getResources().getString(R.string.search_hint));
+
+
         return true;
     }
 
@@ -143,21 +186,57 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
                 finish();
                 break;
             case R.id.ConsultarCidade:
-                if ((conteudopais == null) && (conteudoestado == null)) {
-                    Consultacidade();
-                } else Consultacidade(conteudopais, conteudoestado);
+                Consultacidade();
+
                 break;
         }
 
         return true;
     }
 
-    private void Consultacidade(String conteudopais, String conteudoestado) {
+    @Override
+    protected void onResume() {
+        super.onResume();
 
-        adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
-        adaptercidade.notifyDataSetChanged();
+        if (conteudoSearch != null) {
+            adaptercidade.setItems(cidadedao.list(conteudoSearch));
+            adaptercidade.notifyDataSetChanged();
+        }
+        else   if (conteudopais != null && conteudoestado != null) {
+            adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
+            adaptercidade.notifyDataSetChanged();
+
+        }else{
+
+
+            adaptercidade.setItems(cidadedao.list());
+            adaptercidade.notifyDataSetChanged();
+
+        }
+
+
 
     }
+
+    private void Consultacidade() {
+
+
+        if (conteudopais != null && conteudoestado != null) {
+            adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
+            adaptercidade.notifyDataSetChanged();
+
+        }
+        else {
+
+
+            adaptercidade.setItems(cidadedao.list());
+            adaptercidade.notifyDataSetChanged();
+        }
+
+    }
+
+
+
 
 
     public void CadastrarCidade(View view) {
@@ -167,14 +246,6 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         startActivity(i);
 
     }
-
-    public void Consultacidade() {
-
-        adaptercidade.setItems(cidadedao.list());
-        adaptercidade.notifyDataSetChanged();
-
-    }
-
 
 
     public void MaterialDialogCidade() {

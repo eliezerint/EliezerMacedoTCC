@@ -69,7 +69,7 @@ public class CidadeDao extends AppDao {
     }
     public List<Cidade> list(String Pais,String estado) {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade where" +
-                " Pais like '?%' and id_estado like '?%' ",new String[]{Pais,estado});
+                " Pais like ? and id_estado like ? ",new String[]{Pais,estado});
 
         List<Cidade> cidades = new ArrayList<>();
 
@@ -91,7 +91,7 @@ public class CidadeDao extends AppDao {
 
     }public List<Cidade> list(String nomecidade) {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade where" +
-                " descricao like '%?' ",new String[]{nomecidade});
+                " descricao like ? ",new String[]{nomecidade});
 
         List<Cidade> cidades = new ArrayList<>();
 

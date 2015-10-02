@@ -5,11 +5,13 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.telephony.PhoneNumberFormattingTextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 import com.rengwuxian.materialedittext.MaterialEditText;
@@ -22,13 +24,20 @@ import java.util.List;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTelefone;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
+import br.grupointegrado.appmetaforadevenda.Util.Mask;
+import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 /**
  * Created by eli on 18/09/2015.
  */
-public class TelefoneFragment extends Fragment {
+public class TelefoneFragment extends Fragment implements FragmentTab {
 
-    private MaterialEditText edit_telefone;
+    @NotEmpty(messageId =  R.string.Campo_vazio)
+    private MaterialEditText campo_tel;
+
     private RecyclerView recyclerview_telefone;
     private RadioButton radiobt_comercial;
     private RadioButton radiobt_residencial;
@@ -63,6 +72,8 @@ public class TelefoneFragment extends Fragment {
 
         recyclerview_telefone = (RecyclerView) view.findViewById(R.id.recyclerview_telefone);
         bt_add_telefone = (FloatingActionButton) view.findViewById(R.id.bt_add_telefone);
+
+
 
 
         tel = new Telefone();
@@ -111,6 +122,7 @@ public class TelefoneFragment extends Fragment {
                 AddTelefoneDialogs();
             }
         });
+        FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
 
     }
 
@@ -121,8 +133,8 @@ public class TelefoneFragment extends Fragment {
     }
 
 
-    public Telefone getTelefone(Telefone telefone) {
-        return new Telefone(edit_telefone.getText().toString(), tipoTelefone
+    public Telefone getTelefonePreencherLista(Telefone telefone, String  edit_telefone) {
+        return new Telefone(edit_telefone, tipoTelefone
 
         );
 
@@ -138,16 +150,18 @@ public class TelefoneFragment extends Fragment {
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
-                        edit_telefone = (MaterialEditText) dialog.findViewById(R.id.edit_telefone);
 
 
                         tipoTelefone = conteudoRadioButon;
 
 
-                        lista_telefone.add(getTelefone(tel));
-                        edit_telefone.setText(" ");
+                            lista_telefone.add(getTelefonePreencherLista(tel, campo_tel.getText().toString()));
+                            campo_tel.setText(" ");
 
-                        recyclerviewTelefone();
+                            recyclerviewTelefone();
+
+                            Toast.makeText(getActivity()," Preencher campos obrigatorio",Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -159,6 +173,9 @@ public class TelefoneFragment extends Fragment {
 
                 }).build();
 
+         campo_tel = (MaterialEditText) dialog.getCustomView().findViewById(R.id.edit_telefone);
+
+        
         radiobt_residencial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_residencial);
         radiobt_comercial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_comercial);
         radiobt_celular = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_celular);
@@ -220,6 +237,53 @@ public class TelefoneFragment extends Fragment {
 
                 })
                 .show();
+    }
+
+    public List<Telefone> getTelefone(Integer idpessoa, String cpf){
+
+        int contador = 0;
+
+        List<Telefone> telefones = new ArrayList<>();
+
+
+        for(int x = 0; x < lista_telefone.size()-1; x++){
+
+
+            Telefone telefone = new Telefone();
+            telefone.setIdPessoa(idpessoa);
+            telefone.setCPF(cpf);
+            telefone.setTipo(adaptertelefone.getItems().get(contador).getTipo());
+            telefone.setNumero(adaptertelefone.getItems().get(contador).getNumero());
+
+
+            telefones.add(telefone);
+
+            contador++;
+
+        }
+
+
+        return telefones;
+    }
+
+    public Integer tamanhoLista(){return lista_telefone.size();}
+
+    public boolean Validate(){
+        final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getActivity(), true));
+        if (isValid){
+            return  true;
+        }
+
+
+
+        return false;
+    }
+
+
+
+    @Override
+    public void atualizar() {
+        System.out.println("Fragment Telefone");
     }
 
 
