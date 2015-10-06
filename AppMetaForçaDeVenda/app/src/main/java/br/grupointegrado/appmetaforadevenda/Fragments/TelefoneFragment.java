@@ -27,6 +27,8 @@ import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 import br.grupointegrado.appmetaforadevenda.Util.Mask;
 import eu.inmite.android.lib.validations.form.FormValidator;
+import eu.inmite.android.lib.validations.form.annotations.MaxLength;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
@@ -35,7 +37,6 @@ import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
  */
 public class TelefoneFragment extends Fragment implements FragmentTab {
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
     private MaterialEditText campo_tel;
 
     private RecyclerView recyclerview_telefone;
@@ -147,6 +148,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                 .customView(R.layout.layout_dialogs_telefone, true)
                 .positiveText("Salvar")
                 .negativeText("Sair")
+                .autoDismiss(false)
                 .callback(new MaterialDialog.ButtonCallback() {
                     @Override
                     public void onPositive(MaterialDialog dialog) {
@@ -155,12 +157,17 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                         tipoTelefone = conteudoRadioButon;
 
 
+                        if (!campo_tel.getText().toString().isEmpty()) {
                             lista_telefone.add(getTelefonePreencherLista(tel, campo_tel.getText().toString()));
                             campo_tel.setText(" ");
 
                             recyclerviewTelefone();
+                            dialog.dismiss();
 
-                            Toast.makeText(getActivity()," Preencher campos obrigatorio",Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getActivity(), " Telefone não pode ser vazio", Toast.LENGTH_SHORT).show();
+
+                        }
 
 
                     }
@@ -173,21 +180,25 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
                 }).build();
 
-         campo_tel = (MaterialEditText) dialog.getCustomView().findViewById(R.id.edit_telefone);
+        campo_tel = (MaterialEditText) dialog.getCustomView().findViewById(R.id.edit_telefone);
+        campo_tel.addTextChangedListener(Mask.insert("(##)####-####", campo_tel));
 
-        
+
+
         radiobt_residencial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_residencial);
         radiobt_comercial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_comercial);
         radiobt_celular = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_celular);
+        radiobt_residencial.setChecked(true);
+        conteudoRadioButon = "Residencial";
 
         radiobt_residencial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                 if(isChecked){
-                     radiobt_comercial.setChecked(false);
-                     radiobt_celular.setChecked(false);
-                     conteudoRadioButon = "Residencial";
-                 }
+                if (isChecked) {
+                    radiobt_comercial.setChecked(false);
+                    radiobt_celular.setChecked(false);
+                    conteudoRadioButon = "Residencial";
+                }
             }
         });
         radiobt_comercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -203,13 +214,14 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
         radiobt_celular.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     radiobt_comercial.setChecked(false);
                     radiobt_residencial.setChecked(false);
                     conteudoRadioButon = "Celular";
                 }
             }
         });
+
         dialog.show();
 
     }
@@ -253,7 +265,8 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
             telefone.setIdPessoa(idpessoa);
             telefone.setCPF(cpf);
             telefone.setTipo(adaptertelefone.getItems().get(contador).getTipo());
-            telefone.setNumero(adaptertelefone.getItems().get(contador).getNumero());
+            telefone.setNumero(Mask.unmask(adaptertelefone.getItems().get(contador).getNumero()));
+
 
 
             telefones.add(telefone);

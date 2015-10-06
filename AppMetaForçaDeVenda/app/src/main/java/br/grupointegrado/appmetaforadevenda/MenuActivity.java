@@ -5,6 +5,7 @@ import android.os.Build;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.ContextMenu;
 import android.view.MenuItem;
@@ -17,7 +18,7 @@ import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.*;
 
-public class MenuActivity extends ActionBarActivity {
+public class MenuActivity extends AppCompatActivity {
 
 
     private AppDao dao;

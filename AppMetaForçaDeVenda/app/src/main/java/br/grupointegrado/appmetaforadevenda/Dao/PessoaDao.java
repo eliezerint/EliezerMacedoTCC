@@ -103,7 +103,7 @@ public class PessoaDao extends AppDao {
         getWritableDatabase().delete("Pessoa", "idPessoa = ?", new String[]{id.toString()});
     }
 
-    public Integer CosultaCliente(String CNPJCPF){
+    public Integer CosultaClienteCNPJCPF(String CNPJCPF){
         Cursor consulta = getReadableDatabase().rawQuery("Select CNPJCPF from Pessoa " +
                         "where CNPJCPF like ? ",
                 new String[]{CNPJCPF});
@@ -123,6 +123,30 @@ public class PessoaDao extends AppDao {
         }
 
         return id;
+
+
+    }
+    
+    public String CosultaClienteNome(String id){
+        Cursor consulta = getReadableDatabase().rawQuery("Select Razao_socialNome from Pessoa " +
+                        "where idPessoa = ? ",
+                new String[]{id});
+        String nome = " " ;
+
+        if (consulta != null) {
+            try {
+                if (consulta.moveToFirst()) {
+                    return nome = consulta.getString(0);
+                }
+            } finally {
+                consulta.close();
+            }
+
+
+
+        }
+
+        return nome;
 
 
     }

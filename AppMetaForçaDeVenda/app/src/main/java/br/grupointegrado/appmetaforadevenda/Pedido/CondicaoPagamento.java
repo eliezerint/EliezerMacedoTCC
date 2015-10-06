@@ -8,6 +8,28 @@ public class CondicaoPagamento {
     Integer Idcodicaopagamento;
     String descricao;
     Double quantidade;
+    Integer intervelo;
+
+
+
+    public CondicaoPagamento(String descricao, Double quantidade, Integer intervalo) {
+        this.descricao = descricao;
+        this.quantidade = quantidade;
+        this.intervelo = intervalo;
+    }
+
+    public CondicaoPagamento() {
+
+
+    }
+
+    public Integer getIntervelo() {
+        return intervelo;
+    }
+
+    public void setIntervalo(Integer intervelo) {
+        this.intervelo = intervelo;
+    }
 
     public Integer getIdcodicaopagamento() {
         return Idcodicaopagamento;

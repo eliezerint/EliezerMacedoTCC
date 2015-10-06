@@ -3,6 +3,7 @@ package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +14,7 @@ import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
@@ -22,7 +24,7 @@ import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPessoaActivity;
 import br.grupointegrado.appmetaforadevenda.R;
 
-public class ConsultaClienteActivity extends ActionBarActivity {
+public class ConsultaClienteActivity extends AppCompatActivity {
 
     private Toolbar atoolbar;
     private RecyclerView RecyviewPessoa;
@@ -35,6 +37,9 @@ public class ConsultaClienteActivity extends ActionBarActivity {
 
     private PessoaDao clientedao;
     private Pessoa pessoa;
+
+
+    private Boolean selecionandoPessoa = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,6 +56,50 @@ public class ConsultaClienteActivity extends ActionBarActivity {
         RecyviewPessoa =  (RecyclerView)findViewById(R.id.RecyviewPessoa);
 
         clientedao = new PessoaDao(this);
+
+        if (getIntent().getExtras() != null)
+            selecionandoPessoa = getIntent().getExtras().getBoolean("selecionar_pessoa", false);
+
+
+
+        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        RecyviewPessoa.setLayoutManager(llm);
+
+
+        adaptercliente = new AdapterCliente(this, new ArrayList<Pessoa>() ) {
+            @Override
+            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento de click simples
+
+                Pessoa pessoa = adaptercliente.getItems().get(adapterPosition);
+                if (selecionandoPessoa) {
+                    Intent data = new Intent();
+                    data.putExtra("pessoa_id", pessoa.getIdpessoa());
+                    setResult(RESULT_OK, data);
+                    finish();
+                }
+
+
+            }
+
+            @Override
+            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento e click longo
+
+                Pessoa pessoa = adaptercliente.getItems().get(adapterPosition);
+
+                idpessoa = pessoa.getIdpessoa();
+                CNPJCPF = pessoa.getCnpjCpf();
+                MaterialDialogCidade();
+
+                return true;
+            }
+
+
+        };
+
+        RecyviewPessoa.setAdapter(adaptercliente);
 
         Consultacliente();
 
@@ -96,33 +145,8 @@ public class ConsultaClienteActivity extends ActionBarActivity {
 
 
     public void Consultacliente( ) {
-        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
-        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
-        RecyviewPessoa.setLayoutManager(llm);
-
-
-        adaptercliente = new AdapterCliente(this, clientedao.list()){
-            @Override
-            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento de click simples
-
-
-            }
-            @Override
-            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
-                // evento e click longo
-                idpessoa = adaptercliente.getItems().get(adapterPosition).getIdpessoa();
-                CNPJCPF = adaptercliente.getItems().get(adapterPosition).getCnpjCpf();
-                MaterialDialogCidade();
-
-                return true;
-            }
-        };
-
-
-
-
-        RecyviewPessoa.setAdapter(adaptercliente);
+        adaptercliente.setItems(clientedao.list());
+        adaptercliente.notifyDataSetChanged();
 
     }
     public void MaterialDialogCidade() {

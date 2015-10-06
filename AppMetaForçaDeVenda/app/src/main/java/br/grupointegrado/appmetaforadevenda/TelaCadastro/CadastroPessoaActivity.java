@@ -114,7 +114,7 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                 if (fragPes.Validate() == true) {
                     try {
                         pessoadao.savePessoa(fragPes.getPessoa());
-                        int idpessoa = pessoadao.CosultaCliente(fragPes.getPessoa().getCnpjCpf());
+                        int idpessoa = pessoadao.CosultaClienteCNPJCPF(fragPes.getPessoa().getCnpjCpf());
                         int tamanho = fragTel.tamanhoLista();
 
                         if (tamanho > 0) {

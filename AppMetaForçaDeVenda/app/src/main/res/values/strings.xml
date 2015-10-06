@@ -45,6 +45,8 @@
     <string name="MinRG_Value">RG Inválido ter no minimo 10 digitos</string>
     <string name="MaxRG_Value">RG Inválido ter no maximo 10 digitos </string>
     <string name="validation_valid_email">Email Inválido </string>
+    <string name="Min_ValueTelefone">Telefone inválido minimo 10</string>
+    <string name="Max_ValueTelefone">Telefone inválido maximo 11</string>
 
 
 

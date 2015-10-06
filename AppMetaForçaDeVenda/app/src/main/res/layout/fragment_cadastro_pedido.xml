@@ -10,7 +10,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="100dp"
         android:padding="20dp">
 
         <com.rengwuxian.materialedittext.MaterialEditText
@@ -56,7 +55,8 @@
             android:id="@+id/edit_filial"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Data Nascimento"
+            android:hint="Filial"
+            android:editable="false"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="?colorAccent"

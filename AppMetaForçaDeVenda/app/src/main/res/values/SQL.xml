@@ -205,5 +205,22 @@
           REFERENCES Cidade(id_Cidade)
         );
     </string>
+    
+    <string name="SQL_CREATE_FILIAL">
+          CREATE TABLE Filial (
+          idFilial INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(50) NULL
+        );
+    </string>
+    <string name="SQL_CREATE_CONDPGTO">
+
+        CREATE TABLE Condicao_pagamento (
+          idcondicaopagamento INTEGER PRIMARY KEY AUTOINCREMENT,
+          Descricao VARCHAR(20) NULL,
+          Nr_parcelas DOUBLE(5,2) NULL,
+          Intervalos INTEGER
+        );
+    </string>
+
 
 </resources>

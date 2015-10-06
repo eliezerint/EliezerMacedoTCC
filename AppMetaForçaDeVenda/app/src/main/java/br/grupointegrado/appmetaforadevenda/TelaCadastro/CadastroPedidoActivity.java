@@ -1,14 +1,19 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
 import android.widget.EditText;
+
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTabsViewPedido;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.TelaConsulta.Consulta_FilialActivity;
 
 
 /**
@@ -22,6 +27,7 @@ public class CadastroPedidoActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -32,6 +38,7 @@ public class CadastroPedidoActivity extends AppCompatActivity {
         atoolbar.setLogo(R.drawable.ic_description_black_18dp);
         atoolbar.setNavigationIcon(R.drawable.ic_menu);
         setSupportActionBar(atoolbar);
+
 
 
 

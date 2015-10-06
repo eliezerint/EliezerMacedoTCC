@@ -177,7 +177,6 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         //colocando data de cadastro
         edDataCadastro.setText(getDateTime().toString());
 
-       // clientedao = new PessoaDao(this.getActivity());
 
         pessoa = new Pessoa();
 

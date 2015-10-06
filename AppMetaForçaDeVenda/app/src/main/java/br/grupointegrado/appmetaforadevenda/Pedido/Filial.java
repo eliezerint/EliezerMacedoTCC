@@ -8,6 +8,19 @@ public class Filial {
     Integer Idfilial;
     String descricao;
 
+    public Filial(Integer idfilial, String descricao) {
+        Idfilial = idfilial;
+        this.descricao = descricao;
+    }
+
+    public Filial(String descricao){
+        this.descricao = descricao;
+
+    }
+    public Filial(){
+
+    }
+
     public Integer getIdfilial() {
         return Idfilial;
     }
@@ -22,5 +35,10 @@ public class Filial {
 
     public void setDescricao(String descricao) {
         this.descricao = descricao;
+    }
+
+    @Override
+    public String toString() {
+        return "Filial :" + descricao.toString();
     }
 }

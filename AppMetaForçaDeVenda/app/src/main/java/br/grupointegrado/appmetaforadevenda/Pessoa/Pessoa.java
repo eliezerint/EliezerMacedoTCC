@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by eli on 23/07/2015.
  */
-public class Pessoa implements Serializable {
+public class Pessoa {
 
     Integer idpessoa ;
     Integer idCidade ;

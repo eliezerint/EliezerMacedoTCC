@@ -1,18 +1,116 @@
 package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 
-import android.support.v7.app.ActionBarActivity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.os.PersistableBundle;
+import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import java.util.ArrayList;
+
+import br.grupointegrado.appmetaforadevenda.Dao.FilialDao;
+import br.grupointegrado.appmetaforadevenda.Listagem.AdapterFilial;
+import br.grupointegrado.appmetaforadevenda.Pedido.Filial;
 import br.grupointegrado.appmetaforadevenda.R;
 
-public class Consulta_FilialActivity extends ActionBarActivity {
+public class Consulta_FilialActivity extends AppCompatActivity {
+
+
+
+    private Toolbar atoolbar;
+    private RecyclerView  RecyviewFilial;
+
+
+
+    private FilialDao filialdao;
+    private Filial filial;
+    private AdapterFilial adapterfilial;
+
+
+    private Integer idfilial;
+    private String nomefilial;
+
+    private boolean selecionandoFilial = true;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consulta__filial);
+
+        atoolbar = (Toolbar) (findViewById(R.id.tb_main));
+        atoolbar.setTitle("Consulta AdapterFilial");
+
+        setSupportActionBar(atoolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        filialdao = new FilialDao(this);
+
+         //filialdao.saveFilial("501");
+        // filialdao.saveFilial("502");
+
+
+        RecyviewFilial = (RecyclerView)findViewById(R.id.RecyviewFilial);
+
+        final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
+        llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+        RecyviewFilial.setLayoutManager(llm);
+
+        adapterfilial = new AdapterFilial(this, new ArrayList<Filial>()) {
+            @Override
+            protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento de click simples
+
+
+                 Filial filial = adapterfilial.getItems().get(adapterPosition);
+                if (selecionandoFilial) {
+                    Intent data = new Intent();
+                    data.putExtra("filial_id", filial.getIdfilial());
+                    setResult(RESULT_OK, data);
+                    finish();
+                } else {
+                    idfilial = filial.getIdfilial();
+                    nomefilial = filial.getDescricao();
+
+                }
+
+            }
+
+            @Override
+            protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
+                // evento e click longo
+               Filial  filial = adapterfilial.getItems().get(adapterPosition);
+                idfilial = filial.getIdfilial();
+                nomefilial = filial.getDescricao();
+
+
+
+
+                return true;
+            }
+        };
+
+
+        RecyviewFilial.setAdapter(adapterfilial);
+
+        RecyclerViewFilial();
+
+
+
+
+
+
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
     }
 
     @Override
@@ -24,16 +122,28 @@ public class Consulta_FilialActivity extends ActionBarActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()){
+            case R.id.home:
+               finish();
+                break;
         }
 
-        return super.onOptionsItemSelected(item);
+
+
+        return true;
+    }
+
+
+    public void  RecyclerViewFilial(){
+
+
+            adapterfilial.setItems(filialdao.list());
+            adapterfilial.notifyDataSetChanged();
+
+
+
+
+
     }
 }

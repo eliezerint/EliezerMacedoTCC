@@ -42,6 +42,8 @@ public class AppDao extends SQLiteOpenHelper {
         db.execSQL(res.getString(R.string.SQL_CREATE_CIDADE));
         db.execSQL(res.getString(R.string.SQL_CREATE_TELEFONE));
         db.execSQL(res.getString(R.string.SQL_CREATE_PESSOA));
+        db.execSQL(res.getString(R.string.SQL_CREATE_FILIAL));
+        db.execSQL(res.getString(R.string.SQL_CREATE_CONDPGTO));
 
     }
 
