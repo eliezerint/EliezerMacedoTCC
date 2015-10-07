@@ -222,5 +222,30 @@
         );
     </string>
 
+    <string name="SQL_CREATE_VENDEDOR">
+
+        CREATE TABLE Vendedor (
+          idVendedor INTEGER PRIMARY KEY AUTOINCREMENT,
+          Nome VARCHAR(50) NULL
+
+        );
+
+    </string>
+
+    <string name="SQL_CREATE_PARAMETRO">
+
+        CREATE TABLE Parametro (
+          idParametro INTEGER  PRIMARY KEY AUTOINCREMENT,
+         idVendedor INTEGER  NOT NULL,
+         Faixa_inicial INTEGER  NULL,
+         Faixa_final INTEGER  NULL,
+         Ultimo_cadastro INTEGER  NULL,
+         FOREIGN KEY(idVendedor)
+         REFERENCES Vendedor(idVendedor)
+
+         );
+
+    </string>
+
 
 </resources>

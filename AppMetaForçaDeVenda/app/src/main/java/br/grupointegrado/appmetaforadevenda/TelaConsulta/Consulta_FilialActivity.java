@@ -50,8 +50,13 @@ public class Consulta_FilialActivity extends AppCompatActivity {
 
         filialdao = new FilialDao(this);
 
-         //filialdao.saveFilial("501");
-        // filialdao.saveFilial("502");
+        /* insercao de dados de teste
+        filialdao.saveFilial("501");
+        filialdao.saveFilial("502");
+
+
+        */
+
 
 
         RecyviewFilial = (RecyclerView)findViewById(R.id.RecyviewFilial);

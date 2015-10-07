@@ -58,10 +58,6 @@
             android:label="@string/title_activity_consulta__produto" >
         </activity>
         <activity
-            android:name=".TelaConsulta.ConsultaFilialActivity"
-            android:label="@string/title_activity_consulta_filial" >
-        </activity>
-        <activity
             android:name=".TelaConsulta.Consulta_FilialActivity"
             android:label="@string/title_activity_consulta__filial" >
         </activity>
@@ -72,6 +68,10 @@
         <activity
             android:name=".TelaConsulta.Consulta_VendedorActivity"
             android:label="@string/title_activity_consulta__vendedor" >
+        </activity>
+        <activity
+            android:name=".TelaCadastro.CadastroItensPedidoActivity"
+            android:label="@string/title_activity_itens_pedido" >
         </activity>
     </application>
 

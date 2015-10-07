@@ -50,10 +50,14 @@ public class Consulta_CondicaPgtoActivity extends AppCompatActivity {
 
 
        /*
+        *insersao de dados para teste
         condpgtodao.saveCondPgto("30/60",2.0,30);
         condpgtodao.saveCondPgto("15/30/45",3.0,15);
         condpgtodao.saveCondPgto("30/60/90",3.0,30);
-      */
+        condpgtodao.saveCondPgto("A vista",1.0,0);
+        condpgtodao.saveCondPgto("15 dias",1.0,15);
+        */
+
         if (getIntent().getExtras() != null)
             selecionandoCondPgto = getIntent().getExtras().getBoolean("selecionar_condpgto", false);
 

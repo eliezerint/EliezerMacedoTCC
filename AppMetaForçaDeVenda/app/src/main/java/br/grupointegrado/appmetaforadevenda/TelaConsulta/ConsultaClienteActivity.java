@@ -47,7 +47,7 @@ public class ConsultaClienteActivity extends AppCompatActivity {
         setContentView(R.layout.activity_consulta_cliente);
 
         atoolbar = (Toolbar)findViewById(R.id.tb_main);
-        atoolbar.setTitle("");
+        atoolbar.setTitle("Consulta de Cliente");
 
         setSupportActionBar(atoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);

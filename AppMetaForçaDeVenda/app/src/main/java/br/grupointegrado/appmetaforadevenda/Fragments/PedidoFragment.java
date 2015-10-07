@@ -9,10 +9,15 @@ import android.view.ViewGroup;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
 
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Dao.CondicaoPgtoDao;
 import br.grupointegrado.appmetaforadevenda.Dao.FilialDao;
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
+import br.grupointegrado.appmetaforadevenda.Dao.VendedorDao;
 import br.grupointegrado.appmetaforadevenda.Pedido.CondicaoPagamento;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaClienteActivity;
@@ -30,17 +35,20 @@ public class PedidoFragment extends Fragment {
     private MaterialEditText edit_cond_pgto;
     private MaterialEditText edit_vendedor;
     private MaterialEditText edit_filial;
+    private MaterialEditText edit_valor_Total;
+    private MaterialEditText edit_data_pedido;
 
 
     private Integer idpessoa;
     private Integer idfilial;
     private Integer idcondpgto;
-
+    private Integer idvendedor;
 
 
     private PessoaDao pessoadao;
     private FilialDao filialdao;
     private CondicaoPgtoDao condpgtodao;
+    private VendedorDao vendedordao;
 
 
     @Override
@@ -58,13 +66,22 @@ public class PedidoFragment extends Fragment {
         edit_cond_pgto = (MaterialEditText) view.findViewById(R.id.edit_condicao_pag);
         edit_vendedor = (MaterialEditText) view.findViewById(R.id.edit_vendedor);
         edit_filial = (MaterialEditText) view.findViewById(R.id.edit_filial);
+        edit_valor_Total = (MaterialEditText) view.findViewById(R.id.edit_valor_total);
+        edit_data_pedido = (MaterialEditText) view.findViewById(R.id.edit_data_pedido);
+
 
         pessoadao = new PessoaDao(getActivity());
         filialdao = new FilialDao(getActivity());
         condpgtodao = new CondicaoPgtoDao(getActivity());
+        vendedordao = new VendedorDao(getActivity());
 
 
 
+
+
+        edit_valor_Total.setText(" 0.00");
+
+        edit_data_pedido.setText(getDateTime());
 
         edit_nome_pessoa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -150,6 +167,12 @@ public class PedidoFragment extends Fragment {
             edit_filial.setText(nomeFilial);
 
 
+        }else if (REQUEST_CONSULTA_VENDEDOR == requestCode && resultCode == getActivity().RESULT_OK) {
+            idvendedor = data.getIntExtra("vendedor_id", 0);
+            String nomeVendedor;
+            nomeVendedor = vendedordao.nomeVendedor(Integer.toString(idvendedor));
+            edit_vendedor.setText(nomeVendedor);
+
         }
 
     }
@@ -161,6 +184,13 @@ public class PedidoFragment extends Fragment {
     public void onDetach() {
         super.onDetach();
 
+    }
+
+
+    private String getDateTime() {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date date = new Date();
+        return dateFormat.format(date);
     }
 
 

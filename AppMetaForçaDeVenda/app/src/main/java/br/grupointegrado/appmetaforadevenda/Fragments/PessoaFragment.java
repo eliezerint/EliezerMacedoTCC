@@ -283,6 +283,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
         if (radioFisica.isClickable()) {
             editCpf.setHint("CPF");
+            editCpf.setText("");
             edNome.setHint("Nome");
             edApelido.setHint("Apelido");
             edRG.setHint("RG");
@@ -299,6 +300,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
         if (radioJuridica.isClickable()) {
             editCpf.setHint("CNPJ");
+            editCpf.setText("");
             edNome.setHint("Razão Social");
             edApelido.setHint("Nome Fantasia");
             edRG.setHint("Inscrição Estadual");
@@ -315,7 +317,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     }
 
     //chama a tela de consulta de cidade
-    public void ConsultaCidade(View ciew) {
+    public void ConsultaCidade(View view) {
 
         Intent i = new Intent(this.getActivity(), ConsultaCidadeActivity.class);
 

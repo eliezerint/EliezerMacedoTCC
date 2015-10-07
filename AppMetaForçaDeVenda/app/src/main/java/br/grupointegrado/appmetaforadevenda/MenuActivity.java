@@ -2,8 +2,6 @@ package br.grupointegrado.appmetaforadevenda;
 
 import android.content.Intent;
 import android.os.Build;
-import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -13,6 +11,8 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.afollestad.materialdialogs.MaterialDialog;
+
+import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPedidoActivity;
@@ -25,10 +25,10 @@ public class MenuActivity extends AppCompatActivity {
     private TextView tvEmpty;
     private Toolbar atoolbar;
     private Toolbar atoolbarBotton;
-    FloatingActionButton Cliente;
+    private FloatingActionButton Cliente;
     private TextView tvCadastrarCliente;
-    FloatingActionButton Pedido;
-    FloatingActionButton Exportacao;
+    private FloatingActionButton Pedido;
+    private FloatingActionButton Exportacao;
 
 
     @Override

@@ -47,6 +47,7 @@
     <string name="validation_valid_email">Email Inválido </string>
     <string name="Min_ValueTelefone">Telefone inválido minimo 10</string>
     <string name="Max_ValueTelefone">Telefone inválido maximo 11</string>
+    <string name="title_activity_itens_pedido">ItensPedidoActivity</string>
 
 
 

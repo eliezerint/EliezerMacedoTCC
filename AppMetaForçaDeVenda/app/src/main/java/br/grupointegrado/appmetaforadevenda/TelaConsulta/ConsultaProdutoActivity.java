@@ -1,8 +1,8 @@
 package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 
-import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
+
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +13,7 @@ import android.widget.Toast;
 
 import br.grupointegrado.appmetaforadevenda.R;
 
-public class ConsultaProdutoActivity extends ActionBarActivity {
+public class ConsultaProdutoActivity extends AppCompatActivity {
 
 
     @Override
