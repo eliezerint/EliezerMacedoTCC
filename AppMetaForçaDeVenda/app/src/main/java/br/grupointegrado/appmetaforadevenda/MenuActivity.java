@@ -116,8 +116,25 @@ public class MenuActivity extends AppCompatActivity {
         boolean wrapInScrollView = true;
         MaterialDialog app = new MaterialDialog.Builder(this)
                 .title("Dados de Clientes")
-                .customView(R.layout.activity_dialogspessoa, wrapInScrollView)
+                .items(R.array.Array_tp_pessoa_consulta)
                 .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                        if (text.equals("Cliente")) {
+                            i = new Intent(dialog.getContext(), ConsultaClienteActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        } else if (text.equals("Cidade")) {
+                            i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        }
+
+                    }
+                })
                 .show();
 
 
@@ -134,50 +151,6 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-
-
-    public void ConsultarCliente(View view) {
-
-        Intent i = new Intent(this.getApplication(), ConsultaClienteActivity.class);
-
-
-        startActivity(i);
-
-
-    }
-
-
-    public void ConsultarCidade(View view) {
-
-        Intent i = new Intent(this.getApplication(), ConsultaCidadeActivity.class);
-
-
-        startActivity(i);
-    }
-
-   //Nao cria o menu na hora do click
-   public void ConsultarDados(View view) {
-
-        switch (view.getId()) {
-            case R.id.Cliente:
-                try {
-                    Cliente.setOnCreateContextMenuListener(new View.OnCreateContextMenuListener()
-
-                    {
-                        @Override
-                        public void onCreateContextMenu(ContextMenu menu, View view, ContextMenu.ContextMenuInfo
-                                contextMenuInfo) {
-                            getMenuInflater().inflate(R.menu.menu_menu, menu);
-                            menu.setHeaderTitle("Consultar Dados");
-                        }
-                    });
-                } catch (Exception e) {
-
-                    e.printStackTrace();
-                }
-                break;
-        }
-    }
 
     @Override
     protected void onResume() {

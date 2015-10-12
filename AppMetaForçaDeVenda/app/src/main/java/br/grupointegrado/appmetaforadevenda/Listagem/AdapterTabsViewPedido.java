@@ -11,68 +11,57 @@ import br.grupointegrado.appmetaforadevenda.Fragments.PedidoFragment;
 import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
 import br.grupointegrado.appmetaforadevenda.Fragments.TelefoneFragment;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 
 /**
  * Created by eli on 18/09/2015.
  */
-public class AdapterTabsViewPedido extends FragmentPagerAdapter{
+public class AdapterTabsViewPedido extends FragmentPagerAdapter {
 
-        private Context mContext;
-        private String[] titles = {"PEDIDO", "ITENS"};
-        private int[] icons = new int[]{R.drawable.ic_edit};
-        private int heightIcon;
-
-
-        public AdapterTabsViewPedido(FragmentManager fm, Context c) {
-            super(fm);
-
-            mContext = c;
-            double scale = c.getResources().getDisplayMetrics().density;
-            heightIcon = (int)( 24 * scale + 0.5f );
-        }
-
-        @Override
-        public Fragment getItem(int position) {
-            Fragment frag = null;
-
-            if(position == 0){
-                frag = new PedidoFragment();
-            }
-            else if(position == 1){
-                frag = new ItensFragment();
-            }
-            else if(position == 2){
-
-            }
-            else if(position == 3){
-
-            }
-            else if(position == 4){
-
-            }
+    private Context mContext;
+    private String[] titles = {"PEDIDO", "ITENS"};
+    private Fragment[] fragments = {new PedidoFragment(), new ItensFragment()};
 
 
+    public AdapterTabsViewPedido(FragmentManager fm, Context c) {
+        super(fm);
 
-            Bundle b = new Bundle();
-            b.putInt("position", position);
+        mContext = c;
+        double scale = c.getResources().getDisplayMetrics().density;
 
-            frag.setArguments(b);
-
-            return frag;
-
-
-        }
-
-        @Override
-        public int getCount() {
-            return titles.length;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            return (titles[position]);
-
-        }
     }
+
+    @Override
+    public Fragment getItem(int position) {
+        Fragment frag = fragments[position];
+
+        FragmentTab tab = (FragmentTab) frag;
+        tab.atualizar();
+
+        Bundle b = new Bundle();
+        b.putInt("position", position);
+
+        frag.setArguments(b);
+
+        return frag;
+
+
+    }
+
+    @Override
+    public int getCount() {
+        return titles.length;
+    }
+
+    @Override
+    public CharSequence getPageTitle(int position) {
+        return (titles[position]);
+
+    }
+
+    public Fragment[] getFragments() {
+        return fragments;
+    }
+}
 
 

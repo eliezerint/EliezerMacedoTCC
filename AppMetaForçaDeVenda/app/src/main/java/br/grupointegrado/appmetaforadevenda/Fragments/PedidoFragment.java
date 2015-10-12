@@ -19,17 +19,19 @@ import br.grupointegrado.appmetaforadevenda.Dao.FilialDao;
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Dao.VendedorDao;
 import br.grupointegrado.appmetaforadevenda.Pedido.CondicaoPagamento;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaClienteActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.Consulta_CondicaPgtoActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.Consulta_FilialActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.Consulta_VendedorActivity;
+import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 
 
 /**
  * Created by eli on 18/09/2015.
  */
-public class PedidoFragment extends Fragment {
+public class PedidoFragment extends Fragment implements FragmentTab {
 
     private MaterialEditText edit_nome_pessoa;
     private MaterialEditText edit_cond_pgto;
@@ -192,6 +194,14 @@ public class PedidoFragment extends Fragment {
         Date date = new Date();
         return dateFormat.format(date);
     }
+
+
+    @Override
+    public void atualizar() {
+        System.out.println("Fragment Pedido");
+    }
+
+
 
 
 }

@@ -34,12 +34,11 @@ public class CidadeDao extends AppDao {
 
     public void Update(Cidade cidade) {
         ContentValues cv = new ContentValues();
-        cv.put("Pais", cidade.getPais());
-        cv.put("id_estado", cidade.getIdestado());
         cv.put("Descricao", cidade.getDescricao());
         cv.put("IBGE", cidade.getIbge());
 
-        getWritableDatabase().update("Cidade", cv, "idCidade = ?", new String[]{cidade.getIdcidade().toString()});
+
+        getWritableDatabase().update("Cidade", cv, "id_Cidade = ?", new String[]{cidade.getIdcidade().toString()});
 
 
 
@@ -47,7 +46,7 @@ public class CidadeDao extends AppDao {
 
     //consulta de cidade
     public List<Cidade> list() {
-        Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade ",null);
+        Cursor c = getReadableDatabase().rawQuery("Select id_Cidade, Pais,id_estado ,descricao,IBGE from Cidade ",null);
 
         List<Cidade> cidades = new ArrayList<>();
 

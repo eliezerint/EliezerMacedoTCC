@@ -22,6 +22,13 @@ public class Cidade  implements Serializable {
         this.descricao = descricao;
         this.ibge = ibge;
     }
+    public Cidade( String pais, String idestado,Integer idcidade, String descricao, String ibge) {
+        this.Pais = pais;
+        this.idestado = idestado;
+        this.idcidade = idcidade;
+        this.descricao = descricao;
+        this.ibge = ibge;
+    }
 
     public Cidade() {
 

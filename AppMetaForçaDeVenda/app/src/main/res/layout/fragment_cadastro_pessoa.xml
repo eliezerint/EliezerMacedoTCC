@@ -57,6 +57,21 @@
                     android:layout_height="wrap_content"
                     android:digits="1234567890-"
                     android:hint="CPF"
+                    android:visibility="visible"
+                    android:inputType="numberDecimal"
+                    app:met_baseColor="@android:color/black"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"
+                    app:met_singleLineEllipsis="true"
+
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_cnpj"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:digits="1234567890-"
+                    android:hint="CNPJ"
+                    android:visibility="gone"
                     android:inputType="numberDecimal"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
@@ -71,6 +86,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Nome"
+                    android:visibility="visible"
+                    app:met_baseColor="@android:color/black"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"
+                    app:met_singleLineEllipsis="true"
+
+
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_razaosocial"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Razão Social"
+                    android:visibility="gone"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
@@ -78,11 +107,25 @@
 
                     />
 
+
                 <com.rengwuxian.materialedittext.MaterialEditText
                     android:id="@+id/edit_apelido"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Apelido"
+                    android:visibility="visible"
+                    app:met_baseColor="@android:color/black"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"
+                    app:met_singleLineEllipsis="true"
+
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_nomefantasia"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome Fantasia"
+                    android:visibility="gone"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
@@ -94,9 +137,24 @@
                     android:id="@+id/edit_rg"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:digits="1234567890"
+                    android:digits="1234567890."
+                    android:visibility="visible"
                     android:hint="RG"
                     android:inputType="numberDecimal"
+                    app:met_baseColor="@android:color/black"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"
+                    app:met_singleLineEllipsis="true"
+
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_inscricaoestadual"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Inscrição Estadual"
+                    android:digits="1234567890."
+                    android:inputType="number"
+                    android:visibility="gone"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
@@ -109,7 +167,20 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="false"
+                    android:visibility="visible"
                     android:hint="Data Nascimento"
+                    app:met_baseColor="@android:color/black"
+                    app:met_floatingLabel="highlight"
+                    app:met_primaryColor="?colorAccent"
+                    app:met_singleLineEllipsis="true"
+                    />
+                <com.rengwuxian.materialedittext.MaterialEditText
+                    android:id="@+id/edit_data_abertura"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:editable="false"
+                    android:visibility="gone"
+                    android:hint="Data de Abertura da Empresa"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"
@@ -219,7 +290,7 @@
                         android:layout_width="160dp"
                         android:layout_height="wrap_content"
                         android:hint="Data ult. Compra"
-                        android:editable="false"
+                        android:visibility="gone"
                         app:met_baseColor="@android:color/black"
                         app:met_floatingLabel="highlight"
                         app:met_primaryColor="?colorAccent"
@@ -232,7 +303,7 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:editable="false"
+                        android:visibility="gone"
                         android:hint="Valor ult. Compra"
                         app:met_baseColor="@android:color/black"
                         app:met_floatingLabel="highlight"

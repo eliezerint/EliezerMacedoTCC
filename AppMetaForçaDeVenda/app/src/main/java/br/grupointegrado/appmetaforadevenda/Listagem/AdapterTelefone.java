@@ -40,17 +40,17 @@ public class AdapterTelefone extends AbstractAdapter<AdapterTelefone.ViewHolder,
     public void onBindViewHolder(ViewHolder holder, int position, Telefone item) {
         holder.tv_telefone.setText(item.getNumero());
         holder.tv_tipo.setText(item.getTipo());
-       // holder.tvCod.setText(item.getIdTelefone() + "");
+        //holder.tvCod.setText(item.getIdPessoa() + "");
     }
 
     public class ViewHolder extends AbstractAdapter.AbstractViewHolder {
         final TextView tv_telefone;
         final TextView tv_tipo;
-      //  final TextView tvCod;
+        final TextView tvCod;
 
         public ViewHolder(View view) {
             super(view);
-           // tvCod = (TextView) view.findViewById(R.id.tv_cod);
+            tvCod = (TextView) view.findViewById(R.id.tv_cod);
             tv_telefone = (TextView) view.findViewById(R.id.tv_telefone);
             tv_tipo = (TextView) view.findViewById(R.id.tv_Tipo);
         }

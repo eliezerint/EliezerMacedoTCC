@@ -1,15 +1,28 @@
 package br.grupointegrado.appmetaforadevenda.Pedido;
 
+import java.io.Serializable;
+
 /**
  * Created by eli on 27/07/2015.
  */
-public class ItensPedido {
+public class ItensPedido implements Serializable{
 
     Integer IdPedido;
     Integer IdProduto;
+    String produto;
     Double desconto;
     Double quantidade;
+    Double vlunitario;
     Double total;
+
+
+    public ItensPedido(String produto, Double desconto, Double quantidade, Double vlunitario, Double total) {
+        this.produto = produto;
+        this.desconto = desconto;
+        this.quantidade = quantidade;
+        this.vlunitario = vlunitario;
+        this.total = total;
+    }
 
     public Integer getIdPedido() {
         return IdPedido;
@@ -49,5 +62,21 @@ public class ItensPedido {
 
     public void setIdProduto(Integer idProduto) {
         IdProduto = idProduto;
+    }
+
+    public String getProduto() {
+        return produto;
+    }
+
+    public void setProduto(String produto) {
+        this.produto = produto;
+    }
+
+    public Double getVlunitario() {
+        return vlunitario;
+    }
+
+    public void setVlunitario(Double vlunitario) {
+        this.vlunitario = vlunitario;
     }
 }

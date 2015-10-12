@@ -1,8 +1,8 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -15,32 +15,68 @@ import com.rengwuxian.materialedittext.MaterialEditText;
 
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Dao.EstadoDao;
+import br.grupointegrado.appmetaforadevenda.Dao.PaisDao;
+import br.grupointegrado.appmetaforadevenda.Listagem.SpinnerArrayAdapter;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Cidade;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Estado;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pais;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.Util.Mask;
+import eu.inmite.android.lib.validations.form.FormValidator;
+
+
+import eu.inmite.android.lib.validations.form.annotations.MaxLength;
+import eu.inmite.android.lib.validations.form.annotations.MinLength;
+import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
+import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 import com.weiwangcn.betterspinner.library.material.MaterialBetterSpinner;
 
-public class CadastroCidadeActivity extends ActionBarActivity {
+import java.util.ArrayList;
+import java.util.List;
+
+public class CadastroCidadeActivity extends AppCompatActivity {
 
     private String conteudopais;
     private String conteudoestado;
 
+    private ArrayAdapter<Estado> adapter_estado;
+    private SpinnerArrayAdapter spinneradapter;
+    private ArrayAdapter<Pais> adapter_pais;
+
+    private List<Estado> lista;
+    private List<Pais> lista_pais;
+
 
     Toolbar toolbar;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio, order = 1)
     private MaterialBetterSpinner SpinnerPais;
+
+
+    @NotEmpty(messageId =  R.string.Campo_vazio, order = 2)
     private MaterialBetterSpinner SpinnerEstado;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio, order = 3)
+    @MaxLength(value = 60, messageId = R.string.max_cidade, order = 4)
     private MaterialEditText EditCidade;
+
+    @NotEmpty(messageId =  R.string.Campo_vazio, order = 4)
+    @MaxLength(value = 10, messageId = R.string.max_ibge, order = 4)
     private MaterialEditText EditIbge;
 
 
     private CidadeDao cidadedao;
     private EstadoDao esatdodao;
+    private PaisDao paisdao;
     private Cidade cidadealt;
     private Cidade cidade;
+    private Integer idcidade;
 
 
     private Intent cidadeIntent;
-
+    private long tempopresionadovoltar = 0;
 
 
     @Override
@@ -50,6 +86,7 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         toolbar = (Toolbar) findViewById(R.id.tb_main);
         toolbar.setTitle("Cadastro de Cidade ");
         setSupportActionBar(toolbar);
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
@@ -58,13 +95,10 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         EditCidade = (MaterialEditText) findViewById(R.id.EditCidade);
         EditIbge = (MaterialEditText) findViewById(R.id.EditIbge);
 
-
         cidadedao = new CidadeDao(this);
         esatdodao = new EstadoDao(this);
+        paisdao = new PaisDao(this);
 
-
-        Addspinnerestado();
-        Addspinnerpais();
 
         cidadealt = (Cidade) getIntent().getSerializableExtra("alterarcidade");
 
@@ -73,6 +107,64 @@ public class CadastroCidadeActivity extends ActionBarActivity {
         }
 
 
+
+
+
+        lista = esatdodao.list();
+
+
+        adapter_estado = new ArrayAdapter<Estado>(this, android.R.layout.simple_list_item_1, lista);
+
+
+        SpinnerEstado.setAdapter(adapter_estado);
+
+
+        SpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudoestado = SpinnerEstado.getText().toString();
+
+            }
+        });
+
+        lista_pais = paisdao.list();
+
+        adapter_pais = new ArrayAdapter<Pais>(this, android.R.layout.simple_list_item_1, lista_pais);
+
+
+        SpinnerPais.setAdapter(adapter_pais);
+
+        SpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudopais = SpinnerPais.getText().toString();
+            }
+
+        });
+
+
+
+
+
+
+
+        FormValidator.startLiveValidation(this, findViewById(R.id.cad_cid_container),new SimpleErrorPopupCallback(getBaseContext()));
+
+
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        FormValidator.startLiveValidation(this, findViewById(R.id.cad_cid_container), new SimpleErrorPopupCallback(getBaseContext()));
+
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        FormValidator.stopLiveValidation(this);
     }
 
     @Override
@@ -86,11 +178,12 @@ public class CadastroCidadeActivity extends ActionBarActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
 
         switch (item.getItemId()) {
-            case R.id.home:
-                finish();
+            case android.R.id.home:
+                onBackPressed();
                 break;
             case R.id.Salvarcidade:
                 //  esatdodao.saveEstado();
+
 
                 save(cidadealt);
                 break;
@@ -101,88 +194,27 @@ public class CadastroCidadeActivity extends ActionBarActivity {
 
     }
 
-    //Adicionado o pais em uma spinner com array
-    public void Addspinnerpais() {
-
-        String[] ITEMS = {"BR", "EUA", "PY"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-
-        SpinnerPais.setAdapter(adapter);
-
-        SpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                conteudopais = SpinnerPais.getText().toString();
-            }
-
-        });
 
 
-    }
 
 
-    //Adicionado o estado em uma spinner com array
-    public void Addspinnerestado() {
-
-        String[] ITEMS = {"PR", "SP", "SC", "DF"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-
-
-        SpinnerEstado.setAdapter(adapter);
-
-
-        SpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                conteudoestado = SpinnerEstado.getText().toString();
-
-
-            }
-
-
-        });
-
-
-    }
 
     //pegar dados da tela e passar para o modelo
     public Cidade getCidadealt() {
         return new Cidade(
                 conteudopais,
                 conteudoestado,
+                idcidade,
                 EditCidade.getText().toString(),
-                EditIbge.getText().toString());
+                Mask.unmask(EditIbge.getText().toString()));
 
 
     }
     public void setCidadealt(Cidade cidadealt){
 
-        for (int x = 0; x < SpinnerPais.getLineCount(); x++) {
-            String i = SpinnerPais.getText().toString();
-
-            if (i.equalsIgnoreCase(cidadealt.getPais())) {
-                SpinnerPais.setListSelection(x);
-
-
-
-                break;
-
-            }
-        }
-
-        for (int x = 0; x < SpinnerEstado.getLineCount(); x++) {
-            String i = SpinnerEstado.getText().toString();
-
-            if (i.equalsIgnoreCase(cidadealt.getIdestado())) {
-                SpinnerEstado.setListSelection(x);
-
-
-                break;
-
-            }
-        }
-
-
+        SpinnerPais.setText(cidadealt.getPais());
+        SpinnerEstado.setText(cidadealt.getIdestado());
+        idcidade = cidadealt.getIdcidade();
         EditCidade.setText(cidadealt.getDescricao());
         EditIbge.setText(cidadealt.getIbge());
     }
@@ -190,11 +222,12 @@ public class CadastroCidadeActivity extends ActionBarActivity {
 
     public void save(Cidade cidadealt) {
 
-        if (validacao(getCidadealt()) == 1) {
+        if (Validate() == true) {
             if (cidadealt == null) {
                 try {
                     cidadedao.saveCidade(getCidadealt());
                     Toast.makeText(this, " salvo com sucesso ", Toast.LENGTH_SHORT).show();
+                    LimparCampos();
 
                 } catch (Exception e) {
                     Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -205,6 +238,8 @@ public class CadastroCidadeActivity extends ActionBarActivity {
                 try {
                     cidadedao.Update(getCidadealt());
                     Toast.makeText(this, " alterado com sucesso ", Toast.LENGTH_SHORT).show();
+                    finish();
+
 
                 } catch (Exception e) {
                     Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
@@ -212,26 +247,40 @@ public class CadastroCidadeActivity extends ActionBarActivity {
                 }
             }
 
-        } else Toast.makeText(this, " Preencher todos os campos", Toast.LENGTH_SHORT).show();
-
-
-    }
-
-    public Integer validacao(Cidade cidade) {
-        Integer retorno = 0;
-
-        if (!cidade.getDescricao().equals(" ") && !cidade.getDescricao().isEmpty()) {
-            if (!cidade.getIbge().equals(" ") && !cidade.getIbge().isEmpty()) {
-                if (conteudopais != null && conteudoestado != null) {
-                    retorno = 1;
-                }
-
-            }
-
         }
 
 
-        return retorno;
     }
+    public boolean Validate(){
+        final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getBaseContext(), true));
+        if (isValid){
+            return  true;
+        }
+
+
+
+        return false;
+    }
+
+    public void LimparCampos(){
+        SpinnerPais.setText("");
+        SpinnerEstado.setText("");
+        EditCidade.setText("");
+        EditIbge.setText("");
+
+    }
+    @Override
+    public void onBackPressed() {
+
+        long t = System.currentTimeMillis();
+        if (t - tempopresionadovoltar > 4000) {
+            tempopresionadovoltar = t;
+            Toast.makeText(this.getBaseContext(), "Pressiona de volta para sair", Toast.LENGTH_SHORT).show();
+        } else {
+
+            super.onBackPressed();
+        }
+    }
+
 
 }

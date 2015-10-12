@@ -6,6 +6,7 @@
     android:orientation="vertical"
     android:focusable="true"
     android:focusableInTouchMode="true"
+    android:id="@+id/cad_cid_container"
     tools:context="br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroCidadeActivity">
 
     <android.support.v7.widget.Toolbar
@@ -66,6 +67,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="IBGE"
+            android:inputType="number"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="?colorAccent"

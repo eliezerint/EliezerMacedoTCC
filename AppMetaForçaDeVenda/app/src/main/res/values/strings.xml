@@ -25,10 +25,12 @@
     <string name="title_activity_telefone">TelefoneActivity</string>
     <string name="app_label">searchConsulta</string>
     <string name="search_hint">Consultar Cidade</string>
+    <string name="search_hint_cliente">Consultar Cliente</string>
     <string name="title_activity_searchable">SearchableActivity</string>
     <string name="title_activity_PedidoTabs">PedidoTabs</string>
     <string name="title_activity_PessoaTabs">PessoaTabs</string>
     <string name="title_pessoa">Cliente</string>
+    <string name="Adicionar_itens">Adicionar Produto</string>
 
 
 <!-- TODO: Remove or change this placeholder text -->
@@ -41,13 +43,20 @@
 
     //string de validacao
     <string name="Campo_vazio">Este campo não pode ser vazio </string>
-    <string name="Max_Value">CPF ter no minimo 11 digito </string>
+    <string name="Min_Value_cpf">CPF ter no minimo 11 digito </string>
+    <string name="Max_Value_cpf">CPF ter no maximo 11 digito </string>
+    <string name="Min_Value_cnpj">CPF ter no minimo 14 digito </string>
+    <string name="Max_Value_cnpj">CPF ter no maximo 14 digito </string>
     <string name="MinRG_Value">RG Inválido ter no minimo 10 digitos</string>
     <string name="MaxRG_Value">RG Inválido ter no maximo 10 digitos </string>
+    <string name="MinIns_Value">Inscrição Estadual Inválida ter no minimo 10 digitos</string>
+    <string name="MaxIns_Value">Inscrição Estadual Inválida ter no maximo 10 digitos </string>
     <string name="validation_valid_email">Email Inválido </string>
     <string name="Min_ValueTelefone">Telefone inválido minimo 10</string>
     <string name="Max_ValueTelefone">Telefone inválido maximo 11</string>
     <string name="title_activity_itens_pedido">ItensPedidoActivity</string>
+    <string name="max_cidade">O nome da cidade maximo de 60 caracteres </string>
+    <string name="max_ibge">O campo ibge maximo 10 numeros </string>
 
 
 

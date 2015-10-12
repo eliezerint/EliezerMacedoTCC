@@ -20,4 +20,11 @@
     </string-array>
 
 
+    <string-array name="Array_tp_pessoa_consulta">
+        <item>Cliente</item>
+        <item>Cidade</item>
+        <item>Estado</item>
+    </string-array>
+
+
 </resources>

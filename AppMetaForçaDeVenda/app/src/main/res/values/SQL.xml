@@ -179,14 +179,15 @@
            CREATE TABLE Telefone (
                 idTelefone INTEGER PRIMARY KEY AUTOINCREMENT,
                 idPessoa INTEGER ,
-                Numero STRING NOT NULL,
-                "CPFCNPJ" STRING (14) NOT NULL);
+                Numero VARCHAR(11) NOT NULL,
+                Descricao VARCHAR(60),
+                CPFCNPJ VARCHAR (18) NOT NULL);
     </string>
       <string name="SQL_CREATE_PESSOA">
            CREATE TABLE Pessoa (
           idPessoa INTEGER  PRIMARY KEY AUTOINCREMENT,
           id_Cidade INTEGER NOT NULL,
-          CNPJCPF VARCHAR(14) NULL,
+          CNPJCPF VARCHAR(18) NULL,
           Endereco VARCHAR(50) NULL,
           Numero VARCHAR(10) NULL,
           Bairro VARCHAR(50) NULL,

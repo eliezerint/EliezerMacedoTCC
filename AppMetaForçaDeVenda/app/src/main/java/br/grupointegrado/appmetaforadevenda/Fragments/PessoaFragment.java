@@ -4,20 +4,12 @@ package br.grupointegrado.appmetaforadevenda.Fragments;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
-import android.widget.EditText;
-import android.widget.FrameLayout;
-import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Toast;
 
@@ -29,7 +21,6 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.LinkedList;
 import java.util.List;
 
 
@@ -39,9 +30,9 @@ import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity;
+import br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil;
 import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 import br.grupointegrado.appmetaforadevenda.Util.Mask;
-import br.grupointegrado.appmetaforadevenda.interfaces.RecyclerViewOnClickListenerHack;
 import eu.inmite.android.lib.validations.form.FormValidator;
 import eu.inmite.android.lib.validations.form.annotations.MaxLength;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
@@ -53,7 +44,6 @@ import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
 
 import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDate;
-import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDouble;
 
 
 public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateSetListener, DialogInterface.OnCancelListener, FragmentTab {
@@ -63,57 +53,85 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private static final int[] pesoCNPJ = {6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2};
 
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    @MinLength(value = 11, messageId = R.string.Max_Value, order = 2)
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 1)
+    @MinLength(value = 14, messageId = R.string.Min_Value_cpf, order = 1)
+    @MaxLength(value = 14, messageId = R.string.Max_Value_cpf, order = 1)
 
     private MaterialEditText editCpf;
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 1)
+    @MinLength(value = 18, messageId = R.string.Min_Value_cnpj, order = 1)
+    @MaxLength(value = 18, messageId = R.string.Max_Value_cnpj, order = 1)
+
+    private MaterialEditText editCnpj;
 
     private RadioButton radioFisica;
     private RadioButton radioJuridica;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    @MinLength(value = 10, messageId = R.string.MinRG_Value, order = 2)
-    @MaxLength(value = 10, messageId = R.string.MaxRG_Value, order = 2)
-    private MaterialEditText edRG;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 2)
+    private MaterialEditText editNome;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edBairro;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 2)
+    private MaterialEditText editRazaoSocial;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edDataCadastro;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 3)
+    private MaterialEditText editApelido;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edDataUltima;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 3)
+    private MaterialEditText editFantasia;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edEndereco;
+    @NotEmpty(messageId = R.string.Campo_vazio ,order = 4)
+    @MinLength(value = 10, messageId = R.string.MinRG_Value, order = 4)
+    @MaxLength(value = 10, messageId = R.string.MaxRG_Value, order = 4)
+    private MaterialEditText editRg;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edNumero;
+    @NotEmpty(messageId = R.string.Campo_vazio ,order = 4)
+    @MinLength(value = 10, messageId = R.string.MinIns_Value, order = 4)
+    @MaxLength(value = 10, messageId = R.string.MaxIns_Value, order = 4)
+    private MaterialEditText editInscricaEstadual;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edNome;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 5)
+    private MaterialEditText editDataNascimento;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edValorUltimacompra;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 5)
+    private MaterialEditText editDataAbertura;
 
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edCidade;
-
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edApelido;
-
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    @RegExp(value = EMAIL, messageId = R.string.validation_valid_email)
-    private MaterialEditText edEmail;
-
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edDataNascimento;
-
-    @NotEmpty(messageId =  R.string.Campo_vazio)
-    private MaterialEditText edcomplemento;
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 6)
+    private MaterialEditText editEndereco;
 
 
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 7)
+    private MaterialEditText editNumero;
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 8)
+    private MaterialEditText editcomplemento;
+
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 9)
+    private MaterialEditText editBairro;
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 10)
+    private MaterialEditText editCidade;
+
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 11)
+    private MaterialEditText editDataUltima;
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 12)
+    private MaterialEditText editValorUltimacompra;
+
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 13)
+    @RegExp(value = EMAIL, messageId = R.string.validation_valid_email, order = 14)
+    private MaterialEditText editEmail;
+
+
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 15)
+    public MaterialEditText editDataCadastro;
+
+
+    private TextWatcher cpfmask;
+    private TextWatcher cnpjmask;
 
 
     private boolean cpf;
@@ -123,6 +141,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private Integer idpessoa;
     private List listatelefone;
     private Integer idCidade;
+    private List<Telefone> lista_telefone;
+    private boolean estadodofragment = false;
 
 
 
@@ -131,6 +151,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private CidadeDao cidadedao;
 
     private PessoaDao clientedao;
+
+    private Pessoa pessoaalt;
 
 
     @Override
@@ -148,34 +170,37 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         //Instancia do XML do Editext e spinner
 
 
-
-
         editCpf = (MaterialEditText) view.findViewById(R.id.edit_cpf);
+        editCnpj = (MaterialEditText) view.findViewById(R.id.edit_cnpj);
 
         radioFisica = (RadioButton) view.findViewById(R.id.radiofisica);
         radioJuridica = (RadioButton) view.findViewById(R.id.radiojuridica);
-        edRG = (MaterialEditText) view.findViewById(R.id.edit_rg);
-        edBairro = (MaterialEditText) view.findViewById(R.id.edit_bairro);
+        editRg = (MaterialEditText) view.findViewById(R.id.edit_rg);
+        editRazaoSocial = (MaterialEditText) view.findViewById(R.id.edit_razaosocial);
+        editInscricaEstadual  = (MaterialEditText) view.findViewById(R.id.edit_inscricaoestadual);
+        editFantasia = (MaterialEditText) view.findViewById(R.id.edit_nomefantasia);
+        editDataAbertura = (MaterialEditText)view.findViewById(R.id.edit_data_abertura);
+        editBairro = (MaterialEditText) view.findViewById(R.id.edit_bairro);
 
-        edDataCadastro = (MaterialEditText) view.findViewById(R.id.edit_data_cadastro);
-        edNumero = (MaterialEditText) view.findViewById(R.id.edit_numero);
-        edCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
+        editDataCadastro = (MaterialEditText) view.findViewById(R.id.edit_data_cadastro);
+        editNumero = (MaterialEditText) view.findViewById(R.id.edit_numero);
+        editCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
 
-        edApelido = (MaterialEditText) view.findViewById(R.id.edit_apelido);
-        edEmail = (MaterialEditText) view.findViewById(R.id.edit_email);
-        edNome = (MaterialEditText) view.findViewById(R.id.edit_nome);
-        edDataUltima = (MaterialEditText) view.findViewById(R.id.edit_data_ultima);
-        edValorUltimacompra = (MaterialEditText) view.findViewById(R.id.edit_valor_ultima_compra);
-        edEndereco = (MaterialEditText) view.findViewById(R.id.edit_endereco);
-        edcomplemento = (MaterialEditText) view.findViewById(R.id.edit_complemento);
-        edDataNascimento = (MaterialEditText) view.findViewById(R.id.edit_data_nascimento);
+        editApelido = (MaterialEditText) view.findViewById(R.id.edit_apelido);
+        editEmail = (MaterialEditText) view.findViewById(R.id.edit_email);
+        editNome = (MaterialEditText) view.findViewById(R.id.edit_nome);
+        editDataUltima = (MaterialEditText) view.findViewById(R.id.edit_data_ultima);
+        editValorUltimacompra = (MaterialEditText) view.findViewById(R.id.edit_valor_ultima_compra);
+        editEndereco = (MaterialEditText) view.findViewById(R.id.edit_endereco);
+        editcomplemento = (MaterialEditText) view.findViewById(R.id.edit_complemento);
+        editDataNascimento = (MaterialEditText) view.findViewById(R.id.edit_data_nascimento);
 
-        edNome.addValidator(new RegexpValidator("Nome Completo Inválido", "\\w+\\s+\\w+"));
-        edNome.setValidateOnFocusLost(true);
+        editNome.addValidator(new RegexpValidator("Nome Completo Inválido", "\\w+\\s+\\w+"));
+        editNome.setValidateOnFocusLost(true);
 
 
         //colocando data de cadastro
-        edDataCadastro.setText(getDateTime().toString());
+        editDataCadastro.setText(getDateTime().toString());
 
 
         pessoa = new Pessoa();
@@ -183,6 +208,11 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         cidadedao = new CidadeDao(this.getActivity());
 
         clientedao = new PessoaDao(this.getActivity());
+
+        cpfmask = Mask.insert("###.###.###-##", editCpf);
+        editCpf.addTextChangedListener(cpfmask);
+        cnpjmask = Mask.insert("##.###.###/####-##", editCnpj);
+        editCnpj.addTextChangedListener(cnpjmask);
 
 
         //CPF|CPNJ Validacao
@@ -215,12 +245,18 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
         radioFisica.setChecked(true);
 
-        edCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
-        edCidade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
+        editCidade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
                     selecioarCidade();
+            }
+        });
+        editCidade.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                selecioarCidade();
             }
         });
 
@@ -239,7 +275,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             }
         });
 
-        edDataNascimento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        editDataNascimento.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus)
@@ -248,12 +284,40 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             }
         });
 
+        editDataAbertura.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus)
+                    dataPicker();
+            }
+        });
 
-        FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
+
+
+
 
 
 
     }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
+        pessoaalt = (Pessoa) getActivity().getIntent().getSerializableExtra("alterarpessoa");
+        if (pessoaalt != null && estadodofragment == false ){
+            setPessoalt(pessoaalt);
+            estadodofragment = true;
+            if (pessoaalt.getDataUltimacompra() != null){
+                editDataUltima.setVisibility(View.VISIBLE);
+                editValorUltimacompra.setVisibility(View.VISIBLE);
+            }else{
+                editValorUltimacompra.setText("0.00");
+            }
+        }else{ editValorUltimacompra.setText("0.00");}
+
+    }
+
 
 
     private static final int REQUEST_CONSULTA_CIDADE = 1001;
@@ -271,7 +335,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             idCidade = data.getIntExtra("cidade_id", 0);
             String nomeCidade;
             nomeCidade = cidadedao.ConsultaCidadeporid(Integer.toString(idCidade));
-            edCidade.setText(nomeCidade);
+            editCidade.setText(nomeCidade);
 
             // consulta a cidade e seta na pessoa
         }
@@ -282,12 +346,27 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     public void RadioBoxFisica(View v) {
 
         if (radioFisica.isClickable()) {
-            editCpf.setHint("CPF");
             editCpf.setText("");
-            edNome.setHint("Nome");
-            edApelido.setHint("Apelido");
-            edRG.setHint("RG");
-            edDataNascimento.setHint("Data Nascimento");
+            editCpf.setVisibility(View.VISIBLE);
+            editCnpj.setVisibility(View.GONE);
+
+            editNome.setText("");
+            editNome.setVisibility(View.VISIBLE);
+            editRazaoSocial.setVisibility(View.GONE);
+
+
+            editApelido.setText("");
+            editApelido.setVisibility(View.VISIBLE);
+            editFantasia.setVisibility(View.GONE);
+
+            editRg.setText("");
+            editRg.setVisibility(View.VISIBLE);
+            editInscricaEstadual.setVisibility(View.GONE);
+
+            editDataNascimento.setText("");
+            editDataNascimento.setVisibility(View.VISIBLE);
+            editDataAbertura.setVisibility(View.GONE);
+
             radioFisica.setChecked(true);
             radioJuridica.setChecked(false);
 
@@ -299,32 +378,33 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     public void RadioBoxJuridica(View v) {
 
         if (radioJuridica.isClickable()) {
-            editCpf.setHint("CNPJ");
-            editCpf.setText("");
-            edNome.setHint("Razão Social");
-            edApelido.setHint("Nome Fantasia");
-            edRG.setHint("Inscrição Estadual");
-            edDataNascimento.setHint("Data de Abertura da Empresa");
-            radioJuridica.setChecked(true);
+            editCnpj.setText("");
+            editCnpj.setVisibility(View.VISIBLE);
+            editCpf.setVisibility(View.GONE);
+
+            editRazaoSocial.setText("");
+            editRazaoSocial.setVisibility(View.VISIBLE);
+            editNome.setVisibility(View.GONE);
+
+
+            editFantasia.setText("");
+            editFantasia.setVisibility(View.VISIBLE);
+            editApelido.setVisibility(View.GONE);
+
+            editInscricaEstadual.setText("");
+            editInscricaEstadual.setVisibility(View.VISIBLE);
+            editRg.setVisibility(View.GONE);
+
+            editDataAbertura.setText("");
+            editDataAbertura.setVisibility(View.VISIBLE);
+            editDataNascimento.setVisibility(View.GONE);
+
             radioFisica.setChecked(false);
+            radioJuridica.setChecked(true);
 
         }
     }
 
-    //entrada de dados
-    public void InputDados() {
-
-    }
-
-    //chama a tela de consulta de cidade
-    public void ConsultaCidade(View view) {
-
-        Intent i = new Intent(this.getActivity(), ConsultaCidadeActivity.class);
-
-        startActivity(i);
-
-
-    }
 
 
     //Método para calcular digito verificador
@@ -356,55 +436,43 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         return cnpj.equals(cnpj.substring(0, 12) + digito1.toString() + digito2.toString());
     }
 
-    //  public Pessoa getpesso(){
-
-    // return  new Pessoa(cdCidade,EditCpf.toString(),);
-
-
-    // }
-
-
-    public void savePessoatela() {
-
-        clientedao.savePessoa(getPessoa());
-       /* try {
-            clientedao.savePessoa(getPessoa());
-            Toast.makeText(getActivity(), "salvo com susseço", Toast.LENGTH_SHORT).show();
-        } catch (Exception e) {
-            Toast.makeText(getActivity(), e.toString(), Toast.LENGTH_SHORT).show();
-        }
-*/
-
-    }
-
-    public Pessoa getPessoa1() {
-        return  new Pessoa();
-
-
-    }
-
 
     public Pessoa getPessoa() {
-        return new Pessoa(idCidade,
-                editCpf.getText().toString(),
-                edNome.getText().toString(),
-                edApelido.getText().toString(),
-                edRG.getText().toString(),
-                edEndereco.getText().toString(),
-                edNumero.getText().toString(),
-                edBairro.getText().toString(),
-                edcomplemento.getText().toString(),
-                edCidade.getText().toString(),
-                stringParaDate(edDataNascimento.getText().toString()),
-                edEmail.getText().toString(),
-                stringParaDate(edDataUltima.getText().toString()),
-                Double.parseDouble(edValorUltimacompra.getText().toString()),
-                stringParaDate(edDataCadastro.getText().toString())
+        String cpf = null, nome = null, apelido = null,
+                rg = null,  datanascimento = null;
+
+        if (radioFisica.isChecked()){
+            cpf =  editCpf.getText().toString();
+            nome =  editNome.getText().toString();
+            apelido =  editApelido.getText().toString();
+            rg =  editRg.getText().toString();
+            datanascimento =  editDataNascimento.getText().toString();
+
+        }else if (radioJuridica.isChecked()){
+            cpf =  editCnpj.getText().toString();
+            nome =  editRazaoSocial.getText().toString();
+            apelido =  editFantasia.getText().toString();
+            rg =  editInscricaEstadual.getText().toString();
+            datanascimento =  editDataAbertura.getText().toString();
+
+        }
+        return new Pessoa(idpessoa,idCidade,
+                cpf, nome, apelido, rg,
+                editEndereco.getText().toString(),
+                editNumero.getText().toString(),
+                editBairro.getText().toString(),
+                editcomplemento.getText().toString(),
+                editCidade.getText().toString(),
+                stringParaDate(datanascimento),
+                editEmail.getText().toString(),
+                stringParaDate(editDataUltima.getText().toString()),
+                Double.parseDouble(editValorUltimacompra.getText().toString()),
+                stringParaDate(editDataCadastro.getText().toString())
 
         );
     }
 
-    private String getDateTime() {
+    public String getDateTime() {
         DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
         Date date = new Date();
         return dateFormat.format(date);
@@ -428,8 +496,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         );
         Calendar cMax = Calendar.getInstance();
         Calendar cMin = Calendar.getInstance();
-        cMin.set(1900,0,1);
-        cMax.set(cMax.get(Calendar.YEAR), mes, day );
+        cMin.set(1900, 0, 1);
+        cMax.set(cMax.get(Calendar.YEAR), mes, day);
         datePickerDialog.setMaxDate(cMax);
         datePickerDialog.setMinDate(cMin);
 
@@ -452,8 +520,9 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onCancel(DialogInterface dialog) {
 
-        ano = mes = day =  0;
-        edDataNascimento.setText("");
+        ano = mes = day = 0;
+        editDataNascimento.setText("");
+        editDataAbertura.setText("");
 
     }
 
@@ -467,9 +536,15 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         mes = i1;
         day = i2;
 
-        edDataNascimento.setText((day < 10 ? "0" + day : day) + "/" +
+        editDataNascimento.setText((day < 10 ? "0" + day : day) + "/" +
                 (mes + 1 < 10 ? "0" + (mes + 1) : mes + 1) + "/" +
                 ano);
+
+        editDataAbertura.setText((day < 10 ? "0" + day : day) + "/" +
+                (mes + 1 < 10 ? "0" + (mes + 1) : mes + 1) + "/" +
+                ano);
+
+
 
     }
 
@@ -479,17 +554,87 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         FormValidator.stopLiveValidation(getActivity());
     }
 
-    public boolean Validate(){
+    public boolean Validate() {
         final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getActivity(), true));
-        if (isValid){
-           return  true;
+        if (isValid) {
+            return true;
         }
-
-
 
         return false;
     }
 
+    public void setPessoalt(Pessoa pessoaalt) {
+        View v = getView();
+        idpessoa = pessoaalt.getIdpessoa();
+        idCidade = pessoaalt.getIdCidade();
+      String cpf = pessoaalt.getCnpjCpf();
+
+        if (cpf.length() == 14) {
+            radioFisica.setChecked(true);
+            radioJuridica.setChecked(false);
+
+            RadioBoxFisica(v);
+
+            editCpf.setText(cpf);
+            editNome.setText(pessoaalt.getRazaoSocialNome());
+            editApelido.setText(pessoaalt.getFantasiaApelido());
+            editRg.setText(pessoaalt.getInscriEstadualRG());
+            editDataNascimento.setText(ConvesorUtil.dateParaString(pessoaalt.getDataNascimento()));
+
+        } else if(cpf.length() == 18) {
+
+            radioJuridica.setChecked(true);
+            radioFisica.setChecked(false);
+
+            RadioBoxJuridica(v);
+
+            editCnpj.setText(pessoaalt.getCnpjCpf());
+            editRazaoSocial.setText(pessoaalt.getRazaoSocialNome());
+            editFantasia.setText(pessoaalt.getFantasiaApelido());
+            editInscricaEstadual.setText(pessoaalt.getInscriEstadualRG());
+            editDataAbertura.setText(ConvesorUtil.dateParaString(pessoaalt.getDataNascimento()));
+        }
+
+        editEndereco.setText(pessoaalt.getEndereco());
+        editNumero.setText(pessoaalt.getNumero());
+        editcomplemento.setText(pessoaalt.getComplemento());
+        editBairro.setText(pessoaalt.getBairro());
+        editCidade.setText(pessoaalt.getCidade());
+        editEmail.setText(pessoaalt.getEmail());
+        editDataCadastro.setText(ConvesorUtil.dateParaString(pessoaalt.getDataCadastro()));
+
+    }
+
+    public Boolean pessoAlt(){
+
+        if (pessoaalt != null){
+            return true;
+        }
+
+
+        return false;
+    }
+    public void LimparCampos(){
+
+        editCpf.setText("");
+        editCnpj.setText("");
+        editNome.setText("");
+        editRazaoSocial.setText("");
+        editApelido.setText("");
+        editFantasia.setText("");
+        editRg.setText("");
+        editInscricaEstadual.setText("");
+        editDataNascimento.setText("");
+        editDataAbertura.setText("");
+        editEndereco.setText("");
+        editNumero.setText("");
+        editcomplemento.setText("");
+        editBairro.setText("");
+        editCidade.setText("");
+        editEmail.setText("");
+        editDataCadastro.setText("");
+
+    }
 
 
 
@@ -505,6 +650,10 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     public void atualizar() {
         System.out.println("Fragment Pessoa");
     }
+
+
+
+
 }
 
 

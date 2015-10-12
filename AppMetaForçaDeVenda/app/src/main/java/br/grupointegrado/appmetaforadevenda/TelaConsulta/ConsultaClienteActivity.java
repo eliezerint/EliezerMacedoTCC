@@ -1,10 +1,13 @@
 package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -18,9 +21,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
+import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCliente;
 
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroPessoaActivity;
 import br.grupointegrado.appmetaforadevenda.R;
 
@@ -30,8 +35,9 @@ public class ConsultaClienteActivity extends AppCompatActivity {
     private RecyclerView RecyviewPessoa;
     private List lista;
     private AdapterCliente adaptercliente;
+    private List<Telefone> lista_telefone;
 
-
+    private String conteudoSearch;
     private Integer idpessoa;
     private String CNPJCPF;
 
@@ -46,14 +52,14 @@ public class ConsultaClienteActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_consulta_cliente);
 
-        atoolbar = (Toolbar)findViewById(R.id.tb_main);
+        atoolbar = (Toolbar) findViewById(R.id.tb_main);
         atoolbar.setTitle("Consulta de Cliente");
 
         setSupportActionBar(atoolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
 
-        RecyviewPessoa =  (RecyclerView)findViewById(R.id.RecyviewPessoa);
+        RecyviewPessoa = (RecyclerView) findViewById(R.id.RecyviewPessoa);
 
         clientedao = new PessoaDao(this);
 
@@ -61,13 +67,12 @@ public class ConsultaClienteActivity extends AppCompatActivity {
             selecionandoPessoa = getIntent().getExtras().getBoolean("selecionar_pessoa", false);
 
 
-
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
         RecyviewPessoa.setLayoutManager(llm);
 
 
-        adaptercliente = new AdapterCliente(this, new ArrayList<Pessoa>() ) {
+        adaptercliente = new AdapterCliente(this, new ArrayList<Pessoa>()) {
             @Override
             protected void onItemClickListener(int adapterPosition, int layoutPosition) {
                 // evento de click simples
@@ -78,6 +83,11 @@ public class ConsultaClienteActivity extends AppCompatActivity {
                     data.putExtra("pessoa_id", pessoa.getIdpessoa());
                     setResult(RESULT_OK, data);
                     finish();
+                }else {
+
+                    EditarPessoa(getPessoa(pessoa));
+
+
                 }
 
 
@@ -91,7 +101,8 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
                 idpessoa = pessoa.getIdpessoa();
                 CNPJCPF = pessoa.getCnpjCpf();
-                MaterialDialogCidade();
+
+                MaterialDialogCidade(pessoa);
 
                 return true;
             }
@@ -103,16 +114,46 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
         Consultacliente();
 
+        getDadosSearch(this.getIntent());
 
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        setIntent(intent);
+        getDadosSearch(intent);
+
+    }
+
+    public void getDadosSearch(Intent intent) {
+
+        String conteudoQuery = intent.getStringExtra(SearchManager.QUERY);
+        conteudoSearch = conteudoQuery;
+
+        if (conteudoSearch != null) {
+            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
+            adaptercliente.setItems(clientedao.list(conteudoSearch));
+            adaptercliente.notifyDataSetChanged();
+        }
 
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.menu_consulta_cliente, menu);
+
+        SearchManager searchmanager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+
+        SearchView search = (SearchView) menu.findItem(R.id.ConsultaCliente).getActionView();
+
+        search.setSearchableInfo(searchmanager.getSearchableInfo(getComponentName()));
+
+        search.setQueryHint(getResources().getString(R.string.search_hint_cliente));
+
+
         return true;
     }
+
     public void CadastrarCliente(View view) {
 
         Intent i = new Intent(this.getApplication(), CadastroPessoaActivity.class);
@@ -123,33 +164,46 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
     }
 
-        @Override
-        public boolean onOptionsItemSelected(MenuItem item) {
-            int id = item.getItemId();
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
 
-            if (id == android.R.id.home) {
+        switch (item.getItemId()){
+            case R.id.home:
                 finish();
-            }
+                break;
+            case android.R.id.home:
+                finish();
+                break;
+            case R.id.ConsultaCliente:
+                Consultacliente();
+                break;
 
-            return true;
         }
+
+        return true;
+    }
 
     @Override
     protected void onResume() {
         super.onResume();
+        if (conteudoSearch != null){
+            adaptercliente.setItems(clientedao.list(conteudoSearch));
+            adaptercliente.notifyDataSetChanged();
+        }else{
+            adaptercliente.setItems(clientedao.list());
+            adaptercliente.notifyDataSetChanged();
+        }
 
-        Consultacliente();
     }
 
 
-
-
-    public void Consultacliente( ) {
+    public void Consultacliente() {
         adaptercliente.setItems(clientedao.list());
         adaptercliente.notifyDataSetChanged();
 
     }
-    public void MaterialDialogCidade() {
+
+    public void MaterialDialogCidade(final Pessoa pessoa) {
         boolean wrapInScrollView = true;
         new MaterialDialog.Builder(this)
                 .title("Cliente")
@@ -160,7 +214,7 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
                         if (text.equals("Editar")) {
 
-
+                            EditarPessoa(getPessoa(pessoa));
                             dialog.dismiss();
                         } else if (text.equals("Excluir")) {
                             DeletarCliente();
@@ -174,16 +228,38 @@ public class ConsultaClienteActivity extends AppCompatActivity {
                 .show();
 
     }
+
     public void EditarPessoa(Pessoa pessoa) {
 
+
+
         Intent i = new Intent(this.getBaseContext(), CadastroPessoaActivity.class);
-
-        
-
+        i.putExtra("alterarpessoa", pessoa);
 
         startActivity(i);
 
     }
+
+    public Pessoa getPessoa(Pessoa pessoa){
+        return new Pessoa(
+                pessoa.getIdpessoa(),
+                pessoa.getIdCidade(),
+                pessoa.getCnpjCpf(),
+                pessoa.getRazaoSocialNome(),
+                pessoa.getFantasiaApelido(),
+                pessoa.getInscriEstadualRG(),
+                pessoa.getEndereco(),
+                pessoa.getNumero(),
+                pessoa.getBairro(),
+                pessoa.getComplemento(),
+                pessoa.getCidade(),
+                pessoa.getDataNascimento(),
+                pessoa.getEmail(),
+                pessoa.getDataUltimacompra(),
+                pessoa.getValorUltimacompra(),
+                pessoa.getDataCadastro());
+    }
+
 
     public void DeletarCliente() {
         try {

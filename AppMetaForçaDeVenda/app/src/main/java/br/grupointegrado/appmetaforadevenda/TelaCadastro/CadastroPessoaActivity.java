@@ -1,18 +1,26 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
 import android.app.Fragment;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.InputDevice;
+import android.view.InputEvent;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout;
@@ -22,6 +30,7 @@ import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTabsViewPessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
+import br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil;
 import eu.inmite.android.lib.validations.form.annotations.Length;
 
 /**
@@ -39,8 +48,11 @@ public class CadastroPessoaActivity extends AppCompatActivity {
     private ViewPager mViewPager;
 
     private Integer posicaoPageView;
+    private long tempopresionadovoltar = 0;
 
     private Pessoa pessoa;
+    private Pessoa pessoalt;
+
 
     private PessoaDao pessoadao;
 
@@ -104,29 +116,63 @@ public class CadastroPessoaActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home:
-                finish();
+            case android.R.id.home:
+                onBackPressed();
                 break;
+
             case R.id.Salvarpessoa:
 
                 PessoaFragment fragPes = (PessoaFragment) tabsAdapter.getFragments()[0];
                 TelefoneFragment fragTel = (TelefoneFragment) tabsAdapter.getFragments()[1];
                 if (fragPes.Validate() == true) {
-                    try {
-                        pessoadao.savePessoa(fragPes.getPessoa());
-                        int idpessoa = pessoadao.CosultaClienteCNPJCPF(fragPes.getPessoa().getCnpjCpf());
-                        int tamanho = fragTel.tamanhoLista();
+                    if (fragPes.pessoAlt() == false) {
 
-                        if (tamanho > 0) {
-                            for (int x = 0; x < tamanho - 1; x++) {
-                                pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf()).get(x));
+                        try {
+                            pessoadao.savePessoa(fragPes.getPessoa());
+                            int idpessoa = pessoadao.CosultaClienteCNPJCPF(fragPes.getPessoa().getCnpjCpf());
+                            String CPFCNPJ = fragPes.getPessoa().getCnpjCpf();
+                            int tamanho = fragTel.tamanhoLista();
+
+
+                            if (tamanho > 0) {
+                                for (int x = 0; x < tamanho; x++) {
+                                    pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf(), x));
+
+                                }
+
                             }
+                            fragTel.LimparLista();
+                            fragPes.LimparCampos();
+                            fragPes.editDataCadastro.setText(fragPes.getDateTime());
+                            Toast.makeText(this, "Salvo com sucesso", Toast.LENGTH_SHORT).show();
 
-                            Toast.makeText(this,"Salvo com sucesso",Toast.LENGTH_SHORT).show();
-
+                        } catch (Exception e) {
+                            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
                         }
-                    } catch (Exception e) {
-                        Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                    } else {
+                        try {
+
+                            pessoadao.Update(fragPes.getPessoa());
+                            int idpessoa = pessoadao.CosultaClienteCNPJCPF(fragPes.getPessoa().getCnpjCpf());
+                            String CPFCNPJ = fragPes.getPessoa().getCnpjCpf();
+                            int tamanho = fragTel.tamanhoLista();
+
+
+                            if (tamanho > 0) {
+                                for (int x = 0; x < tamanho; x++) {
+                                    pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf(), x));
+
+                                }
+
+                            }
+                            fragTel.LimparLista();
+                            fragPes.LimparCampos();
+                            Toast.makeText(this, "Alterado com sucesso", Toast.LENGTH_SHORT).show();
+                            finish();
+
+                        } catch (Exception e) {
+                            Toast.makeText(this, e.toString(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                 } else {
@@ -139,12 +185,24 @@ public class CadastroPessoaActivity extends AppCompatActivity {
         }
 
 
-
-
         return true;
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        long t = System.currentTimeMillis();
+        if (t - tempopresionadovoltar > 4000) {
+            tempopresionadovoltar = t;
+            Toast.makeText(this.getBaseContext(), "Pressiona de volta para sair", Toast.LENGTH_SHORT).show();
+        } else {
+
+            super.onBackPressed();
+        }
     }
 
 
 }
+
 
 

@@ -9,7 +9,7 @@ import java.util.Date;
 /**
  * Created by eli on 23/07/2015.
  */
-public class Pessoa {
+public class Pessoa implements Serializable {
 
     Integer idpessoa ;
     Integer idCidade ;
@@ -56,9 +56,10 @@ public class Pessoa {
 
     public Pessoa (){}
 
-    public Pessoa(Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
+    public Pessoa(Integer idpessoa,Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
                   String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
                   Date dataNascimento,String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
+        this.idpessoa = idpessoa;
         this.idCidade = idCidade;
         this.CnpjCpf = cnpjCpf;
         this.Numero = Numero;

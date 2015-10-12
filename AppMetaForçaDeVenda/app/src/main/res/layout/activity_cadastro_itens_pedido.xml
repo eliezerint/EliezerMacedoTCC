@@ -1,6 +1,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroItensPedidoActivity">
@@ -28,48 +28,52 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-    <com.rengwuxian.materialedittext.MaterialEditText
-        android:id="@+id/edit_produto"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Produto"
-        app:met_baseColor="@android:color/black"
-        app:met_floatingLabel="highlight"
-        app:met_primaryColor="?colorAccent"
-        app:met_singleLineEllipsis="true" />
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edit_produto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Produto"
+            app:met_baseColor="@android:color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true" />
+
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edit_Quantidade"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Quantidade"
+            android:inputType="number"
+            app:met_baseColor="@android:color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true" />
+
+        <com.rengwuxian.materialedittext.MaterialEditText
+            android:id="@+id/edit_vlunitario"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Valor Unitario"
+            android:inputType="number"
+            app:met_baseColor="@android:color/black"
+            app:met_floatingLabel="highlight"
+            app:met_primaryColor="?colorAccent"
+            app:met_singleLineEllipsis="true" />
 
         <com.rengwuxian.materialedittext.MaterialEditText
             android:id="@+id/edit_desconto"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Desconto"
+            android:inputType="number"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="?colorAccent"
             app:met_singleLineEllipsis="true" />
 
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edit_valor_unitario"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Valor Unitario"
-            app:met_baseColor="@android:color/black"
-            app:met_floatingLabel="highlight"
-            app:met_primaryColor="?colorAccent"
-            app:met_singleLineEllipsis="true" />
-
-        <com.rengwuxian.materialedittext.MaterialEditText
-            android:id="@+id/edi_Quantidade"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Quantidade"
-            app:met_baseColor="@android:color/black"
-            app:met_floatingLabel="highlight"
-            app:met_primaryColor="?colorAccent"
-            app:met_singleLineEllipsis="true" />
 
     </LinearLayout>
-
 
 
 </RelativeLayout>

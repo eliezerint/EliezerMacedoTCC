@@ -17,7 +17,23 @@ public class Telefone {
 
     }
 
-    public Telefone(String numero, String tipo) {
+    public Telefone(Integer idTelefone, Integer idPessoa, String numero, String tipo ,String cpf) {
+        this.idTelefone= idTelefone;
+        this.idPessoa = idPessoa;
+        this.CPF = cpf;
+        this.Numero = numero;
+        this.tipo = tipo;
+    }
+
+
+    public Telefone(String numero ,String tipo) {
+        this.Numero = numero;
+        this.tipo = tipo;
+    }
+
+    public Telefone(Integer idPessoa, String numero, String tipo ,String cpf) {
+        this.idPessoa = idPessoa;
+        this.CPF = cpf;
         this.Numero = numero;
         this.tipo = tipo;
     }

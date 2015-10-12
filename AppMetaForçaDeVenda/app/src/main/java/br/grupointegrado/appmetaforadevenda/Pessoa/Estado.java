@@ -7,6 +7,17 @@ public class Estado {
 
     String idestado  = "PR";
     String descricao = "Campo Mourao";
+    String idpais  =" BR";
+
+    public void Estado (String id_estado, String id_pais, String descricao) {
+        this.idestado = id_estado;
+        this.idpais = id_pais;
+        this.descricao = descricao;
+    }
+
+    public void Estado () {
+
+    }
 
 
     public String getIdestado() {
@@ -25,4 +36,17 @@ public class Estado {
         this.descricao = descricao;
     }
 
+    public String getIdpais() {
+        return idpais;
+    }
+
+    public void setIdpais(String idpais) {
+        this.idpais = idpais;
+    }
+
+    @Override
+    public String toString() {
+        return idestado.toString();
+
+    }
 }

@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.telephony.PhoneNumberFormattingTextWatcher;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,7 +22,9 @@ import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTelefone;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
@@ -48,6 +51,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
     private String tipoTelefone;
     private String conteudoRadioButon;
+    private Integer posicaolista;
 
 
     private List<Telefone> lista_telefone;
@@ -57,6 +61,12 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
     private AdapterTelefone adaptertelefone;
+    private Pessoa pessoaalt;
+    private PessoaDao clientedao;
+    private Telefone telefone;
+
+    private boolean estadodofragment = false;
+    private boolean telefonenaosalvo = false;
 
 
     @Override
@@ -74,12 +84,9 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
         recyclerview_telefone = (RecyclerView) view.findViewById(R.id.recyclerview_telefone);
         bt_add_telefone = (FloatingActionButton) view.findViewById(R.id.bt_add_telefone);
 
-
-
-
-        tel = new Telefone();
         lista_telefone = new ArrayList<>();
-
+        clientedao = new PessoaDao(this.getActivity());
+        tel = new Telefone();
 
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
         llm.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
@@ -88,7 +95,9 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
         adaptertelefone = new AdapterTelefone(this.getActivity(), new ArrayList<Telefone>()) {
             @Override
             protected void onItemClickListener(int adapterPosition, int layoutPosition) {
+                Telefone telefone = adaptertelefone.getItems().get(adapterPosition);
 
+                AlterarTelefoneDialog(adapterPosition, telefone);
 
             }
 
@@ -103,47 +112,53 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
         recyclerview_telefone.setAdapter(adaptertelefone);
 
-/*
+
         bt_add_telefone.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-              lista_telefone.add(getTelefone(tel));
-
-
-
-                editTelefone.setText(" ");
-
-
-            }
-        });*/
-        bt_add_telefone.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                AddTelefoneDialogs();
+                telefonenaosalvo = false;
+                AddTelefoneDialogs(tel);
             }
         });
         FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
 
     }
 
+    @Override
+    public void onStart() {
+        super.onStart();
 
-    public void recyclerviewTelefone() {
-        adaptertelefone.setItems(lista_telefone);
-        adaptertelefone.notifyDataSetChanged();
+        pessoaalt = (Pessoa) getActivity().getIntent().getSerializableExtra("alterarpessoa");
+        if (pessoaalt != null && estadodofragment == false) {
+            estadodofragment = true;
+            lista_telefone = clientedao.listTelefone(pessoaalt.getIdpessoa().toString());
+            recyclerviewTelefone();
+        }
+
+
     }
 
 
-    public Telefone getTelefonePreencherLista(Telefone telefone, String  edit_telefone) {
+    public void recyclerviewTelefone() {
+
+
+        adaptertelefone.setItems(lista_telefone);
+        adaptertelefone.notifyDataSetChanged();
+
+    }
+
+
+    public Telefone getTelefonePreencherLista(String edit_telefone) {
         return new Telefone(edit_telefone, tipoTelefone
 
         );
 
     }
 
-    public void AddTelefoneDialogs() {
 
-       MaterialDialog dialog = new MaterialDialog.Builder(this.getActivity())
+    public void AddTelefoneDialogs(final Telefone telefone) {
+
+        MaterialDialog dialog = new MaterialDialog.Builder(this.getActivity())
                 .title("Telefone")
                 .customView(R.layout.layout_dialogs_telefone, true)
                 .positiveText("Salvar")
@@ -158,10 +173,11 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
                         if (!campo_tel.getText().toString().isEmpty()) {
-                            lista_telefone.add(getTelefonePreencherLista(tel, campo_tel.getText().toString()));
+                            lista_telefone.add(getTelefonePreencherLista(campo_tel.getText().toString()));
                             campo_tel.setText(" ");
 
                             recyclerviewTelefone();
+                            telefonenaosalvo = false;
                             dialog.dismiss();
 
                         } else {
@@ -181,15 +197,50 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                 }).build();
 
         campo_tel = (MaterialEditText) dialog.getCustomView().findViewById(R.id.edit_telefone);
-        campo_tel.addTextChangedListener(Mask.insert("(##)####-####", campo_tel));
-
-
+        TextWatcher telefonemask = Mask.insert("(##)#####-####", campo_tel);
+        campo_tel.addTextChangedListener(telefonemask);
 
         radiobt_residencial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_residencial);
         radiobt_comercial = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_comercial);
         radiobt_celular = (RadioButton) dialog.getCustomView().findViewById(R.id.radiobt_celular);
-        radiobt_residencial.setChecked(true);
-        conteudoRadioButon = "Residencial";
+
+        if (telefone.getNumero() != null) {
+            campo_tel.setText(telefone.getNumero());
+            switch (telefone.getTipo()) {
+                case "Residencial":
+                    radiobt_residencial.setChecked(true);
+                    conteudoRadioButon = "Residencial";
+                    break;
+                case "Comercial":
+                    radiobt_comercial.setChecked(true);
+                    conteudoRadioButon = "Comercial";
+                    break;
+                case "Celular":
+                    radiobt_celular.setChecked(true);
+                    conteudoRadioButon = "Celular";
+                    break;
+            }
+        } else if (telefonenaosalvo) {
+
+            campo_tel.setText(lista_telefone.get(posicaolista).getNumero());
+            switch (lista_telefone.get(posicaolista).getTipo()) {
+                case "Residencial":
+                    radiobt_residencial.setChecked(true);
+                    conteudoRadioButon = "Residencial";
+                    break;
+                case "Comercial":
+                    radiobt_comercial.setChecked(true);
+                    conteudoRadioButon = "Comercial";
+                    break;
+                case "Celular":
+                    radiobt_celular.setChecked(true);
+                    conteudoRadioButon = "Celular";
+                    break;
+            }
+        } else {
+            radiobt_residencial.setChecked(true);
+            conteudoRadioButon = "Residencial";
+        }
 
         radiobt_residencial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -204,7 +255,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
         radiobt_comercial.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked){
+                if (isChecked) {
                     radiobt_residencial.setChecked(false);
                     radiobt_celular.setChecked(false);
                     conteudoRadioButon = "Comercial";
@@ -226,9 +277,8 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
     }
 
-    public void AlterarTelefoneDialog() {
+    public void AlterarTelefoneDialog(final Integer posicao, final Telefone telefone) {
 
-        boolean wrapInScrollView = true;
         new MaterialDialog.Builder(this.getActivity())
                 .title("Telefone")
                 .items(R.array.Array_de_alterar)
@@ -238,9 +288,31 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
                         if (text.equals("Editar")) {
 
+                            if (telefone.getIdPessoa() != null) {
+                                AddTelefoneDialogs(telefone);
+                                clientedao.deleteTelefone(telefone.getIdPessoa(), telefone.getIdTelefone());
+                                lista_telefone = clientedao.listTelefone(telefone.getIdPessoa().toString());
+                                recyclerviewTelefone();
+                            } else {
+                                telefonenaosalvo = true;
+                                posicaolista = posicao;
+                                lista_telefone.remove(lista_telefone.get(posicao));
+                                recyclerviewTelefone();
+                                AddTelefoneDialogs(telefone);
+
+                            }
+
+
                             dialog.dismiss();
                         } else if (text.equals("Excluir")) {
-
+                            if (telefone.getIdPessoa() != null) {
+                                clientedao.deleteTelefone(telefone.getIdPessoa(), telefone.getIdTelefone());
+                                lista_telefone = clientedao.listTelefone(telefone.getIdPessoa().toString());
+                                recyclerviewTelefone();
+                            } else {
+                                lista_telefone.remove(lista_telefone.get(posicao));
+                                recyclerviewTelefone();
+                            }
                             dialog.dismiss();
                         }
 
@@ -251,48 +323,40 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                 .show();
     }
 
-    public List<Telefone> getTelefone(Integer idpessoa, String cpf){
+    public Telefone getTelefone(Integer idpessoa, String cpf, Integer x) {
 
-        int contador = 0;
-
-        List<Telefone> telefones = new ArrayList<>();
-
-
-        for(int x = 0; x < lista_telefone.size()-1; x++){
+        return new Telefone(idpessoa,
+                adaptertelefone.getItems().get(x).getNumero(),
+                adaptertelefone.getItems().get(x).getTipo(), cpf);
 
 
-            Telefone telefone = new Telefone();
-            telefone.setIdPessoa(idpessoa);
-            telefone.setCPF(cpf);
-            telefone.setTipo(adaptertelefone.getItems().get(contador).getTipo());
-            telefone.setNumero(Mask.unmask(adaptertelefone.getItems().get(contador).getNumero()));
-
-
-
-            telefones.add(telefone);
-
-            contador++;
-
-        }
-
-
-        return telefones;
     }
 
-    public Integer tamanhoLista(){return lista_telefone.size();}
+    public Integer tamanhoLista() {
+        return lista_telefone.size();
+    }
 
-    public boolean Validate(){
+    public boolean Validate() {
         final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getActivity(), true));
-        if (isValid){
-            return  true;
+        if (isValid) {
+            return true;
         }
-
 
 
         return false;
     }
 
+    public void LimparLista() {
+        lista_telefone.clear();
+        adaptertelefone.setItems(lista_telefone);
+        adaptertelefone.notifyDataSetChanged();
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerviewTelefone();
+    }
 
     @Override
     public void atualizar() {

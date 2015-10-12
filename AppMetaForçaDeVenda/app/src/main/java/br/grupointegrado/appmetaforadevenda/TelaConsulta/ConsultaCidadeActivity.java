@@ -1,7 +1,6 @@
 package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 
 import android.app.SearchManager;
-import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,8 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
+import br.grupointegrado.appmetaforadevenda.Dao.EstadoDao;
+import br.grupointegrado.appmetaforadevenda.Dao.PaisDao;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCidade;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Cidade;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Estado;
+import br.grupointegrado.appmetaforadevenda.Pessoa.Pais;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroCidadeActivity;
@@ -47,11 +50,17 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     private String conteudoSearch;
     private Integer idCidade;
     private String IBGE;
+    private List<Pais> lista_pais;
+    private List<Estado> lista_estado;
+    private ArrayAdapter<Pais> pais_adapter;
+    private ArrayAdapter<Estado> estado_adapter;
 
 
     private Pessoa pessoa;
     private Cidade cidade;
     private CidadeDao cidadedao;
+    private EstadoDao estadodao;
+    private PaisDao paisdao;
     private AdapterCidade adaptercidade;
     private boolean selecionandoCidade = false;
 
@@ -73,11 +82,14 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
 
         cidadedao = new CidadeDao(this);
+        paisdao = new PaisDao(this);
+        estadodao = new EstadoDao(this);
 
-        MaterialEditCidade = (MaterialEditText) findViewById(R.id.MaterialEditCidadeDelete);
 
         if (getIntent().getExtras() != null)
             selecionandoCidade = getIntent().getExtras().getBoolean("selecionar_cidade", false);
+
+
 
 
         final StaggeredGridLayoutManager llm = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.VERTICAL);
@@ -98,8 +110,8 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
                     setResult(RESULT_OK, data);
                     finish();
                 } else {
-                    idCidade = cidade.getIdcidade();
-                    nomecidade = cidade.getDescricao();
+
+                    EditarCidade(getCidade(cidade));
 
                 }
 
@@ -109,12 +121,8 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
             protected boolean onLongItemClickListener(int adapterPosition, int layoutPosition) {
                 // evento e click longo
                 Cidade cidade = adaptercidade.getItems().get(adapterPosition);
-                idCidade = cidade.getIdcidade();
-                nomecidade = cidade.getDescricao();
-                IBGE = cidade.getIbge();
 
-
-                MaterialDialogCidade();
+                MaterialDialogCidade(cidade);
                 return true;
             }
         };
@@ -122,14 +130,45 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
         RecyviewCidade.setAdapter(adaptercidade);
 
+        lista_estado = estadodao.list();
+
+
+        estado_adapter = new ArrayAdapter<Estado>(this, android.R.layout.simple_list_item_1, lista_estado);
+
+
+        MaterialSpinnerEstado.setAdapter(estado_adapter);
+
+
+        MaterialSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudoestado = MaterialSpinnerEstado.getText().toString();
+
+            }
+        });
+
+        lista_pais = paisdao.list();
+
+        pais_adapter = new ArrayAdapter<Pais>(this, android.R.layout.simple_list_item_1, lista_pais);
+
+
+        MaterialSpinnerPais.setAdapter(pais_adapter);
+
+        MaterialSpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                conteudopais = MaterialSpinnerPais.getText().toString();
+            }
+
+        });
+
+        if(estadodao.list().isEmpty() && paisdao.list().isEmpty()){
+            cadastrarPais();
+            cadastrarEstado();
+        }
+
 
         Consultacidade();
-
-
-        Addspinnerestado();
-        Addspinnerpais();
-
-
         getDadosSearch(this.getIntent());
 
     }
@@ -143,20 +182,16 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
     public void getDadosSearch(Intent intent) {
 
-            String conteudoQuery = intent.getStringExtra(SearchManager.QUERY);
-            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
-            conteudoSearch = conteudoQuery;
+        String conteudoQuery = intent.getStringExtra(SearchManager.QUERY);
+        conteudoSearch = conteudoQuery;
 
         if (conteudoSearch != null) {
             Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
-            MaterialSpinnerPais.setText(" ");
-            MaterialSpinnerEstado.setText(" ");
             conteudopais = null;
             conteudoestado = null;
             adaptercidade.setItems(cidadedao.list(conteudoSearch));
             adaptercidade.notifyDataSetChanged();
         }
-
 
 
     }
@@ -185,7 +220,11 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
             case R.id.home:
                 finish();
                 break;
+            case android.R.id.home:
+                finish();
+                break;
             case R.id.ConsultarCidade:
+                LimparSpinner();
                 Consultacidade();
 
                 break;
@@ -201,19 +240,17 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         if (conteudoSearch != null) {
             adaptercidade.setItems(cidadedao.list(conteudoSearch));
             adaptercidade.notifyDataSetChanged();
-        }
-        else   if (conteudopais != null && conteudoestado != null) {
+        } else if (conteudopais != null && conteudoestado != null) {
             adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
             adaptercidade.notifyDataSetChanged();
 
-        }else{
+        } else {
 
 
             adaptercidade.setItems(cidadedao.list());
             adaptercidade.notifyDataSetChanged();
 
         }
-
 
 
     }
@@ -225,8 +262,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
             adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
             adaptercidade.notifyDataSetChanged();
 
-        }
-        else {
+        } else {
 
 
             adaptercidade.setItems(cidadedao.list());
@@ -234,9 +270,6 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         }
 
     }
-
-
-
 
 
     public void CadastrarCidade(View view) {
@@ -248,7 +281,7 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     }
 
 
-    public void MaterialDialogCidade() {
+    public void MaterialDialogCidade(final Cidade cidade) {
         boolean wrapInScrollView = true;
         new MaterialDialog.Builder(this)
                 .title("Cidade")
@@ -259,10 +292,10 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
                         if (text.equals("Editar")) {
 
-                            EditarCidade(getCidade());
+                            EditarCidade(getCidade(cidade));
                             dialog.dismiss();
                         } else if (text.equals("Excluir")) {
-                            DeletarCidade();
+                            DeletarCidade(cidade);
                             dialog.dismiss();
                         }
 
@@ -283,9 +316,9 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
 
     }
 
-    public void DeletarCidade() {
+    public void DeletarCidade(Cidade cidade) {
         try {
-            cidadedao.delete(idCidade);
+            cidadedao.delete(cidade.getId());
             Toast.makeText(this, "Cidade Excluida", Toast.LENGTH_SHORT).show();
             Consultacidade();
         } catch (Exception e) {
@@ -296,60 +329,70 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
     }
 
 
-    public void Addspinnerpais() {
-
-        String[] ITEMS = {"BR", "EUA", "PY"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        MaterialSpinnerPais.setAdapter(adapter);
-
-        MaterialSpinnerPais.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                conteudopais = MaterialSpinnerPais.getText().toString();
-
-
-            }
-
-
-        });
-
-
-    }
-
-
-    public void Addspinnerestado() {
-
-        String[] ITEMS = {"PR", "SP", "SC", "DF"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, ITEMS);
-        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-
-        MaterialSpinnerEstado.setAdapter(adapter);
-
-        MaterialSpinnerEstado.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                conteudoestado = MaterialSpinnerEstado.getText().toString();
-
-            }
-
-
-        });
-
-
-    }
-
     //pegar dados da tela e passar para o modelo
-    public Cidade getCidade() {
+    public Cidade getCidade(Cidade cidade) {
         return new Cidade(
-                conteudopais,
-                conteudoestado,
-                nomecidade,
-                IBGE);
+                cidade.getPais(),
+                cidade.getIdestado(),
+                cidade.getIdcidade(),
+                cidade.getDescricao(),
+                cidade.getIbge());
 
 
     }
+
+    public void cadastrarPais(){
+
+        paisdao.savePais("BR", "Brasil");
+        paisdao.savePais("UY","Uruguai");
+        paisdao.savePais("AR","Argetina");
+        paisdao.savePais("PY","Paraguay");
+        paisdao.savePais("CHL","Paraguay");
+        paisdao.savePais("BOL","Bolivia");
+        paisdao.savePais("PTG","Portugual");
+
+    }
+    public  void cadastrarEstado(){
+
+        estadodao.saveEstado("PR","Parana","BR");
+        estadodao.saveEstado("RS", "Rio Grande Sul","BR");
+        estadodao.saveEstado("SP", "São Paulo","BR");
+        estadodao.saveEstado("SC", "Santa Catarina","BR");
+        estadodao.saveEstado("RJ", "Rio de Janeiro","BR");
+        estadodao.saveEstado("CE", "Ceará","BR");
+        estadodao.saveEstado("SE", "Sergipe","BR");
+        estadodao.saveEstado("BH", "Bahia","BR");
+        estadodao.saveEstado("MG", "Minas Gerais","BR");
+        estadodao.saveEstado("MS", "Mato Grossso do Sul","BR");
+        estadodao.saveEstado("MT", "Mato Grossso ","BR");
+        estadodao.saveEstado("RN", "Rio Grande do Norte","BR");
+        estadodao.saveEstado("RR", "Roraima","BR");
+        estadodao.saveEstado("PI", "Piaui","BR");
+        estadodao.saveEstado("MA", "Maranhão","BR");
+        estadodao.saveEstado("AM", "Amazonas","BR");
+        estadodao.saveEstado("RO", "Rondonia","BR");
+        estadodao.saveEstado("GO", "Goais","BR");
+        estadodao.saveEstado("TO", "Tocantins","BR");
+        estadodao.saveEstado("DF", "Distrito Federal","BR");
+        estadodao.saveEstado("ES", "Espirito Santo","BR");
+        estadodao.saveEstado("PA", "Pará","BR");
+        estadodao.saveEstado("AC", "Acre","BR");
+        estadodao.saveEstado("AP", "Macapá","BR");
+        estadodao.saveEstado("RO", "Rondonia","BR");
+        estadodao.saveEstado("AL", "Alagoas","BR");
+        estadodao.saveEstado("LI", "Lisboa","PTG");
+        estadodao.saveEstado("AS", "assunção","PY");
+        estadodao.saveEstado("BA", "Buenos Aires","AR");
+
+    }
+
+
+    public void LimparSpinner() {
+        MaterialSpinnerPais.setText("");
+        MaterialSpinnerEstado.setText("");
+    }
+
+
 
 
 }
