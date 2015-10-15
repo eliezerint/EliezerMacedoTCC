@@ -173,11 +173,14 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
                         if (!campo_tel.getText().toString().isEmpty()) {
+                            if (posicaolista != null) {
+                                lista_telefone.remove(lista_telefone.get(posicaolista));
+                            }
                             lista_telefone.add(getTelefonePreencherLista(campo_tel.getText().toString()));
                             campo_tel.setText(" ");
-
                             recyclerviewTelefone();
                             telefonenaosalvo = false;
+
                             dialog.dismiss();
 
                         } else {
@@ -289,14 +292,11 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                         if (text.equals("Editar")) {
 
                             if (telefone.getIdPessoa() != null) {
+                                posicaolista = posicao;
                                 AddTelefoneDialogs(telefone);
-                                clientedao.deleteTelefone(telefone.getIdPessoa(), telefone.getIdTelefone());
-                                lista_telefone = clientedao.listTelefone(telefone.getIdPessoa().toString());
-                                recyclerviewTelefone();
                             } else {
                                 telefonenaosalvo = true;
                                 posicaolista = posicao;
-                                lista_telefone.remove(lista_telefone.get(posicao));
                                 recyclerviewTelefone();
                                 AddTelefoneDialogs(telefone);
 
@@ -306,8 +306,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
                             dialog.dismiss();
                         } else if (text.equals("Excluir")) {
                             if (telefone.getIdPessoa() != null) {
-                                clientedao.deleteTelefone(telefone.getIdPessoa(), telefone.getIdTelefone());
-                                lista_telefone = clientedao.listTelefone(telefone.getIdPessoa().toString());
+                                lista_telefone.remove(lista_telefone.get(posicao));
                                 recyclerviewTelefone();
                             } else {
                                 lista_telefone.remove(lista_telefone.get(posicao));
@@ -331,6 +330,15 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
     }
+
+    public boolean telefoneSalvo(Integer pos) {
+        if (lista_telefone.get(pos).getIdPessoa() != null)
+            return true;
+
+
+        return false;
+    }
+
 
     public Integer tamanhoLista() {
         return lista_telefone.size();

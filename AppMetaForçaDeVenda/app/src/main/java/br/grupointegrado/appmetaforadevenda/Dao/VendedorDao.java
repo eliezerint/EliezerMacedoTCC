@@ -66,5 +66,16 @@ public class VendedorDao extends AppDao {
         return nome;
     }
 
+    public Boolean validaVendedor(String id){
+        Cursor c = getReadableDatabase().rawQuery("Select nome from Vendedor where idVendedor = ?",
+                new String[]{id});
+        if (c.getCount() == 1)
+            return true;
+
+        else return false;
+    }
+
+
+
 
 }

@@ -41,12 +41,14 @@
                         android:id="@+id/radiofisica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="true"
                         android:text="Fisica" />
 
                     <RadioButton
                         android:id="@+id/radiojuridica"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:checked="false"
                         android:text="Juridica" />
 
                 </LinearLayout>

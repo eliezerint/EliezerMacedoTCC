@@ -31,7 +31,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:editable="false"
-                    android:hint="Nome"
+                    android:hint="Cliente"
                     app:met_baseColor="@android:color/black"
                     app:met_floatingLabel="highlight"
                     app:met_primaryColor="?colorAccent"

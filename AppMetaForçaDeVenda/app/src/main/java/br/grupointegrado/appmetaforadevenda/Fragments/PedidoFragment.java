@@ -13,13 +13,11 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import br.grupointegrado.appmetaforadevenda.Dao.CidadeDao;
 import br.grupointegrado.appmetaforadevenda.Dao.CondicaoPgtoDao;
 import br.grupointegrado.appmetaforadevenda.Dao.FilialDao;
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Dao.VendedorDao;
-import br.grupointegrado.appmetaforadevenda.Pedido.CondicaoPagamento;
-import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
+import br.grupointegrado.appmetaforadevenda.MainActivity;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaClienteActivity;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.Consulta_CondicaPgtoActivity;
@@ -33,7 +31,7 @@ import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
  */
 public class PedidoFragment extends Fragment implements FragmentTab {
 
-    private MaterialEditText edit_nome_pessoa;
+    private MaterialEditText edit_nome_cliente;
     private MaterialEditText edit_cond_pgto;
     private MaterialEditText edit_vendedor;
     private MaterialEditText edit_filial;
@@ -45,6 +43,7 @@ public class PedidoFragment extends Fragment implements FragmentTab {
     private Integer idfilial;
     private Integer idcondpgto;
     private Integer idvendedor;
+    private Integer idcendedortelainicial;
 
 
     private PessoaDao pessoadao;
@@ -64,7 +63,7 @@ public class PedidoFragment extends Fragment implements FragmentTab {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        edit_nome_pessoa = (MaterialEditText) view.findViewById(R.id.edit_nome_pessoa);
+        edit_nome_cliente = (MaterialEditText) view.findViewById(R.id.edit_nome_pessoa);
         edit_cond_pgto = (MaterialEditText) view.findViewById(R.id.edit_condicao_pag);
         edit_vendedor = (MaterialEditText) view.findViewById(R.id.edit_vendedor);
         edit_filial = (MaterialEditText) view.findViewById(R.id.edit_filial);
@@ -77,15 +76,15 @@ public class PedidoFragment extends Fragment implements FragmentTab {
         condpgtodao = new CondicaoPgtoDao(getActivity());
         vendedordao = new VendedorDao(getActivity());
 
+        idcendedortelainicial = MainActivity.idvendedortelainicial;
 
-
-
+        edit_vendedor.setText(vendedordao.nomeVendedor(idcendedortelainicial.toString()));
 
         edit_valor_Total.setText(" 0.00");
 
         edit_data_pedido.setText(getDateTime());
 
-        edit_nome_pessoa.setOnClickListener(new View.OnClickListener() {
+        edit_nome_cliente.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 selecionarPessoa();
@@ -108,6 +107,7 @@ public class PedidoFragment extends Fragment implements FragmentTab {
         edit_vendedor.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 selecionarVendedor();
             }
         });
@@ -150,7 +150,7 @@ public class PedidoFragment extends Fragment implements FragmentTab {
              idpessoa = data.getIntExtra("pessoa_id", 0);
             String nomePessoa;
             nomePessoa = pessoadao.CosultaClienteNome(Integer.toString(idpessoa));
-            edit_nome_pessoa.setText(nomePessoa);
+            edit_nome_cliente.setText(nomePessoa);
 
 
         }

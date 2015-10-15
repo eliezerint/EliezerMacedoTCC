@@ -50,9 +50,9 @@ public class PessoaDao extends AppDao {
 
     }
 
-    public void deleteTelefone(Integer idpessoa, Integer idtelefone) {
+    public void deleteTelefone(Integer idpessoa) {
 
-        getWritableDatabase().delete("Telefone", " idPessoa = ? and idTelefone = ? ", new String[]{idpessoa.toString(),idtelefone.toString()});
+        getWritableDatabase().delete("Telefone", " idPessoa = ? ", new String[]{idpessoa.toString()});
     }
     public List<Telefone> listTelefone(String id) {
         Cursor c = getReadableDatabase().rawQuery("Select " +

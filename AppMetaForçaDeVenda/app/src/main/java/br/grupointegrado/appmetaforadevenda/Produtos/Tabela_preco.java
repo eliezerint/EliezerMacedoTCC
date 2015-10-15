@@ -5,77 +5,69 @@ package br.grupointegrado.appmetaforadevenda.Produtos;
  */
 public class Tabela_preco {
 
-    Integer Idtabelapreco;
-    Integer Idlistapreco;
-    Double preco1;
-    Double preco2;
-    Double preco3;
-    Double preco4;
-    Double preco5;
-    Double preco6;
+    Integer idTabelapreco;
+    Integer idProduto;
+    String  Tp_venda;
+    Double  precominimo;
+    Double  precomaximo;
 
 
-    public Integer getIdtabelapreco() {
-        return Idtabelapreco;
+    public Tabela_preco() {
+
     }
 
-    public void setIdtabelapreco(Integer idtabelapreco) {
-        Idtabelapreco = idtabelapreco;
+    public Tabela_preco(Integer idTabelapreco, Integer idProduto, Double precominimo, Double precomaximo, String Tp_venda) {
+        this.idTabelapreco = idTabelapreco;
+        this.idProduto = idProduto;
+        this.precominimo = precominimo;
+        this.precomaximo = precomaximo;
+        this.Tp_venda = Tp_venda;
     }
 
-    public Double getPreco6() {
-        return preco6;
+    public Tabela_preco(Integer idProduto, String tp_venda, Double precominimo, Double precomaximo) {
+        this.idProduto = idProduto;
+        Tp_venda = tp_venda;
+        this.precominimo = precominimo;
+        this.precomaximo = precomaximo;
     }
 
-    public void setPreco6(Double preco6) {
-        this.preco6 = preco6;
+    public Integer getIdTabelapreco() {
+        return idTabelapreco;
     }
 
-    public Double getPreco5() {
-        return preco5;
+    public void setIdTabelapreco(Integer idTabelapreco) {
+        this.idTabelapreco = idTabelapreco;
     }
 
-    public void setPreco5(Double preco5) {
-        this.preco5 = preco5;
+    public Integer getIdProduto() {
+        return idProduto;
     }
 
-    public Double getPreco4() {
-        return preco4;
+    public void setIdProduto(Integer idProduto) {
+        this.idProduto = idProduto;
     }
 
-    public void setPreco4(Double preco4) {
-        this.preco4 = preco4;
+    public String getTp_venda() {
+        return Tp_venda;
     }
 
-    public Double getPreco3() {
-        return preco3;
+    public void setTp_venda(String tp_venda) {
+        Tp_venda = tp_venda;
     }
 
-    public void setPreco3(Double preco3) {
-        this.preco3 = preco3;
+    public Double getPrecomaximo() {
+        return precomaximo;
     }
 
-    public Double getPreco2() {
-        return preco2;
+    public void setPrecomaximo(Double precomaximo) {
+        this.precomaximo = precomaximo;
     }
 
-    public void setPreco2(Double preco2) {
-        this.preco2 = preco2;
+    public Double getPrecominimo() {
+        return precominimo;
     }
 
-    public Double getPreco1() {
-        return preco1;
-    }
-
-    public void setPreco1(Double preco1) {
-        this.preco1 = preco1;
-    }
-
-    public Integer getIdlistapreco() {
-        return Idlistapreco;
-    }
-
-    public void setIdlistapreco(Integer idlistapreco) {
-        Idlistapreco = idlistapreco;
+    public void setPrecominimo(Double precominimo) {
+        this.precominimo = precominimo;
     }
 }

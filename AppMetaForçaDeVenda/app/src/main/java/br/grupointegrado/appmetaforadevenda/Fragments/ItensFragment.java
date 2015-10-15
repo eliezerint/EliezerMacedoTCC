@@ -10,6 +10,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import net.i2p.android.ext.floatingactionbutton.FloatingActionButton;
 
@@ -22,6 +23,7 @@ import br.grupointegrado.appmetaforadevenda.Pedido.ItensPedido;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaCadastro.CadastroItensPedidoActivity;
+import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaProdutoActivity;
 import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 
 /**
@@ -95,6 +97,7 @@ public class ItensFragment extends Fragment implements FragmentTab {
         ConsultaItensPedido();
 
 
+
     }
 
 
@@ -103,12 +106,17 @@ public class ItensFragment extends Fragment implements FragmentTab {
         adapteritenspedido.notifyDataSetChanged();
 
     }
+    public void ConsultaItensPedido(List<ItensPedido> listaitens){
+        adapteritenspedido.setItems(listaitens);
+        adapteritenspedido.notifyDataSetChanged();
+
+    }
 
     private static final int REQUEST_ADD_ITENSPEDIDO = 1001;
 
     private void addItensPedido() {
-        Intent intent = new Intent(getActivity(), CadastroItensPedidoActivity.class);
-        intent.putExtra("Itenspedido_object", true);
+        Intent intent = new Intent(getActivity(), ConsultaProdutoActivity.class);
+        intent.putExtra("selecionando_produto", true);
         startActivityForResult(intent, REQUEST_ADD_ITENSPEDIDO);
     }
 
@@ -119,9 +127,12 @@ public class ItensFragment extends Fragment implements FragmentTab {
         super.onActivityResult(requestCode, resultCode, data);
 
         if (REQUEST_ADD_ITENSPEDIDO == requestCode && resultCode == getActivity().RESULT_OK) {
-            Serializable item = (ItensPedido) data.getSerializableExtra("itenspedido_object");
-            listaitens.add((ItensPedido) item);
-            //adapteritenspedido.setItems(itenspedido.getProduto(),itenspedido.getQuantidade());
+            ItensPedido item = (ItensPedido)data.getSerializableExtra("itens_object");
+
+            Toast.makeText(this.getContext(),item.getIdProduto()+ "", Toast.LENGTH_SHORT).show();
+            listaitens.add(item);
+            ConsultaItensPedido(listaitens);
+
         }
 
 

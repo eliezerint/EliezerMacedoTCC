@@ -1,23 +1,27 @@
 package br.grupointegrado.appmetaforadevenda;
 
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.EditText;
+import android.widget.Button;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
+
+import com.rengwuxian.materialedittext.MaterialEditText;
 
 import br.grupointegrado.appmetaforadevenda.Dao.AppDao;
+import br.grupointegrado.appmetaforadevenda.Dao.VendedorDao;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Estado;
 
 
-public class MainActivity extends ActionBarActivity {
+public class MainActivity extends AppCompatActivity {
      private AppDao DAO;
+     private VendedorDao vendedordao;
      private Estado estado;
-     public static String IdVendedor;
-     private EditText edtcdVendedor;
+     private Button btentrar;
+     public static Integer idvendedortelainicial;
+     private MaterialEditText edtcdVendedor;
      private Toolbar  atoolbar;
 
 
@@ -33,17 +37,34 @@ public class MainActivity extends ActionBarActivity {
         setSupportActionBar(atoolbar);
 
         DAO = new AppDao(this);
+        vendedordao = new VendedorDao(this);
 
-        edtcdVendedor = (EditText)findViewById(R.id.edtcdVendedor);
+        edtcdVendedor = (MaterialEditText)findViewById(R.id.edtcdVendedor);
+        btentrar      = (Button)findViewById(R.id.btentrar);
 
-         edtcdVendedor.getText().toString();
+
+        btentrar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!edtcdVendedor.getText().toString().isEmpty()) {
+                    if (vendedordao.validaVendedor(edtcdVendedor.getText().toString())) {
+                        idvendedortelainicial = Integer.parseInt(edtcdVendedor.getText().toString());
+                        entrar();
+
+                    } else
+                        Toast.makeText(v.getContext(), "Vendedor nao autorizado", Toast.LENGTH_SHORT).show();
+
+
+                }else Toast.makeText(v.getContext(), "O campo codigo não informado", Toast.LENGTH_SHORT).show();
+            }
+        });
+
 
 
 
     }
-    public  void entrar(View view){
+    public  void entrar(){
 
-//     DAO.saveEstado("SC","Campo mourao");
 
         Intent i = new Intent(this.getApplication(),MenuActivity.class);
 

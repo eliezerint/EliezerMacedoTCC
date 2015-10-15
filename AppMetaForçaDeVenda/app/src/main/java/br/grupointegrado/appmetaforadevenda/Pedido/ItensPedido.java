@@ -23,6 +23,18 @@ public class ItensPedido implements Serializable{
         this.vlunitario = vlunitario;
         this.total = total;
     }
+    public ItensPedido(Integer idProduto, String produto, Double vlunitario, Double quantidade, Double desconto, Double total) {
+        this.IdProduto = idProduto;
+        this.produto = produto;
+        this.desconto = desconto;
+        this.quantidade = quantidade;
+        this.vlunitario = vlunitario;
+        this.total = total;
+    }
+
+    public ItensPedido() {
+
+    }
 
     public Integer getIdPedido() {
         return IdPedido;

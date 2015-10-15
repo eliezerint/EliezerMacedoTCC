@@ -9,6 +9,36 @@ public class Produtos {
     Integer IdUnidademedida;
     String descricao;
     Double quantidaestoque;
+    Double vlunitario;
+
+
+    public Produtos() {
+    }
+
+    public Produtos(Integer idgrupopoduto, Integer idUnidademedida, String descricao, Double quantidaestoque, Double vlunitario) {
+        this.Idgrupopoduto = idgrupopoduto;
+        this.IdUnidademedida = idUnidademedida;
+        this.descricao = descricao;
+        this.quantidaestoque = quantidaestoque;
+        this.vlunitario = vlunitario;
+    }
+
+    public Produtos(Integer idproduto, Integer idgrupopoduto, Integer idUnidademedida, String descricao, Double quantidaestoque, Double vlunitario) {
+        this.Idproduto = idproduto;
+        this.Idgrupopoduto = idgrupopoduto;
+        this.IdUnidademedida = idUnidademedida;
+        this.descricao = descricao;
+        this.quantidaestoque = quantidaestoque;
+        this.vlunitario = vlunitario;
+    }
+
+    public Double getVlunitario() {
+        return vlunitario;
+    }
+
+    public void setVlunitario(Double vlunitario) {
+        this.vlunitario = vlunitario;
+    }
 
     public Integer getIdproduto() {
         return Idproduto;

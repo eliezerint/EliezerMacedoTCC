@@ -9,6 +9,18 @@ public class Grupos_Produtos {
     Integer Idproduto;
     String Descricao;
 
+    public Grupos_Produtos(Integer idproduto, String descricao) {
+        Idproduto = idproduto;
+        Descricao = descricao;
+    }
+
+    public Grupos_Produtos(String descricao) {
+        Descricao = descricao;
+    }
+
+    public Grupos_Produtos() {
+    }
+
     public Integer getIdproduto() {
         return Idproduto;
     }

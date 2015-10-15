@@ -152,15 +152,15 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                     } else {
                         try {
 
-                            pessoadao.Update(fragPes.getPessoa());
-                            int idpessoa = pessoadao.CosultaClienteCNPJCPF(fragPes.getPessoa().getCnpjCpf());
                             String CPFCNPJ = fragPes.getPessoa().getCnpjCpf();
+                            int idpessoa = pessoadao.CosultaClienteCNPJCPF(CPFCNPJ);
                             int tamanho = fragTel.tamanhoLista();
 
-
+                            pessoadao.Update(fragPes.getPessoa());
                             if (tamanho > 0) {
+                                    pessoadao.deleteTelefone(idpessoa);
                                 for (int x = 0; x < tamanho; x++) {
-                                    pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf(), x));
+                                     pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf(), x));
 
                                 }
 

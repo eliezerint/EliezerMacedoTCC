@@ -21,7 +21,7 @@ import br.grupointegrado.appmetaforadevenda.R;
 
 public class AppDao extends SQLiteOpenHelper {
     public static final String BD_NAME = "ForcaVenda";
-    public static final int BD_Version = 3;
+    public static final int BD_Version = 4;
     private Resources res;
     private Pedido pedido;
     private Estado estado;
@@ -46,6 +46,10 @@ public class AppDao extends SQLiteOpenHelper {
         db.execSQL(res.getString(R.string.SQL_CREATE_CONDPGTO));
         db.execSQL(res.getString(R.string.SQL_CREATE_VENDEDOR));
         db.execSQL(res.getString(R.string.SQL_CREATE_PARAMETRO));
+        db.execSQL(res.getString(R.string.SQL_CREATE_GRUPO_PRODUTO));
+        db.execSQL(res.getString(R.string.SQL_CREATE_UNIDADE_MEDIDA));
+        db.execSQL(res.getString(R.string.SQL_CREATE_PRODUTO));
+        db.execSQL(res.getString(R.string.SQL_CREATE_TABELA_PRECO));
 
     }
 
@@ -60,6 +64,10 @@ public class AppDao extends SQLiteOpenHelper {
         db.execSQL("DROP TABLE IF EXISTS " + "Condicao_pagamento");
         db.execSQL("DROP TABLE IF EXISTS " + "Vendedor");
         db.execSQL("DROP TABLE IF EXISTS " + "Parametro");
+        db.execSQL("DROP TABLE IF EXISTS " + "GrupoProduto");
+        db.execSQL("DROP TABLE IF EXISTS " + "UnidadeMedida");
+        db.execSQL("DROP TABLE IF EXISTS " + "Produto");
+        db.execSQL("DROP TABLE IF EXISTS " + "TabelaPreco");
 
         onCreate(db);
 

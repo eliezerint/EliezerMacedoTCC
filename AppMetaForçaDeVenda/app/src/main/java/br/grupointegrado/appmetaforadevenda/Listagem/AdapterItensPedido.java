@@ -34,23 +34,27 @@ public class AdapterItensPedido extends AbstractAdapter<AdapterItensPedido.ViewH
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, ItensPedido item) {
-        holder.tv_produto.setText(item.getIdProduto());
-        holder.tv_quantidade.setText(item.getQuantidade().toString());
-        holder.tv_vlunitario.setText(item.getVlunitario().toString());
-        holder.tv_desconto.setText(item.getDesconto().toString());
-        holder.tv_valortotal.setText(item.getTotal().toString());
+        holder.tv_produto.setText(item.getIdProduto().toString());
+        holder.tv_nomeproduto.setText("Produto : "+item.getProduto());
+        holder.tv_vlunitario.setText("Valor Uni. :"+item.getVlunitario().toString());
+        holder.tv_quantidade.setText("Quantidade : "+item.getQuantidade().toString());
+        holder.tv_desconto.setText("Desconto : " +item.getDesconto().toString());
+        holder.tv_valortotal.setText("Total : "+item.getTotal().toString());
     }
 
     public class ViewHolder extends AbstractAdapter.AbstractViewHolder {
         final TextView tv_produto;
+        final TextView tv_nomeproduto;
         final TextView tv_quantidade;
         final TextView tv_vlunitario;
         final TextView tv_desconto;
         final TextView tv_valortotal;
 
+
         public ViewHolder(View view) {
             super(view);
             tv_produto = (TextView) view.findViewById(R.id.tv_produto);
+            tv_nomeproduto = (TextView) view.findViewById(R.id.tv_nomeproduto);
             tv_quantidade = (TextView) view.findViewById(R.id.tv_quantidade);
             tv_vlunitario = (TextView) view.findViewById(R.id.tv_vlunitario);
             tv_desconto = (TextView) view.findViewById(R.id.tv_desconto);

@@ -135,6 +135,14 @@ public class MenuActivity extends AppCompatActivity {
 
                     }
                 })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        dialog.dismiss();
+                    }
+                })
                 .show();
 
 

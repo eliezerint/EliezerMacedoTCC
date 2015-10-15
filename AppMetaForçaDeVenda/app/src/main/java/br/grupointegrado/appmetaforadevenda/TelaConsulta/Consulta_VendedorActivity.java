@@ -50,8 +50,11 @@ public class Consulta_VendedorActivity extends AppCompatActivity {
 
         */
 
-       // vendedordao.saveVendedor("Lucas");
-        //vendedordao.saveVendedor("Amanda");
+       /*  vendedordao.saveVendedor("Lucas");
+         vendedordao.saveVendedor("Amanda");
+         vendedordao.saveVendedor("Tereza");
+         vendedordao.saveVendedor("Onofre");*/
+
 
 
         recyclerviewvendedor = (RecyclerView)findViewById(R.id.RecyviewVendedor);

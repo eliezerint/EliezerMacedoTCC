@@ -30,6 +30,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Codigo do Vendedor"
+            android:digits="1234567890"
+            android:inputType="number"
             app:met_baseColor="@android:color/black"
             app:met_floatingLabel="highlight"
             app:met_primaryColor="?colorAccent"
@@ -38,9 +40,9 @@
 
     <Button
         android:text="Entrar"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:onClick="entrar"
+        android:id="@+id/btentrar"
         android:layout_gravity="center"/>
     </LinearLayout>
 

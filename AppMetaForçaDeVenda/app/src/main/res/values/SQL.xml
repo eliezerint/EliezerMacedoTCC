@@ -247,6 +247,59 @@
          );
 
     </string>
+    <string name="SQL_CREATE_GRUPO_PRODUTO">
+         CREATE TABLE GrupoProduto (
+             idGrupo_produto INTEGER PRIMARY KEY AUTOINCREMENT,
+              Descricao VARCHAR(50) NOT NULL
+          );
+
+
+
+    </string>
+
+
+    <string name="SQL_CREATE_UNIDADE_MEDIDA">
+
+        CREATE TABLE UnidadeMedida (
+          idUnidadeMedida INTEGER PRIMARY KEY AUTOINCREMENT,
+           Descricao VARCHAR(50) NOT NULL,
+           Sigla VARCHAR(2)NOT NULL
+        );
+
+
+     </string>
+
+
+    <string name="SQL_CREATE_PRODUTO">
+
+         CREATE TABLE Produto (
+           idProduto INTEGER PRIMARY KEY AUTOINCREMENT,
+           idGrupo_produto INTEGER NOT NULL,
+           idUnidadeMedida INTEGER NOT NULL,
+           Descricao VARCHAR(50) NULL,
+           Quantidade_estoque DOUBLE(5,2) NULl,
+           Valor_unitario Double(5,2) NULL,
+           FOREIGN KEY(idGrupo_produto)
+           REFERENCES Grupo_produto(idGrupo_produto),
+           FOREIGN KEY(idUnidadeMedida)
+           REFERENCES UnidadeMedida(idUnidadeMedida)
+          );
+
+
+    </string>
+
+   <string name="SQL_CREATE_TABELA_PRECO" >
+
+           CREATE TABLE TabelaPreco (
+              idTabela_preco INTEGER PRIMARY KEY AUTOINCREMENT,
+              idProduto INTEGER NOT NULL,
+              Tipo_venda VARCHAR(8) NULL,
+              preco_minimo DOUBLE(5,2) NULL,
+              preco_maximo DOUBLE(5,2) NULL,
+              FOREIGN KEY(idProduto)
+              REFERENCES Produto(idProduto)
+          );
+   </string>
 
 
 </resources>
