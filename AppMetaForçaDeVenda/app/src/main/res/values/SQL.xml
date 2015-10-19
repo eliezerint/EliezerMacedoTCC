@@ -187,11 +187,10 @@
            CREATE TABLE Pessoa (
           idPessoa INTEGER  PRIMARY KEY AUTOINCREMENT,
           id_Cidade INTEGER NOT NULL,
-          CNPJCPF VARCHAR(18) NULL,
+          CNPJCPF VARCHAR(14) NULL,
           Endereco VARCHAR(50) NULL,
           Numero VARCHAR(10) NULL,
           Bairro VARCHAR(50) NULL,
-          Cidade VARCHAR(60) NULL,
           Telefone  VARCHAR(20) NULL,
           Data_Cadastro DATE NULL,
           Data_Nascimento DATE NULL,
@@ -236,7 +235,7 @@
     <string name="SQL_CREATE_PARAMETRO">
 
         CREATE TABLE Parametro (
-          idParametro INTEGER  PRIMARY KEY AUTOINCREMENT,
+         idParametro INTEGER  PRIMARY KEY AUTOINCREMENT,
          idVendedor INTEGER  NOT NULL,
          Faixa_inicial INTEGER  NULL,
          Faixa_final INTEGER  NULL,

@@ -134,8 +134,6 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private MaterialEditText editValorUltimacompra;
 
 
-    @NotEmpty(messageId = R.string.Campo_vazio, order = 12)
-    @RegExp(value = EMAIL, messageId = R.string.validation_valid_email, order = 12)
     @MaxLength(value = 50, messageId = R.string.Max_email, order = 12)
     private MaterialEditText editEmail;
 
@@ -227,6 +225,9 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         cnpjmask = Mask.insert("##.###.###/####-##", editCnpj);
         editCnpj.addTextChangedListener(cnpjmask);
 
+        editEmail.addValidator(new RegexpValidator("Email Inválido", "^[a-zA-Z0-9][a-zA-Z0-9\\._-]+@([a-zA-Z0-9\\._-]+\\.)[a-zA-Z-0-9]{2}"));
+        editEmail.setValidateOnFocusLost(true);
+
 
         //CPF|CPNJ Validacao
         editCpf.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -238,14 +239,17 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
                         if (cpf == true) {
                             Toast.makeText(getActivity(), "CPF valido", Toast.LENGTH_SHORT).show();
 
-                        } else
+                        } else {
                             Toast.makeText(getActivity(), "CPF Invalido", Toast.LENGTH_SHORT).show();
+                            editCpf.addValidator(new RegexpValidator("Cpf Inválido", "12//+12"));
+                            editCpf.setValidateOnFocusLost(true);
+                        }
+
 
                     }
-
-
                 }
             }
+
         });
 
         editCnpj.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -258,7 +262,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
                             Toast.makeText(getActivity(), "CNPJ valido", Toast.LENGTH_SHORT).show();
 
                         } else {
-                            Toast.makeText(getActivity(), "CNPJ Invalido", Toast.LENGTH_SHORT).show();
+                            editCnpj.addValidator(new RegexpValidator("Cnpj Inválido", "12//+12"));
+                            editCnpj.setValidateOnFocusLost(true);
 
                         }
 
@@ -266,7 +271,6 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
                 }
             }
         });
-
 
 
         editCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
@@ -311,7 +315,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         editRazaoSocial.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-                if(!hasFocus)
+                if (!hasFocus)
                     editRazaoSocial.setText(editFantasia.getText().toString());
             }
         });
@@ -334,11 +338,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         });
 
 
-
-
         RadioBoxFisica();
         RadioBoxJuridica();
-
 
 
     }
@@ -466,7 +467,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         if ((cpf == null) || (cpf.length() != 11) || (cpf.equals("00000000000")) ||
                 (cpf.equals("11111111111")) || (cpf.equals("22222222222")) || (cpf.equals("33333333333")) ||
                 (cpf.equals("44444444444")) || (cpf.equals("55555555555")) || (cpf.equals("66666666666")) ||
-                (cpf.equals("77777777777")) || (cpf.equals("88888888888")) || (cpf.equals("99999999999"))) return false;
+                (cpf.equals("77777777777")) || (cpf.equals("88888888888")) || (cpf.equals("99999999999")))
+            return false;
 
         Integer digito1 = calcularDigito(cpf.substring(0, 9), pesoCPF);
         Integer digito2 = calcularDigito(cpf.substring(0, 9) + digito1, pesoCPF);
@@ -489,14 +491,14 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
                 rg = null, datanascimento = null;
 
         if (radioFisica.isChecked()) {
-            cpf = editCpf.getText().toString();
+            cpf = Mask.unmask(editCpf.getText().toString());
             nome = editNome.getText().toString();
             apelido = editApelido.getText().toString();
             rg = editRg.getText().toString();
             datanascimento = editDataNascimento.getText().toString();
 
         } else if (radioJuridica.isChecked()) {
-            cpf = editCnpj.getText().toString();
+            cpf = Mask.unmask(editCnpj.getText().toString());
             nome = editRazaoSocial.getText().toString();
             apelido = editFantasia.getText().toString();
             rg = editInscricaEstadual.getText().toString();
@@ -645,7 +647,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         editNumero.setText(pessoaalt.getNumero());
         editcomplemento.setText(pessoaalt.getComplemento());
         editBairro.setText(pessoaalt.getBairro());
-        editCidade.setText(pessoaalt.getCidade());
+        editCidade.setText(cidadedao.ConsultaCidadeporid(pessoaalt.getIdCidade().toString()));
         editEmail.setText(pessoaalt.getEmail());
         editDataCadastro.setText(ConvesorUtil.dateParaString(pessoaalt.getDataCadastro()));
 
