@@ -14,6 +14,7 @@ public class ItensPedido implements Serializable{
     Double quantidade;
     Double vlunitario;
     Double total;
+    Double totalCdesconto;
 
 
     public ItensPedido(String produto, Double desconto, Double quantidade, Double vlunitario, Double total) {
@@ -23,17 +24,26 @@ public class ItensPedido implements Serializable{
         this.vlunitario = vlunitario;
         this.total = total;
     }
-    public ItensPedido(Integer idProduto, String produto, Double vlunitario, Double quantidade, Double desconto, Double total) {
+    public ItensPedido(Integer idProduto, String produto, Double vlunitario, Double quantidade, Double desconto, Double total,Double totalCdesconto) {
         this.IdProduto = idProduto;
         this.produto = produto;
         this.desconto = desconto;
         this.quantidade = quantidade;
         this.vlunitario = vlunitario;
         this.total = total;
+        this.totalCdesconto = totalCdesconto;
     }
 
     public ItensPedido() {
 
+    }
+
+    public Double getTotalCdesconto() {
+        return totalCdesconto;
+    }
+
+    public void setTotalCdesconto(Double totalCdesconto) {
+        this.totalCdesconto = totalCdesconto;
     }
 
     public Integer getIdPedido() {

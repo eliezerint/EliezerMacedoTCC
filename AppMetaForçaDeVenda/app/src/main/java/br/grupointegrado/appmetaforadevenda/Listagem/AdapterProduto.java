@@ -35,23 +35,23 @@ public class AdapterProduto extends AbstractAdapter<AdapterProduto.ViewHolder, P
     @Override
     public void onBindViewHolder(ViewHolder holder, int position, Produtos item) {
         holder.tv_Produto.setText(item.getDescricao());
-        holder.tv_ValorUnitario.setText(item.getVlunitario().toString());
-        holder.tv_QtEstoque.setText(item.getQuantidaestoque().toString());
+        holder.tv_Unidade_Medida.setText(item.getDescricaoUnidademedida());
+        holder.tv_Grupode_Produto.setText(item.getDescricaoGrupoProduto());
         holder.tv_Cod.setText(item.getIdproduto() + "");
     }
 
     public class ViewHolder extends AbstractAdapter.AbstractViewHolder {
         final TextView tv_Produto;
-        final TextView tv_ValorUnitario;
-        final TextView tv_QtEstoque;
+        final TextView tv_Unidade_Medida;
+        final TextView tv_Grupode_Produto;
         final TextView tv_Cod;
 
         public ViewHolder(View view) {
             super(view);
             tv_Cod = (TextView) view.findViewById(R.id.tv_cod);
             tv_Produto = (TextView) view.findViewById(R.id.tv_Produto);
-            tv_ValorUnitario = (TextView) view.findViewById(R.id.tv_Vlunitario);
-            tv_QtEstoque = (TextView) view.findViewById(R.id.tv_QtEstoque);
+            tv_Unidade_Medida = (TextView) view.findViewById(R.id.tv_Unidade_Medida);
+            tv_Grupode_Produto = (TextView) view.findViewById(R.id.tv_GrupoProduto);
         }
     }
 }

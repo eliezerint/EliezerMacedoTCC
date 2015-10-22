@@ -29,8 +29,6 @@ public class ProdutoDao extends AppDao {
         cv.put("idGrupo_produto", produto.getIdgrupopoduto());
         cv.put("idUnidadeMedida", produto.getIdUnidademedida());
         cv.put("Descricao", produto.getDescricao());
-        cv.put("Quantidade_estoque", produto.getQuantidaestoque());
-        cv.put("Valor_Unitario", produto.getVlunitario());
 
 
         getWritableDatabase().insert("Produto", null, cv);
@@ -38,7 +36,9 @@ public class ProdutoDao extends AppDao {
     }
 
     public List<Produtos> list() {
-        Cursor c = getReadableDatabase().rawQuery("Select idProduto, idGrupo_produto, idUnidadeMedida,Descricao ,Quantidade_estoque,Valor_Unitario from Produto ", null);
+        Cursor c = getReadableDatabase().rawQuery("Select idProduto, grp.idGrupo_produto, um.idUnidadeMedida  ,p.Descricao , um.Sigla, " +
+                "grp.Descricao from Produto p, UnidadeMedida um , GrupoProduto grp " +
+                "where um.idUnidadeMedida = p.idUnidadeMedida and grp.idGrupo_produto = p.idGrupo_produto ", null);
 
         List<Produtos> produtos = new ArrayList<>();
 
@@ -50,8 +50,9 @@ public class ProdutoDao extends AppDao {
             produto.setIdgrupopoduto(c.getInt(1));
             produto.setIdUnidademedida(c.getInt(2));
             produto.setDescricao(c.getString(3));
-            produto.setQuantidaestoque(c.getDouble(4));
-            produto.setVlunitario(c.getDouble(5));
+            produto.setDescricaoUnidademedida(c.getString(4));
+            produto.setDescricaoGrupoProduto(c.getString(5));
+
 
             produtos.add(produto);
 
@@ -126,8 +127,10 @@ public class ProdutoDao extends AppDao {
         ContentValues cv = new ContentValues();
         cv.put("idProduto", tabela_preco.getIdProduto());
         cv.put("Tipo_venda", tabela_preco.getTp_venda());
-        cv.put("preco_minimo", tabela_preco.getPrecominimo());
-        cv.put("preco_maximo", tabela_preco.getPrecomaximo());
+        cv.put("preco1", tabela_preco.getPreco1());
+        cv.put("preco2", tabela_preco.getPreco2());
+        cv.put("preco3", tabela_preco.getPreco3());
+        cv.put("preco4", tabela_preco.getPreco4());
 
         getWritableDatabase().insert("TabelaPreco", null, cv);
 
@@ -135,7 +138,8 @@ public class ProdutoDao extends AppDao {
 
 
     public List<Tabela_preco> listPrecoVEnda() {
-        Cursor c = getReadableDatabase().rawQuery("Select idTabela_preco, idProduto, Tipo_venda, preco_minimo, preco_maximo from UnidadeMedida ", null);
+        Cursor c = getReadableDatabase().rawQuery("Select idTabela_preco, idProduto, Tipo_venda, preco1, preco2," +
+                "preco3, preco4 from TabelaPreco ", null);
 
         List<Tabela_preco> tabela_precos = new ArrayList<>();
 
@@ -146,8 +150,10 @@ public class ProdutoDao extends AppDao {
             tabela_preco.setIdTabelapreco(c.getInt(0));
             tabela_preco.setIdProduto(c.getInt(1));
             tabela_preco.setTp_venda(c.getString(2));
-            tabela_preco.setPrecominimo(c.getDouble(3));
-            tabela_preco.setPrecomaximo(c.getDouble(4));
+            tabela_preco.setPreco1(c.getDouble(3));
+            tabela_preco.setPreco2(c.getDouble(4));
+            tabela_preco.setPreco3(c.getDouble(5));
+            tabela_preco.setPreco4(c.getDouble(6));
 
             tabela_precos.add(tabela_preco);
 
@@ -156,6 +162,7 @@ public class ProdutoDao extends AppDao {
         return tabela_precos;
 
     }
+
 
 
 

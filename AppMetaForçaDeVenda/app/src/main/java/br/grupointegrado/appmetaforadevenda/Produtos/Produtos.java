@@ -8,36 +8,45 @@ public class Produtos {
     Integer Idgrupopoduto;
     Integer IdUnidademedida;
     String descricao;
-    Double quantidaestoque;
-    Double vlunitario;
+    String descricaoUnidademedida;
+    String descricaoGrupoProduto;
 
 
     public Produtos() {
     }
 
-    public Produtos(Integer idgrupopoduto, Integer idUnidademedida, String descricao, Double quantidaestoque, Double vlunitario) {
+    public Produtos(Integer idgrupopoduto, Integer idUnidademedida, String descricaoUnidademedida, String descricao, String descricaoGrupoProduto) {
         this.Idgrupopoduto = idgrupopoduto;
         this.IdUnidademedida = idUnidademedida;
         this.descricao = descricao;
-        this.quantidaestoque = quantidaestoque;
-        this.vlunitario = vlunitario;
+        this.descricaoUnidademedida = descricaoUnidademedida;
+        this.descricaoGrupoProduto = descricaoGrupoProduto;
     }
 
-    public Produtos(Integer idproduto, Integer idgrupopoduto, Integer idUnidademedida, String descricao, Double quantidaestoque, Double vlunitario) {
+    public Produtos(Integer idproduto, Integer idgrupopoduto, Integer idUnidademedida, String descricaoUnidademedida, String descricao, String descricaoGrupoProduto) {
         this.Idproduto = idproduto;
         this.Idgrupopoduto = idgrupopoduto;
         this.IdUnidademedida = idUnidademedida;
         this.descricao = descricao;
-        this.quantidaestoque = quantidaestoque;
-        this.vlunitario = vlunitario;
+        this.descricaoUnidademedida = descricaoUnidademedida;
+        this.descricaoGrupoProduto = descricaoGrupoProduto;
     }
 
-    public Double getVlunitario() {
-        return vlunitario;
+
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setVlunitario(Double vlunitario) {
-        this.vlunitario = vlunitario;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
+    }
+
+    public String getDescricaoGrupoProduto() {
+        return descricaoGrupoProduto;
+    }
+
+    public void setDescricaoGrupoProduto(String descricaoGrupoProduto) {
+        this.descricaoGrupoProduto = descricaoGrupoProduto;
     }
 
     public Integer getIdproduto() {
@@ -47,21 +56,14 @@ public class Produtos {
     public void setIdproduto(Integer idproduto) {
         Idproduto = idproduto;
     }
+    
 
-    public Double getQuantidaestoque() {
-        return quantidaestoque;
+    public String getDescricaoUnidademedida() {
+        return descricaoUnidademedida;
     }
 
-    public void setQuantidaestoque(Double quantidaestoque) {
-        this.quantidaestoque = quantidaestoque;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
+    public void setDescricaoUnidademedida(String descricaoUnidademedida) {
+        this.descricaoUnidademedida = descricaoUnidademedida;
     }
 
     public Integer getIdUnidademedida() {

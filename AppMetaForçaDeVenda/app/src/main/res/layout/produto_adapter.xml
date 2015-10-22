@@ -36,19 +36,19 @@
                 android:textSize="@dimen/abc_action_bar_content_inset_material" />
 
             <TextView
-                android:id="@+id/tv_Vlunitario"
+                android:id="@+id/tv_Unidade_Medida"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Valor Unitario"
+                android:text="Unidade Medida"
                 android:textColor="#80000000"
                 android:textSize="@dimen/abc_action_bar_content_inset_material" />
             <TextView
-                android:id="@+id/tv_QtEstoque"
+                android:id="@+id/tv_GrupoProduto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
-                android:text="Quantidade Estoque"
+                android:text="Grupo Produto"
                 android:textColor="#80000000"
                 android:textSize="@dimen/abc_action_bar_content_inset_material" />
         </LinearLayout>

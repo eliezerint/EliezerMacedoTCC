@@ -12,7 +12,7 @@
         CREATE TABLE Cidade (
         id_Cidade INTEGER PRIMARY KEY AUTOINCREMENT,
         id_estado VARCHAR(2) NOT NULL,
-        descricao VARCHAR(40) UNIQUE,
+        descricaoUnidademedida VARCHAR(40) UNIQUE,
         IBGE VARCHAR(7) NULL,
         Pais VARCHAR(30) NULL,
         FOREIGN KEY(id_estado)
@@ -195,6 +195,7 @@
           Data_Cadastro DATE NULL,
           Data_Nascimento DATE NULL,
           Complemento VARCHAR(10) NULL,
+          Cep VARCHAR(8) NULL,
           Email VARCHAR(50) NULL,
           Razao_socialNome VARCHAR(60) NULL,
           Nome_fantasiaApelido VARCHAR(60) NULL,
@@ -226,7 +227,9 @@
 
         CREATE TABLE Vendedor (
           idVendedor INTEGER PRIMARY KEY AUTOINCREMENT,
-          Nome VARCHAR(50) NULL
+          Nome VARCHAR(50) NULL,
+          Max_Desconto DOUBLE(5,2) NULL,
+          Max_Acrescimo DOUBLE(5,2) NULL
 
         );
 
@@ -276,7 +279,6 @@
            idGrupo_produto INTEGER NOT NULL,
            idUnidadeMedida INTEGER NOT NULL,
            Descricao VARCHAR(50) NULL,
-           Quantidade_estoque DOUBLE(5,2) NULl,
            Valor_unitario Double(5,2) NULL,
            FOREIGN KEY(idGrupo_produto)
            REFERENCES Grupo_produto(idGrupo_produto),
@@ -293,8 +295,10 @@
               idTabela_preco INTEGER PRIMARY KEY AUTOINCREMENT,
               idProduto INTEGER NOT NULL,
               Tipo_venda VARCHAR(8) NULL,
-              preco_minimo DOUBLE(5,2) NULL,
-              preco_maximo DOUBLE(5,2) NULL,
+              preco1 DOUBLE(5,2) NULL,
+              preco2 DOUBLE(5,2) NULL,
+              preco3 DOUBLE(5,2) NULL,
+              preco4 DOUBLE(5,2) NULL,
               FOREIGN KEY(idProduto)
               REFERENCES Produto(idProduto)
           );

@@ -56,6 +56,7 @@
     <string name="Max_endereco">O endereço ter no maximo 50 caracteres </string>
     <string name="Max_email">O email ter no maximo 50 caracteres</string>
     <string name="Max_comple">Ter no maximo 10 caracteres</string>
+    <string name="Min_comple">Ter no mimino 8 digitos </string>
     <string name="validation_valid_email">Email Inválido </string>
     <string name="Min_ValueTelefone">Telefone inválido minimo 10</string>
     <string name="Max_ValueTelefone">Telefone inválido maximo 11</string>

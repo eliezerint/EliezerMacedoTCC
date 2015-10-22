@@ -43,6 +43,8 @@ public class MainActivity extends AppCompatActivity {
         btentrar      = (Button)findViewById(R.id.btentrar);
 
 
+       // vendedordao.saveVendedor("Lucas", 20.00 , 20.00);
+
         btentrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

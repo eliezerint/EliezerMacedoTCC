@@ -198,6 +198,7 @@ public class CadastroPessoaActivity extends AppCompatActivity {
         } else {
 
             super.onBackPressed();
+            finish();
         }
     }
 

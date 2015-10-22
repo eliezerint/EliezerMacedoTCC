@@ -47,9 +47,20 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:singleLine="true"
+                android:visibility="visible"
                 android:text="CPF"
                 android:textColor="#80000000"
-                android:textSize="@dimen/abc_action_bar_content_inset_material" />
+                android:textSize="16dp"/>
+            <TextView
+                android:id="@+id/tvcnpj"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:visibility="visible"
+                android:text="CNPJ"
+                android:textColor="#80000000"
+                android:textSize="16dp"/>
+
         </LinearLayout>
 
         <LinearLayout

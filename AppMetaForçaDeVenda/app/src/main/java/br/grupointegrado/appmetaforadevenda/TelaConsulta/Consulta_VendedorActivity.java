@@ -50,10 +50,10 @@ public class Consulta_VendedorActivity extends AppCompatActivity {
 
         */
 
-       /*  vendedordao.saveVendedor("Lucas");
-         vendedordao.saveVendedor("Amanda");
-         vendedordao.saveVendedor("Tereza");
-         vendedordao.saveVendedor("Onofre");*/
+/*
+        vendedordao.saveVendedor("Amanda", 10.00 , 10.00);
+         vendedordao.saveVendedor("Tereza", 40.00 , 40.00);
+         vendedordao.saveVendedor("Onofre", 50.00 , 50.00);*/
 
 
 

@@ -17,6 +17,7 @@ public class Pessoa implements Serializable {
     String Numero;
     String bairro;
     String complemento;
+    String cep;
     String Cidade;
     String telefone;
     Date dataCadastro;
@@ -32,7 +33,7 @@ public class Pessoa implements Serializable {
 
 
     public Pessoa( Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
-                   String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
+                   String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cep,String cidade,
                   String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
 
         this.idCidade = idCidade;
@@ -40,6 +41,7 @@ public class Pessoa implements Serializable {
         this.Numero = Numero;
         this.bairro = bairro;
         this.complemento = complemento;
+        this.cep = cep;
         this.Cidade = cidade;
         this.dataCadastro = dataCadastro;
         this.Endereco = endereco;
@@ -57,7 +59,7 @@ public class Pessoa implements Serializable {
     public Pessoa (){}
 
     public Pessoa(Integer idpessoa,Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
-                  String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cidade,
+                  String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String Cep,
                   Date dataNascimento,String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
         this.idpessoa = idpessoa;
         this.idCidade = idCidade;
@@ -65,7 +67,7 @@ public class Pessoa implements Serializable {
         this.Numero = Numero;
         this.bairro = bairro;
         this.complemento = complemento;
-        this.Cidade = cidade;
+        this.cep = cep;
         this.dataCadastro = dataCadastro;
         this.Endereco = endereco;
         this.Email = Email;
@@ -80,7 +82,9 @@ public class Pessoa implements Serializable {
 
     }
 
+    public String getCep(){return  cep;}
 
+    public  void setCep(String cep){this.cep = cep;}
 
     public Date getDataNascimento() {
         return dataNascimento;

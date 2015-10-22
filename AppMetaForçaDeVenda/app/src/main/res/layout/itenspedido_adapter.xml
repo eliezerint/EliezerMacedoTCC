@@ -26,19 +26,11 @@
             android:layout_weight="1"
             android:orientation="horizontal">
 
-            <TextView
-                android:id="@+id/tv_produto"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:singleLine="true"
-                android:text="ID"
-                android:textColor="#000"
-                android:textSize="@dimen/abc_action_bar_content_inset_material" />
+
             <TextView
                 android:id="@+id/tv_nomeproduto"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
                 android:singleLine="true"
                 android:text="Produto"
                 android:textColor="#000"
@@ -99,6 +91,16 @@
                 android:singleLine="true"
                 android:layout_marginLeft="10dp"
                 android:text="Valor Total"
+                android:textColor="#000"
+                android:textSize="@dimen/abc_action_bar_content_inset_material" />
+
+            <TextView
+                android:id="@+id/tv_valortotalCDesconto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true"
+                android:layout_marginLeft="10dp"
+                android:text="Valor Total c/desconto"
                 android:textColor="#000"
                 android:textSize="@dimen/abc_action_bar_content_inset_material" />
 

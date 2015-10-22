@@ -21,7 +21,7 @@ import br.grupointegrado.appmetaforadevenda.R;
 
 public class AppDao extends SQLiteOpenHelper {
     public static final String BD_NAME = "ForcaVenda";
-    public static final int BD_Version = 4;
+    public static final int BD_Version = 1;
     private Resources res;
     private Pedido pedido;
     private Estado estado;

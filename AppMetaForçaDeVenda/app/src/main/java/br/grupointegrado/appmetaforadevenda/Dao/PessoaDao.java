@@ -88,7 +88,7 @@ public class PessoaDao extends AppDao {
         cv.put("Endereco", pessoa.getEndereco());
         cv.put("Numero", pessoa.getNumero());
         cv.put("Bairro", pessoa.getBairro());
-        cv.put("cidade", pessoa.getCidade());
+        cv.put("Cep", pessoa.getCep());
         cv.put("Data_Nascimento",(dateParaString(pessoa.getDataNascimento())));
         cv.put("Data_Cadastro",(dateParaString(pessoa.getDataCadastro())));
         cv.put("Complemento", pessoa.getComplemento());
@@ -133,10 +133,11 @@ public class PessoaDao extends AppDao {
 
     public List<Pessoa> list() {
         Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
-                + " id_Cidade, CNPJCPF , Endereco , Numero , Bairro , Cidade "
+                + " cid.id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cid.descricao"
                 + " , Data_Nascimento ,"
                 +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
-                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra  From Pessoa  ", null);
+                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra  " +
+                "        From Pessoa ,Cidade cid  where cid.id_Cidade = Pessoa.id_Cidade", null);
 
         List<Pessoa> pessoas = new ArrayList<>();
 
@@ -160,6 +161,7 @@ public class PessoaDao extends AppDao {
             pessoa.setInscriEstadualRG(c.getString(13));
             pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
             pessoa.setValorUltimacompra(c.getDouble(15));
+            pessoa.setCep(c.getString(9));//, Cep
 
 
             pessoas.add(pessoa);
@@ -169,11 +171,11 @@ public class PessoaDao extends AppDao {
         return pessoas;
     }
     public List<Pessoa> list(String nome) {
-        Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
-                + " id_Cidade, CNPJCPF , Endereco , Numero , Bairro , Cidade "
-                + " , Data_Nascimento ,"
-                +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
-                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra  From Pessoa where Razao_socialNome like ?", new String[]{nome});
+        Cursor c = getReadableDatabase().rawQuery("Select  idPessoa," +
+                "  cid.id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cid.descricao , Data_Nascimento ,"+
+                "  Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , " +
+                "  inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra " +
+                "  From Pessoa ,Cidade cid  where cid.id_Cidade = Pessoa.id_Cidade and Razao_socialNome like ?", new String[]{nome});
 
         List<Pessoa> pessoas = new ArrayList<>();
 
@@ -197,6 +199,7 @@ public class PessoaDao extends AppDao {
             pessoa.setInscriEstadualRG(c.getString(13));
             pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
             pessoa.setValorUltimacompra(c.getDouble(15));
+            pessoa.setCep(c.getString(15));
 
 
             pessoas.add(pessoa);
