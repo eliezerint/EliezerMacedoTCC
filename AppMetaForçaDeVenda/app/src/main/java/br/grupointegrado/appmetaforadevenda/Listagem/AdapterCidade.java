@@ -45,12 +45,14 @@ public class AdapterCidade extends AbstractAdapter<AdapterCidade.ViewHolder, Cid
     public void onBindViewHolder(ViewHolder holder, int position, Cidade item) {
         holder.tvCidade.setText(item.getDescricao());
         holder.tvEstado.setText(item.getIdestado());
+        holder.tvIbge.setText(item.getIbge());
         holder.tvCod.setText(item.getIdcidade() + "");
     }
 
     public class ViewHolder extends AbstractAdapter.AbstractViewHolder {
         final TextView tvCidade;
         final TextView tvEstado;
+        final TextView tvIbge;
         final TextView tvCod;
 
         public ViewHolder(View view) {
@@ -58,6 +60,7 @@ public class AdapterCidade extends AbstractAdapter<AdapterCidade.ViewHolder, Cid
             tvCod = (TextView) view.findViewById(R.id.tv_cod);
             tvCidade = (TextView) view.findViewById(R.id.tvCidade);
             tvEstado = (TextView) view.findViewById(R.id.tvEstado);
+            tvIbge = (TextView) view.findViewById(R.id.tvIbge);
         }
     }
 }

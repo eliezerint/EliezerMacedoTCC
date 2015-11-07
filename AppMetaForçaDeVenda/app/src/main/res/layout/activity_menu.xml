@@ -67,6 +67,18 @@
                     fab:fab_colorPressed="@color/colorgrey"
                     fab:fab_icon="@drawable/ic_description_black_24dp" />
 
+                <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/DadosPedido"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_margin="15dp"
+                    app:elevation="4dp"
+                    fab:fab_colorNormal="@color/colorPrimary"
+                    fab:fab_colorPressed="@color/colorgrey"
+                    fab:fab_icon="@drawable/ic_search_black_24dp" />
+
+
+
 
             </LinearLayout>
 
@@ -74,9 +86,29 @@
 
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="40px">
+                android:layout_marginTop="40px"
+                android:orientation="horizontal">
+
+                <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
+                    android:id="@+id/Produto"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="left|bottom"
+                    android:layout_margin="15dp"
+                    app:elevation="4dp"
+                    fab:fab_colorNormal="@color/colorPrimary"
+                    fab:fab_colorPressed="@color/colorgrey"
+                    fab:fab_icon="@drawable/ic_shopping_cart_black_24dp" />
 
 
+
+
+            <LinearLayout
+
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="40px"
+                android:orientation="horizontal">
 
                 <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
                     android:id="@+id/Exportacao"
@@ -92,12 +124,6 @@
 
             </LinearLayout>
 
-            <LinearLayout
-
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="40px">
-
 
 
                 <net.i2p.android.ext.floatingactionbutton.FloatingActionButton
@@ -109,7 +135,7 @@
                     app:elevation="4dp"
                     fab:fab_colorNormal="@color/colorPrimary"
                     fab:fab_colorPressed="@color/colorgrey"
-                    fab:fab_icon="@drawable/ic_shopping_cart_black_24dp" />
+                    fab:fab_icon="@drawable/ic_report_black_24dp" />
 
 
 

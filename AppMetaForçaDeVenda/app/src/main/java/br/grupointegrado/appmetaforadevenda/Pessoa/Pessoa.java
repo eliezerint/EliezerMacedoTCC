@@ -11,29 +11,29 @@ import java.util.Date;
  */
 public class Pessoa implements Serializable {
 
-    Integer idpessoa ;
-    Integer idCidade ;
-    String CnpjCpf;
-    String Numero;
-    String bairro;
-    String complemento;
-    String cep;
-    String Cidade;
-    String telefone;
-    Date dataCadastro;
-    String Endereco;
-    String Email;
-    String RazaoSocialNome;
-    String fantasiaApelido;
-    String inscriEstadualRG;
-    Date dataUltimacompra;
-    Double valorUltimacompra = 0.00;
-    Date dataNascimento;
+    private Integer idpessoa ;
+    private Integer idCidade ;
+    private  String CnpjCpf;
+    private String Numero;
+    private  String bairro;
+    private String complemento;
+    private  String cep;
+    private  String Cidade;
+    private  String telefone;
+    private  Date dataCadastro;
+    private  String Endereco;
+    private  String Email;
+    private  String RazaoSocialNome;
+    private   String fantasiaApelido;
+    private   String inscriEstadualRG;
+    private  Date dataUltimacompra;
+    private  Double valorUltimacompra = 0.00;
+    private  Date dataNascimento;
 
 
 
     public Pessoa( Integer idCidade, String cnpjCpf,String razaoSocialNome, String fantasiaApelido,
-                   String inscriEstadualRG , String endereco ,String Numero, String bairro,String complemento, String cep,String cidade,
+                   String inscriEstadualRG , String endereco ,String Numero, String bairro, String complemento, String cep,
                   String Email,Date dataUltimacompra , double valorUltimacompra,Date dataCadastro) {
 
         this.idCidade = idCidade;
@@ -42,7 +42,6 @@ public class Pessoa implements Serializable {
         this.bairro = bairro;
         this.complemento = complemento;
         this.cep = cep;
-        this.Cidade = cidade;
         this.dataCadastro = dataCadastro;
         this.Endereco = endereco;
         this.Email = Email;
@@ -67,7 +66,7 @@ public class Pessoa implements Serializable {
         this.Numero = Numero;
         this.bairro = bairro;
         this.complemento = complemento;
-        this.cep = cep;
+        this.cep = Cep;
         this.dataCadastro = dataCadastro;
         this.Endereco = endereco;
         this.Email = Email;
@@ -82,45 +81,6 @@ public class Pessoa implements Serializable {
 
     }
 
-    public String getCep(){return  cep;}
-
-    public  void setCep(String cep){this.cep = cep;}
-
-    public Date getDataNascimento() {
-        return dataNascimento;
-    }
-
-    public void setDataNascimento(Date dataNascimento) {
-        this.dataNascimento = dataNascimento;
-    }
-
-    public String getComplemento() {
-        return complemento;
-    }
-
-    public void setComplemento(String complemento) {
-        this.complemento = complemento;
-    }
-
-    public String getNumero() {
-        return Numero;
-    }
-
-    public void setNumero(String numero) {
-        Numero = numero;
-    }
-
-    public String getCnpjCpf() {
-        return CnpjCpf;
-    }
-
-    public String getCidade() {
-        return Cidade;
-    }
-
-    public void setCidade(String cidade) {
-        Cidade = cidade;
-    }
 
     public Integer getIdpessoa() {
         return idpessoa;
@@ -138,44 +98,52 @@ public class Pessoa implements Serializable {
         this.idCidade = idCidade;
     }
 
-    public Double getValorUltimacompra() {
-        return valorUltimacompra;
+    public String getCnpjCpf() {
+        return CnpjCpf;
     }
 
-    public void setValorUltimacompra(Double valorUltimacompra) {
-        this.valorUltimacompra = valorUltimacompra;
+    public void setCnpjCpf(String cnpjCpf) {
+        CnpjCpf = cnpjCpf;
     }
 
-    public String getRazaoSocialNome() {
-        return RazaoSocialNome;
+    public String getNumero() {
+        return Numero;
     }
 
-    public void setRazaoSocialNome(String razaoSocialNome) {
-        RazaoSocialNome = razaoSocialNome;
+    public void setNumero(String numero) {
+        Numero = numero;
     }
 
-    public String getEmail() {
-        return Email;
+    public String getBairro() {
+        return bairro;
     }
 
-    public void setEmail(String email) {
-        Email = email;
+    public void setBairro(String bairro) {
+        this.bairro = bairro;
     }
 
-    public String getEndereco() {
-        return Endereco;
+    public String getComplemento() {
+        return complemento;
     }
 
-    public void setEndereco(String endereco) {
-        this.Endereco = endereco;
+    public void setComplemento(String complemento) {
+        this.complemento = complemento;
     }
 
-    public Date getDataCadastro() {
-        return dataCadastro;
+    public String getCep() {
+        return cep;
     }
 
-    public void setDataCadastro(Date dataCadastro) {
-        this.dataCadastro = dataCadastro;
+    public void setCep(String cep) {
+        this.cep = cep;
+    }
+
+    public String getCidade() {
+        return Cidade;
+    }
+
+    public void setCidade(String cidade) {
+        Cidade = cidade;
     }
 
     public String getTelefone() {
@@ -186,28 +154,36 @@ public class Pessoa implements Serializable {
         this.telefone = telefone;
     }
 
-    public String getRua() {
-        return Numero;
+    public Date getDataCadastro() {
+        return dataCadastro;
     }
 
-    public void setRua(String rua) {
-        this.Numero = rua;
+    public void setDataCadastro(Date dataCadastro) {
+        this.dataCadastro = dataCadastro;
     }
 
-    public String getCnpjCpf(String string) {
-        return CnpjCpf;
+    public String getEndereco() {
+        return Endereco;
     }
 
-    public void setCnpjCpf(String cnpjCpf) {
-        CnpjCpf = cnpjCpf;
+    public void setEndereco(String endereco) {
+        Endereco = endereco;
     }
 
-    public String getBairro() {
-        return bairro;
+    public String getEmail() {
+        return Email;
     }
 
-    public void setBairro(String bairro) {
-        this.bairro = bairro;
+    public void setEmail(String email) {
+        Email = email;
+    }
+
+    public String getRazaoSocialNome() {
+        return RazaoSocialNome;
+    }
+
+    public void setRazaoSocialNome(String razaoSocialNome) {
+        RazaoSocialNome = razaoSocialNome;
     }
 
     public String getFantasiaApelido() {
@@ -234,10 +210,19 @@ public class Pessoa implements Serializable {
         this.dataUltimacompra = dataUltimacompra;
     }
 
+    public Double getValorUltimacompra() {
+        return valorUltimacompra;
+    }
 
+    public void setValorUltimacompra(Double valorUltimacompra) {
+        this.valorUltimacompra = valorUltimacompra;
+    }
 
+    public Date getDataNascimento() {
+        return dataNascimento;
+    }
 
-
-
-
+    public void setDataNascimento(Date dataNascimento) {
+        this.dataNascimento = dataNascimento;
+    }
 }

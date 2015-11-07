@@ -14,7 +14,6 @@ import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.rengwuxian.materialedittext.MaterialEditText;
-import com.rengwuxian.materialedittext.validation.METValidator;
 import com.rengwuxian.materialedittext.validation.RegexpValidator;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
@@ -32,14 +31,10 @@ import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.TelaConsulta.ConsultaCidadeActivity;
 import br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil;
-import br.grupointegrado.appmetaforadevenda.Util.CustomValida;
 import br.grupointegrado.appmetaforadevenda.Util.FragmentTab;
 import br.grupointegrado.appmetaforadevenda.Util.Mask;
-import br.grupointegrado.appmetaforadevenda.Util.ValidateCpf;
 import eu.inmite.android.lib.validations.form.FormValidator;
-import eu.inmite.android.lib.validations.form.annotations.Custom;
 import eu.inmite.android.lib.validations.form.annotations.MaxLength;
-import eu.inmite.android.lib.validations.form.annotations.MaxValue;
 import eu.inmite.android.lib.validations.form.annotations.MinLength;
 import eu.inmite.android.lib.validations.form.annotations.NotEmpty;
 import eu.inmite.android.lib.validations.form.annotations.RegExp;
@@ -47,7 +42,6 @@ import eu.inmite.android.lib.validations.form.annotations.RegExp;
 import static eu.inmite.android.lib.validations.form.annotations.RegExp.EMAIL;
 
 import eu.inmite.android.lib.validations.form.callback.SimpleErrorPopupCallback;
-import eu.inmite.android.lib.validations.form.validators.CustomValidator;
 
 import static br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil.stringParaDate;
 
@@ -91,7 +85,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private MaterialEditText editFantasia;
 
     @NotEmpty(messageId = R.string.Campo_vazio, order = 4)
-    @MinLength(value = 10, messageId = R.string.MinRG_Value, order = 4)
+    @MinLength(value = 9, messageId = R.string.MinRG_Value, order = 4)
     @MaxLength(value = 10, messageId = R.string.MaxRG_Value, order = 4)
     private MaterialEditText editRg;
 
@@ -118,8 +112,10 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     @MaxLength(value = 10, messageId = R.string.Max_comple, order = 7)
     private MaterialEditText editcomplemento;
 
-    @MinLength(value =8, messageId = R.string.Min_comple, order = 7)
+    @MinLength(value =10, messageId = R.string.Min_cep, order = 8)
+    @MaxLength(value =10, messageId = R.string.Max_cep, order = 8)
     @NotEmpty(messageId = R.string.Campo_vazio, order = 8)
+    @RegExp(value = "[0-9]{2}.[0-9]{3}-[0-9]{3}", messageId = R.string.cep_validation, order = 8)
     private MaterialEditText editcep;
 
 
@@ -140,6 +136,8 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
 
     @MaxLength(value = 50, messageId = R.string.Max_email, order = 13)
+    @RegExp(value = EMAIL, messageId = R.string.email_validation, order = 13)
+    @NotEmpty(messageId = R.string.Campo_vazio, order = 13)
     private MaterialEditText editEmail;
 
 
@@ -152,8 +150,9 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     private TextWatcher cepmask;
 
 
-    private boolean cpf;
-    private boolean cnpj;
+    private boolean iscpf;
+    private boolean iscnpj;
+    private boolean existecpf;
     private Integer cdCidade;
     private String Cidade;
     private Integer idpessoa;
@@ -183,7 +182,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
 
     @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
+    public void onViewCreated(View view, final Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         //Instancia do XML do Editext e spinner
 
@@ -235,8 +234,9 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         cepmask = Mask.insert("##.###-###", editcep);
         editcep.addTextChangedListener(cepmask);
 
-        editEmail.addValidator(new RegexpValidator("Email Inválido", "^[a-zA-Z0-9][a-zA-Z0-9\\._-]+@([a-zA-Z0-9\\._-]+\\.)[a-zA-Z-0-9]{2}"));
-        editEmail.setValidateOnFocusLost(true);
+        editRg.setMaxCharacters(10);
+        editInscricaEstadual.setMaxCharacters(14);
+
 
 
        // editCpf.addValidator(new ValidateCpf("Cpf Inválido", editCpf.getText().toString()));
@@ -249,14 +249,17 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus) {
                     if (radioFisica.isChecked()) {
-                        cpf = ValidaCpf(Mask.unmask(editCpf.getText().toString()));
-                        if (cpf == true) {
-                            Toast.makeText(getActivity(), "CPF valido", Toast.LENGTH_SHORT).show();
-                        } else {
+                        iscpf = ValidaCpf(Mask.unmask(editCpf.getText().toString()));
+                        if (iscpf == true) {
+                            if (cpfvalidaexiste()){
+                                Toast.makeText(getActivity(), "CPF valido", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
                             Toast.makeText(getActivity(), "CPF inválido", Toast.LENGTH_SHORT).show();
 
                         }
-                    }            }}
+                    }
+                }}
         });
 
        editCnpj.setOnFocusChangeListener(new View.OnFocusChangeListener() {
@@ -264,19 +267,23 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
           public void onFocusChange(View v, boolean hasFocus) {
              if (!hasFocus) {
                  if (radioJuridica.isChecked()) {
-                 cnpj = ValidaCnpj(Mask.unmask(editCnpj.getText().toString()));
-                      if (cnpj == true) {
-                          Toast.makeText(getActivity(), "CNPJ valido", Toast.LENGTH_SHORT).show();
-                        } else {
-                            editCnpj.addValidator(new RegexpValidator("Cnpj Inválido", "12//+12"));
-                           editCnpj.setValidateOnFocusLost(true);
+                     iscnpj = ValidaCnpj(Mask.unmask(editCnpj.getText().toString()));
+                     if (iscnpj == true) {
+                        if (cnpjvalidaexiste()){
+                            Toast.makeText(getActivity(), "CNPJ valido", Toast.LENGTH_SHORT).show();
+                        }
+                     } else {
+                         Toast.makeText(getActivity(), "CNPJ inválido", Toast.LENGTH_SHORT).show();
 
-                       }
-             }            }}
+                     }
+                 }
+
+             }
+         }
       });
 
 
-        editCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
+           editCidade = (MaterialEditText) view.findViewById(R.id.edit_cidade);
         editCidade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
@@ -312,14 +319,17 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus)
-                    editApelido.setText(editNome.getText().toString());
+                    if (editApelido.getText().toString().isEmpty())
+                        editApelido.setText(editNome.getText().toString());
+
             }
         });
         editRazaoSocial.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 if (!hasFocus)
-                    editRazaoSocial.setText(editFantasia.getText().toString());
+                    if (editFantasia.getText().toString().isEmpty())
+                    editFantasia.setText(editRazaoSocial.getText().toString());
             }
         });
 
@@ -341,6 +351,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
         });
 
 
+
         RadioBoxFisica();
         RadioBoxJuridica();
 
@@ -350,6 +361,7 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     @Override
     public void onStart() {
         super.onStart();
+
         FormValidator.startLiveValidation(this, new SimpleErrorPopupCallback(this.getActivity()));
         pessoaalt = (Pessoa) getActivity().getIntent().getSerializableExtra("alterarpessoa");
         if (pessoaalt != null && estadodofragment == false) {
@@ -514,12 +526,13 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
                 editNumero.getText().toString(),
                 editBairro.getText().toString(),
                 editcomplemento.getText().toString(),
-                editcep.getText().toString(),
+                Mask.unmask(editcep.getText().toString()),
                 stringParaDate(datanascimento),
                 editEmail.getText().toString(),
                 stringParaDate(editDataUltima.getText().toString()),
                 Double.parseDouble(editValorUltimacompra.getText().toString()),
-                stringParaDate(editDataCadastro.getText().toString())
+                stringParaDate(editDataCadastro.getText().
+                        toString())
 
         );
     }
@@ -608,16 +621,26 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
     public boolean Validate() {
         final boolean isValid = FormValidator.validate(this, new SimpleErrorPopupCallback(getActivity(), true));
         if (isValid) {
-            cpf = ValidaCpf(Mask.unmask(editCpf.getText().toString()));
-            cnpj = ValidaCnpj(Mask.unmask(editCnpj.getText().toString()));
-            if (cpf ||cnpj){
-                return true;
-            }else if (!cpf && radioFisica.isChecked()){
+            iscpf = ValidaCpf(Mask.unmask(editCpf.getText().toString()));
+            iscnpj = ValidaCnpj(Mask.unmask(editCnpj.getText().toString()));
+            if (iscpf || iscnpj ){
+                if (radioFisica.isChecked()){
+                    if (cpfvalidaexiste()){
+                        return true;
+                    }
+                }else if (radioJuridica.isChecked()){
+                   if (cnpjvalidaexiste()){
+                        return true;
+                    }
+                }
+            }else if (!iscpf && radioFisica.isChecked()){
                 Toast.makeText(this.getContext(),"CPF Inválido",Toast.LENGTH_SHORT).show();
-            }else if (!cnpj && radioJuridica.isChecked()){
+            }else if (!iscnpj && radioJuridica.isChecked()){
                 Toast.makeText(this.getContext(),"CNPJ Inválido",Toast.LENGTH_SHORT).show();
             }
 
+        } else {
+            Toast.makeText(this.getContext(), "Preencher Campos Obrigatorios ", Toast.LENGTH_SHORT).show();
         }
 
         return false;
@@ -655,10 +678,10 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
             editDataAbertura.setText(ConvesorUtil.dateParaString(pessoaalt.getDataNascimento()));
         }
 
-        editcep.setText(pessoaalt.getCep());
         editEndereco.setText(pessoaalt.getEndereco());
         editNumero.setText(pessoaalt.getNumero());
         editcomplemento.setText(pessoaalt.getComplemento());
+        editcep.setText(pessoaalt.getCep());
         editBairro.setText(pessoaalt.getBairro());
         editCidade.setText(cidadedao.ConsultaCidadeporid(pessoaalt.getIdCidade().toString()));
         editEmail.setText(pessoaalt.getEmail());
@@ -666,12 +689,69 @@ public class PessoaFragment extends Fragment implements DatePickerDialog.OnDateS
 
     }
 
-    public Boolean pessoAlt() {
+    public Boolean ispessoAlt() {
 
         if (pessoaalt != null) {
             return true;
         }
 
+
+        return false;
+    }
+
+    public Boolean cnpjvalidaexiste() {
+
+        if (ispessoAlt()) {
+            if (existeCpfCnpjAlterando(pessoaalt, editCnpj.getText().toString())) {
+                Toast.makeText(getActivity(), "CNPJ já cadastrado", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        } else {
+            if (existeCpfCnpjInserindo(Mask.unmask(editCnpj.getText().toString()))) {
+                Toast.makeText(getActivity(), "CNPJ já cadastrado", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    public Boolean cpfvalidaexiste() {
+
+        if (ispessoAlt()) {
+            if (existeCpfCnpjAlterando(pessoaalt, editCpf.getText().toString())) {
+                Toast.makeText(getActivity(), "CPF já cadastrado", Toast.LENGTH_SHORT).show();
+                return  false;
+            }
+        } else {
+            if (existeCpfCnpjInserindo(Mask.unmask(editCpf.getText().toString()))) {
+                Toast.makeText(getActivity(), "CPF já cadastrado", Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        }
+        return true;
+    }
+
+    private Integer idpessoaexiste;
+    public Boolean existeCpfCnpjAlterando(Pessoa pessoaalt, String CpfCnpj){
+
+        idpessoaexiste = clientedao.CosultaClienteCNPJCPF(Mask.unmask(CpfCnpj));
+        Integer idpessoaatualizando = pessoaalt.getIdpessoa();
+
+               if (idpessoaexiste > 0)
+                   if (!idpessoaexiste.equals(idpessoaatualizando)) return true;
+
+        return false;
+
+    }
+
+    public Boolean existeCpfCnpjInserindo(String cpf){
+
+        idpessoaexiste = clientedao.CosultaClienteCNPJCPF(cpf);
+
+        if (idpessoaexiste > 0){
+            return true;
+
+        }
 
         return false;
     }

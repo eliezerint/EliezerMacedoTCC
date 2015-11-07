@@ -42,24 +42,59 @@
                 android:text="Apelido"
                 android:textColor="#80000000"
                 android:textSize="@dimen/abc_action_bar_content_inset_material" />
-            <TextView
-                android:id="@+id/tvcpf"
+
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/ic_phone_black_18dp"
+                    />
+
+                <TextView
+                android:id="@+id/tvTelefone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                    android:layout_marginLeft="10dp"
                 android:singleLine="true"
                 android:visibility="visible"
-                android:text="CPF"
+                android:text="Telefone"
                 android:textColor="#80000000"
                 android:textSize="16dp"/>
-            <TextView
-                android:id="@+id/tvcnpj"
+
+            </LinearLayout>
+
+            <LinearLayout
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                >
+
+            <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/ic_email_black_24dp"
+                />
+
+            <TextView
+                android:id="@+id/tvEmail"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
                 android:singleLine="true"
                 android:visibility="visible"
-                android:text="CNPJ"
+                android:text="Email"
                 android:textColor="#80000000"
                 android:textSize="16dp"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

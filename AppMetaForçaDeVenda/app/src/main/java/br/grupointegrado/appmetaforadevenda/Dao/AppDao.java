@@ -50,6 +50,7 @@ public class AppDao extends SQLiteOpenHelper {
         db.execSQL(res.getString(R.string.SQL_CREATE_UNIDADE_MEDIDA));
         db.execSQL(res.getString(R.string.SQL_CREATE_PRODUTO));
         db.execSQL(res.getString(R.string.SQL_CREATE_TABELA_PRECO));
+        db.execSQL(res.getString(R.string.SQL_CREATE_TABELA_ITEN_PRECO));
 
     }
 

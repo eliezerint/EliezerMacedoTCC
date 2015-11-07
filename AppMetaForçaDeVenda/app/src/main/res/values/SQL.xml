@@ -228,9 +228,7 @@
         CREATE TABLE Vendedor (
           idVendedor INTEGER PRIMARY KEY AUTOINCREMENT,
           Nome VARCHAR(50) NULL,
-          Max_Desconto DOUBLE(5,2) NULL,
-          Max_Acrescimo DOUBLE(5,2) NULL
-
+          Max_Desconto DOUBLE(5,2) NULL
         );
 
     </string>
@@ -289,18 +287,26 @@
 
     </string>
 
-   <string name="SQL_CREATE_TABELA_PRECO" >
+    <string name="SQL_CREATE_TABELA_PRECO" >
 
-           CREATE TABLE TabelaPreco (
-              idTabela_preco INTEGER PRIMARY KEY AUTOINCREMENT,
-              idProduto INTEGER NOT NULL,
-              Tipo_venda VARCHAR(8) NULL,
-              preco1 DOUBLE(5,2) NULL,
-              preco2 DOUBLE(5,2) NULL,
-              preco3 DOUBLE(5,2) NULL,
-              preco4 DOUBLE(5,2) NULL,
-              FOREIGN KEY(idProduto)
+
+       CREATE TABLE TabelaPreco (
+       idTabelapreco INTEGER PRIMARY KEY AUTOINCREMENT,
+       idProduto INTEGER  NOT NULL,
+        descricao VARCHAR(20) NULL,
+         FOREIGN KEY(idProduto)
               REFERENCES Produto(idProduto)
+          );
+   </string>
+
+     <string name="SQL_CREATE_TABELA_ITEN_PRECO" >
+       CREATE TABLE TabelaItenPreco (
+       idTabelaItenpreco INTEGER  PRIMARY KEY AUTOINCREMENT,
+       idTabelapreco INTEGER NOT NULL,
+       descricao VARCHAR(8) NULL,
+       vlunitario DOUBLE(5,2) NULL,
+       FOREIGN KEY(idTabelapreco)
+              REFERENCES TabelaPreco(idTabelapreco)
           );
    </string>
 

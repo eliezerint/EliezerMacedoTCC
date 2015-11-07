@@ -186,11 +186,20 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         conteudoSearch = conteudoQuery;
 
         if (conteudoSearch != null) {
-            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
-            conteudopais = null;
-            conteudoestado = null;
-            adaptercidade.setItems(cidadedao.list(conteudoSearch));
-            adaptercidade.notifyDataSetChanged();
+            if (soExisteNumero(conteudoSearch)){
+                conteudoSearch = conteudoSearch.replace(" ","");
+                Toast.makeText(this, conteudoSearch + "true", Toast.LENGTH_SHORT).show();
+                conteudopais = null;
+                conteudoestado = null;
+                adaptercidade.setItems(cidadedao.listCodIbge(conteudoSearch));
+                adaptercidade.notifyDataSetChanged();
+            }else {
+                Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
+                conteudopais = null;
+                conteudoestado = null;
+                adaptercidade.setItems(cidadedao.list(conteudoSearch));
+                adaptercidade.notifyDataSetChanged();
+            }
         }
 
 
@@ -238,8 +247,15 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         super.onResume();
 
         if (conteudoSearch != null) {
-            adaptercidade.setItems(cidadedao.list(conteudoSearch));
-            adaptercidade.notifyDataSetChanged();
+            if (soExisteNumero(conteudoSearch)){
+                conteudoSearch  = conteudoSearch.replace(" ","");
+                adaptercidade.setItems(cidadedao.listCodIbge(conteudoSearch));
+                adaptercidade.notifyDataSetChanged();
+
+            }else {
+                adaptercidade.setItems(cidadedao.list(conteudoSearch));
+                adaptercidade.notifyDataSetChanged();
+            }
         } else if (conteudopais != null && conteudoestado != null) {
             adaptercidade.setItems(cidadedao.list(conteudopais, conteudoestado));
             adaptercidade.notifyDataSetChanged();
@@ -347,42 +363,41 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         paisdao.savePais("UY","Uruguai");
         paisdao.savePais("AR","Argetina");
         paisdao.savePais("PY","Paraguay");
-        paisdao.savePais("CHL","Paraguay");
-        paisdao.savePais("BOL","Bolivia");
-        paisdao.savePais("PTG","Portugual");
 
     }
     public  void cadastrarEstado(){
 
-        estadodao.saveEstado("PR","Parana","BR");
-        estadodao.saveEstado("RS", "Rio Grande Sul","BR");
-        estadodao.saveEstado("SP", "São Paulo","BR");
-        estadodao.saveEstado("SC", "Santa Catarina","BR");
-        estadodao.saveEstado("RJ", "Rio de Janeiro","BR");
-        estadodao.saveEstado("CE", "Ceará","BR");
-        estadodao.saveEstado("SE", "Sergipe","BR");
-        estadodao.saveEstado("BH", "Bahia","BR");
-        estadodao.saveEstado("MG", "Minas Gerais","BR");
-        estadodao.saveEstado("MS", "Mato Grossso do Sul","BR");
-        estadodao.saveEstado("MT", "Mato Grossso ","BR");
-        estadodao.saveEstado("RN", "Rio Grande do Norte","BR");
-        estadodao.saveEstado("RR", "Roraima","BR");
-        estadodao.saveEstado("PI", "Piaui","BR");
-        estadodao.saveEstado("MA", "Maranhão","BR");
+        estadodao.saveEstado("AC", "Acre","BR");
+        estadodao.saveEstado("AL", "Alagoas","BR");
+        estadodao.saveEstado("AP", "Amapa","BR");
         estadodao.saveEstado("AM", "Amazonas","BR");
-        estadodao.saveEstado("RO", "Rondonia","BR");
-        estadodao.saveEstado("GO", "Goais","BR");
-        estadodao.saveEstado("TO", "Tocantins","BR");
+        estadodao.saveEstado("BH", "Bahia","BR");
+        estadodao.saveEstado("CE", "Ceará","BR");
         estadodao.saveEstado("DF", "Distrito Federal","BR");
         estadodao.saveEstado("ES", "Espirito Santo","BR");
+        estadodao.saveEstado("GO", "Goais","BR");
+        estadodao.saveEstado("MT", "Mato Grossso ","BR");
+        estadodao.saveEstado("MS", "Mato Grossso do Sul","BR");
+        estadodao.saveEstado("MA", "Maranhão","BR");
+        estadodao.saveEstado("MG", "Minas Gerais","BR");
         estadodao.saveEstado("PA", "Pará","BR");
-        estadodao.saveEstado("AC", "Acre","BR");
-        estadodao.saveEstado("AP", "Macapá","BR");
+        estadodao.saveEstado("PR", "Parana","BR");
+        estadodao.saveEstado("PB", "Paraiba","BR");
+        estadodao.saveEstado("PI", "Piaui","BR");
+        estadodao.saveEstado("PE", "Pernambuco","BR");
+        estadodao.saveEstado("RJ", "Rio de Janeiro","BR");
+        estadodao.saveEstado("RN", "Rio Grande do Norte","BR");
+        estadodao.saveEstado("RS", "Rio Grande Sul","BR");
         estadodao.saveEstado("RO", "Rondonia","BR");
-        estadodao.saveEstado("AL", "Alagoas","BR");
-        estadodao.saveEstado("LI", "Lisboa","PTG");
+        estadodao.saveEstado("RR", "Roraima","BR");
+        estadodao.saveEstado("SC", "Santa Catarina","BR");
+        estadodao.saveEstado("SP", "São Paulo","BR");
+        estadodao.saveEstado("SE", "Sergipe","BR");
+        estadodao.saveEstado("TO", "Tocantins","BR");
+
         estadodao.saveEstado("AS", "assunção","PY");
         estadodao.saveEstado("BA", "Buenos Aires","AR");
+        estadodao.saveEstado("MO", "Montevidéu","UY");
 
     }
 
@@ -391,6 +406,27 @@ public class ConsultaCidadeActivity extends AppCompatActivity {
         MaterialSpinnerPais.setText("");
         MaterialSpinnerEstado.setText("");
     }
+
+    public Boolean soExisteNumero(String conteudo){
+
+        conteudo = conteudo.replace(" ","");
+        char[] c = conteudo.toCharArray();
+        boolean retorno = false;
+        int soma = 0;
+
+        for ( int i = 0; i < c.length; i++ ){
+            if ( Character.isDigit( c[ i ] ) ) {
+                soma++;
+            }
+
+        }
+
+        if (soma == c.length ) retorno  = true;
+
+
+        return retorno;
+    }
+
 
 
 

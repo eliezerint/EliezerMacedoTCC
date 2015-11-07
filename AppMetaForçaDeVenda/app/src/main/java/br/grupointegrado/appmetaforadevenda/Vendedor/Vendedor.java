@@ -18,11 +18,10 @@ public class Vendedor {
 
     }
 
-    public Vendedor(Integer idvendedor, String nome, Double max_desconto, Double max_acrescimo) {
+    public Vendedor(Integer idvendedor, String nome, Double max_desconto) {
         this.Idvendedor = idvendedor;
         this.Nome = nome;
         this.max_desconto = max_desconto;
-        this.max_acrescimo = max_acrescimo;
     }
 
     public Double getMax_desconto() {

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,7 +64,7 @@ public class CadastroCidadeActivity extends AppCompatActivity {
     private MaterialEditText EditCidade;
 
     @NotEmpty(messageId =  R.string.Campo_vazio, order = 4)
-    @MaxLength(value = 10, messageId = R.string.max_ibge, order = 4)
+    @MaxLength(value = 7, messageId = R.string.max_ibge, order = 4)
     private MaterialEditText EditIbge;
 
 
@@ -73,6 +74,7 @@ public class CadastroCidadeActivity extends AppCompatActivity {
     private Cidade cidadealt;
     private Cidade cidade;
     private Integer idcidade;
+    private TextWatcher ibgeMask;
 
 
     private Intent cidadeIntent;
@@ -99,15 +101,15 @@ public class CadastroCidadeActivity extends AppCompatActivity {
         esatdodao = new EstadoDao(this);
         paisdao = new PaisDao(this);
 
-
+        if (getIntent().getExtras() != null)
         cidadealt = (Cidade) getIntent().getSerializableExtra("alterarcidade");
 
         if (cidadealt != null){
            setCidadealt(cidadealt);
         }
 
-
-
+        ibgeMask = (Mask.insert("#######",EditIbge));
+        EditIbge.addTextChangedListener(ibgeMask);
 
 
         lista = esatdodao.list();

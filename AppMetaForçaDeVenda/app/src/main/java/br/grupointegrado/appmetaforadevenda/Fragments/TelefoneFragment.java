@@ -140,8 +140,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
     public void recyclerviewTelefone() {
-
-
+        
         adaptertelefone.setItems(lista_telefone);
         adaptertelefone.notifyDataSetChanged();
 
@@ -173,15 +172,17 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
 
 
                         if (!campo_tel.getText().toString().isEmpty()) {
-                            if (posicaolista != null) {
-                                lista_telefone.remove(lista_telefone.get(posicaolista));
-                            }
-                            lista_telefone.add(getTelefonePreencherLista(campo_tel.getText().toString()));
-                            campo_tel.setText(" ");
-                            recyclerviewTelefone();
-                            telefonenaosalvo = false;
+                            if (campo_tel.getText().length() >= 13) {
+                                if (posicaolista != null) {
+                                    lista_telefone.remove(lista_telefone.get(posicaolista));
+                                }
+                                lista_telefone.add(getTelefonePreencherLista(campo_tel.getText().toString()));
+                                campo_tel.setText(" ");
+                                recyclerviewTelefone();
+                                telefonenaosalvo = false;
 
-                            dialog.dismiss();
+                                dialog.dismiss();
+                            }else  Toast.makeText(getActivity(), " Telefone incompleto", Toast.LENGTH_SHORT).show();
 
                         } else {
                             Toast.makeText(getActivity(), " Telefone não pode ser vazio", Toast.LENGTH_SHORT).show();
@@ -325,7 +326,7 @@ public class TelefoneFragment extends Fragment implements FragmentTab {
     public Telefone getTelefone(Integer idpessoa, String cpf, Integer x) {
 
         return new Telefone(idpessoa,
-                adaptertelefone.getItems().get(x).getNumero(),
+               (adaptertelefone.getItems().get(x).getNumero()),
                 adaptertelefone.getItems().get(x).getTipo(), cpf);
 
 

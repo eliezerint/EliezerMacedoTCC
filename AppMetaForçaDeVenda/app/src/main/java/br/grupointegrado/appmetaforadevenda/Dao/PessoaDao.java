@@ -101,6 +101,7 @@ public class PessoaDao extends AppDao {
 
 
 
+
         getWritableDatabase().insert("Pessoa", null, cv);
 
     }
@@ -112,10 +113,10 @@ public class PessoaDao extends AppDao {
         cv.put("Endereco", pessoa.getEndereco());
         cv.put("Numero", pessoa.getNumero());
         cv.put("Bairro", pessoa.getBairro());
-        cv.put("cidade", pessoa.getCidade());
         cv.put("Data_Nascimento",(dateParaString(pessoa.getDataNascimento())));
         cv.put("Data_Cadastro",(dateParaString(pessoa.getDataCadastro())));
         cv.put("Complemento", pessoa.getComplemento());
+        cv.put("Cep", pessoa.getCep());
         cv.put("Email", pessoa.getEmail());
         cv.put("Razao_socialNome", pessoa.getRazaoSocialNome());
         cv.put("Nome_fantasiaApelido", pessoa.getFantasiaApelido());
@@ -133,11 +134,11 @@ public class PessoaDao extends AppDao {
 
     public List<Pessoa> list() {
         Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
-                + " cid.id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cid.descricao"
+                + "  id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cep"
                 + " , Data_Nascimento ,"
                 +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
-                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra  " +
-                "        From Pessoa ,Cidade cid  where cid.id_Cidade = Pessoa.id_Cidade", null);
+                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra " +
+                "        From Pessoa ", null);
 
         List<Pessoa> pessoas = new ArrayList<>();
 
@@ -151,7 +152,7 @@ public class PessoaDao extends AppDao {
             pessoa.setEndereco(c.getString(3));
             pessoa.setNumero(c.getString(4));
             pessoa.setBairro(c.getString(5));
-            pessoa.setCidade(c.getString(6));
+            pessoa.setCep(c.getString(6));
             pessoa.setDataNascimento(stringParaSQLDate(c.getString(7)));
             pessoa.setDataCadastro(stringParaSQLDate(c.getString(8)));
             pessoa.setComplemento(c.getString(9));
@@ -161,7 +162,6 @@ public class PessoaDao extends AppDao {
             pessoa.setInscriEstadualRG(c.getString(13));
             pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
             pessoa.setValorUltimacompra(c.getDouble(15));
-            pessoa.setCep(c.getString(9));//, Cep
 
 
             pessoas.add(pessoa);
@@ -171,11 +171,12 @@ public class PessoaDao extends AppDao {
         return pessoas;
     }
     public List<Pessoa> list(String nome) {
-        Cursor c = getReadableDatabase().rawQuery("Select  idPessoa," +
-                "  cid.id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cid.descricao , Data_Nascimento ,"+
-                "  Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , " +
-                "  inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra " +
-                "  From Pessoa ,Cidade cid  where cid.id_Cidade = Pessoa.id_Cidade and Razao_socialNome like ?", new String[]{nome});
+        Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
+                + "  id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cep"
+                + " , Data_Nascimento ,"
+                +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
+                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra " +
+                "        From Pessoa  where Razao_socialNome like ?", new String[]{"%"+nome+"%"});
 
         List<Pessoa> pessoas = new ArrayList<>();
 
@@ -189,7 +190,7 @@ public class PessoaDao extends AppDao {
             pessoa.setEndereco(c.getString(3));
             pessoa.setNumero(c.getString(4));
             pessoa.setBairro(c.getString(5));
-            pessoa.setCidade(c.getString(6));
+            pessoa.setCep(c.getString(6));
             pessoa.setDataNascimento(stringParaSQLDate(c.getString(7)));
             pessoa.setDataCadastro(stringParaSQLDate(c.getString(8)));
             pessoa.setComplemento(c.getString(9));
@@ -199,7 +200,46 @@ public class PessoaDao extends AppDao {
             pessoa.setInscriEstadualRG(c.getString(13));
             pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
             pessoa.setValorUltimacompra(c.getDouble(15));
-            pessoa.setCep(c.getString(15));
+
+
+
+            pessoas.add(pessoa);
+
+        }
+        c.close();
+        return pessoas;
+    }
+    public List<Pessoa> listCpfCnpj(String cpfCnpj) {
+        Cursor c = getReadableDatabase().rawQuery("Select  idPessoa,"
+                + "  id_Cidade, CNPJCPF , Endereco , Numero , Bairro , cep"
+                + " , Data_Nascimento ,"
+                +  " Data_Cadastro , Complemento , Email , Razao_socialNome , Nome_fantasiaApelido , "
+                +  " inscriEstadualRG , Data_ultima_compra , Valor_ultima_compra " +
+                "        From Pessoa  where CNPJCPF like ?", new String[]{cpfCnpj});
+
+        List<Pessoa> pessoas = new ArrayList<>();
+
+
+        while (c.moveToNext()) {
+
+            Pessoa pessoa = new Pessoa();
+            pessoa.setIdpessoa(c.getInt(0));
+            pessoa.setIdCidade(c.getInt(1));
+            pessoa.setCnpjCpf(c.getString(2));
+            pessoa.setEndereco(c.getString(3));
+            pessoa.setNumero(c.getString(4));
+            pessoa.setBairro(c.getString(5));
+            pessoa.setCep(c.getString(6));
+            pessoa.setDataNascimento(stringParaSQLDate(c.getString(7)));
+            pessoa.setDataCadastro(stringParaSQLDate(c.getString(8)));
+            pessoa.setComplemento(c.getString(9));
+            pessoa.setEmail(c.getString(10));
+            pessoa.setRazaoSocialNome(c.getString(11));
+            pessoa.setFantasiaApelido(c.getString(12));
+            pessoa.setInscriEstadualRG(c.getString(13));
+            pessoa.setDataUltimacompra(stringParaSQLDate(c.getString(14)));
+            pessoa.setValorUltimacompra(c.getDouble(15));
+
 
 
             pessoas.add(pessoa);

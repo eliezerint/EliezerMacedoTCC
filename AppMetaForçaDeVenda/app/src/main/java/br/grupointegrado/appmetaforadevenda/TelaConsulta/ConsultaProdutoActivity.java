@@ -10,8 +10,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
@@ -29,7 +29,8 @@ import br.grupointegrado.appmetaforadevenda.MainActivity;
 import br.grupointegrado.appmetaforadevenda.Pedido.ItensPedido;
 import br.grupointegrado.appmetaforadevenda.Produtos.Grupos_Produtos;
 import br.grupointegrado.appmetaforadevenda.Produtos.Produtos;
-import br.grupointegrado.appmetaforadevenda.Produtos.Tabela_preco;
+import br.grupointegrado.appmetaforadevenda.Produtos.TabelaItenPreco;
+import br.grupointegrado.appmetaforadevenda.Produtos.Tabelapreco;
 import br.grupointegrado.appmetaforadevenda.Produtos.UnidadeMedida;
 import br.grupointegrado.appmetaforadevenda.R;
 import br.grupointegrado.appmetaforadevenda.Vendedor.Vendedor;
@@ -54,6 +55,9 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
     private List<Produtos> lista_telefone;
     private Double max_desconto;
     private Double max_acrescimo;
+    private Integer posicaoTabelaPreco = 0;
+    private Integer posicaoTabelaItenPreco = 0;
+    private Integer idproduto;
 
     private ProdutoDao produtodao;
     private VendedorDao vendedordao;
@@ -82,11 +86,12 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
 
         final ItensPedido itenpedido = new ItensPedido();
 
+         produtodao.saveGrupoProduto(insertGrupo());
+         produtodao.saveUnidadeMedida(insertUnidadeMedida());
+         produtodao.saveProduto(insertProduto());
 
-     /*  produtodao.saveGrupoProduto(insertGrupo());
-        produtodao.saveUnidadeMedida(insertUnidadeMedida());
-        produtodao.saveProduto(insertProduto());
-        produtodao.savePreco(insertTabelaPreco());*/
+           produtodao.savePreco(insertTabelaPreco());
+           produtodao.saveItemtabelaPreco(insertTabelaItenPreco());
 
 
 
@@ -110,6 +115,8 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
 
 
                 if (selecionandoProduto) {
+
+                    idproduto = produto.getIdproduto();
                     insertItens(produto, itenpedido);
 
 
@@ -169,12 +176,15 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
 
                         telItens(itenpedido);
 
+                        idproduto = 0;
+
                         dialog.dismiss();
                     }
 
                     @Override
                     public void onNegative(MaterialDialog dialog) {
 
+                        idproduto = 0;
                         dialog.dismiss();
 
                     }
@@ -190,25 +200,50 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
         spinnerTp_tabela  = (MaterialBetterSpinner) dialog.findViewById(R.id.SpinnerTpTabela);
         spinnerTabela_preco  = (MaterialBetterSpinner) dialog.findViewById(R.id.SpinnerPreco);
 
-        ArrayList listTpTabela = (ArrayList) produtodao.listPrecoVEnda();
-        listTpTabela.add(0, new Tabela_preco());
+        List<Tabelapreco> listTpTabela =  produtodao.listPrecoVEnda(idproduto.toString());
 
-        ArrayAdapter<Tabela_preco> tptabrla_adapter = new ArrayAdapter<Tabela_preco>(this, android.R.layout.simple_list_item_1, listTpTabela);
+        ArrayAdapter<Tabelapreco> tptabela_adapter = new ArrayAdapter<Tabelapreco>(this, android.R.layout.simple_list_item_1, listTpTabela);
 
 
-        spinnerTp_tabela.setAdapter(tptabrla_adapter);
+        spinnerTp_tabela.setAdapter(tptabela_adapter);
 
-        ArrayList listTabelapreco ;
 
-        spinnerTabela_preco.setText("10.00");
 
+
+
+
+       List<TabelaItenPreco> listTpTabelaiten =  produtodao.listPrecoVEndaIten
+                (listTpTabela.get(posicaoTabelaPreco).getIdTabelapreco().toString());
+
+        final ArrayAdapter<TabelaItenPreco> tabelaiten_adapter = new ArrayAdapter<TabelaItenPreco>
+                (this, android.R.layout.simple_list_item_1, listTpTabelaiten);
+
+
+        spinnerTabela_preco.setAdapter(tabelaiten_adapter);
+
+
+        spinnerTp_tabela.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                posicaoTabelaPreco = position;
+                tabelaiten_adapter.notifyDataSetChanged();
+        }
+        });
+
+
+        spinnerTabela_preco.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                posicaoTabelaItenPreco = position;
+            }
+        });
 
 
         Vendedor vendedor = vendedordao.ConsultaVendedorporid(MainActivity.idvendedortelainicial.toString());
         max_desconto = vendedor.getMax_desconto();
-        max_acrescimo = vendedor.getMax_acrescimo();
 
-        edit_vlunitario.setText(10.00+"");
+
+        edit_vlunitario.setText(tabelaiten_adapter.getItem(posicaoTabelaItenPreco).getVlunitario().toString());
 
         edit_quantidade.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -244,7 +279,7 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
                         descontovalor = (unitario * descontoperc / divisao);
                         soma = unitario - (unitario * descontoperc / divisao);
 
-                        if (descontovalor > max_desconto) {
+                        if (descontoperc > 100) {
                             edit_descontopercentual.setText("");
                             edit_descontovalor.setText("");
                             Toast.makeText(dialog.getContext(), "O valor de percentual maior que o valor unitario", Toast.LENGTH_SHORT).show();
@@ -256,12 +291,7 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
                         edit_descontovalor.setText("");
                         Toast.makeText(dialog.getContext(), "O valor de desconto não pode ser maior " + max_desconto, Toast.LENGTH_SHORT).show();
                         total = 0.00;
-                    } else if (descontovalor > max_acrescimo) {
-                        edit_descontopercentual.setText("");
-                        edit_descontovalor.setText("");
-                        Toast.makeText(dialog.getContext(), "O valor de acrescimo não pode ser maior " + max_acrescimo, Toast.LENGTH_SHORT).show();
-                        total = 0.00;
-                    } else {
+                    }  else {
 
 
                         unitarionovo = soma;
@@ -285,52 +315,47 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
 
     edit_descontovalor.setOnFocusChangeListener(new View.OnFocusChangeListener()
 
-    {
-        @Override
-        public void onFocusChange (View v,boolean hasFocus){
-        double soma = 0.00, unitario = 0.00, descontoperc = 0, descontovalor = 0.00,
-                total = 0.00, unitarionovo = 0.000;
-        if (!hasFocus)
-            if (!edit_descontovalor.getText().toString().isEmpty()) {
-                unitario = Double.parseDouble(edit_vlunitario.getText().toString());
-                descontovalor = Double.parseDouble(edit_descontovalor.getText().toString());
+                                                {
+                                                    @Override
+                                                    public void onFocusChange(View v, boolean hasFocus) {
+                                                        double soma = 0.00, unitario = 0.00, descontoperc = 0, descontovalor = 0.00,
+                                                                total = 0.00, unitarionovo = 0.000;
+                                                        if (!hasFocus)
+                                                            if (!edit_descontovalor.getText().toString().isEmpty()) {
+                                                                unitario = Double.parseDouble(edit_vlunitario.getText().toString());
+                                                                descontovalor = Double.parseDouble(edit_descontovalor.getText().toString());
 
-                soma = (unitario - descontovalor);
+                                                                soma = (unitario - descontovalor);
 
-                descontoperc = ((unitario - soma) * 100) / unitario;
+                                                                descontoperc = ((unitario - soma) * 100) / unitario;
 
-                if (descontovalor > unitario) {
-                    edit_descontopercentual.setText("");
-                    edit_descontovalor.setText("");
-                    Toast.makeText(dialog.getContext(), "O valor de desconto maior que o valor unitario", Toast.LENGTH_SHORT).show();
-                    total = 0.00;
-                } else if (descontovalor > max_desconto) {
-                    edit_descontopercentual.setText("");
-                    edit_descontovalor.setText("");
-                    Toast.makeText(dialog.getContext(), "O valor de desconto não pode ser maior " + max_desconto, Toast.LENGTH_SHORT).show();
-                    total = 0.00;
-                } else if (descontovalor > max_acrescimo) {
-                    edit_descontopercentual.setText("");
-                    edit_descontovalor.setText("");
-                    Toast.makeText(dialog.getContext(), "O valor de acrescimo não pode ser maior " + max_acrescimo, Toast.LENGTH_SHORT).show();
-                    total = 0.00;
-                } else {
+                                                                if (descontovalor > unitario) {
+                                                                    edit_descontopercentual.setText("");
+                                                                    edit_descontovalor.setText("");
+                                                                    Toast.makeText(dialog.getContext(), "O valor de desconto maior que o valor unitario", Toast.LENGTH_SHORT).show();
+                                                                    total = 0.00;
+                                                                } else if (descontovalor > max_desconto) {
+                                                                    edit_descontopercentual.setText("");
+                                                                    edit_descontovalor.setText("");
+                                                                    Toast.makeText(dialog.getContext(), "O valor de desconto não pode ser maior " + max_desconto, Toast.LENGTH_SHORT).show();
+                                                                    total = 0.00;
+                                                                }  else {
 
-                    unitarionovo = soma;
+                                                                    unitarionovo = soma;
 
-                    edit_descontopercentual.setText(String.valueOf(descontoperc));
-                    if (edit_quantidade.getText().toString().isEmpty()) {
-                        total = unitarionovo * 1;
-                        edit_quantidade.setText("1");
-                    } else {
-                        total = unitarionovo * Double.parseDouble(edit_quantidade.getText().toString());
-                    }
-                }
-                edit_dialogvalorTotalcomDesconto.setText(String.valueOf(total));
+                                                                    edit_descontopercentual.setText(String.valueOf(descontoperc));
+                                                                    if (edit_quantidade.getText().toString().isEmpty()) {
+                                                                        total = unitarionovo * 1;
+                                                                        edit_quantidade.setText("1");
+                                                                    } else {
+                                                                        total = unitarionovo * Double.parseDouble(edit_quantidade.getText().toString());
+                                                                    }
+                                                                }
+                                                                edit_dialogvalorTotalcomDesconto.setText(String.valueOf(total));
 
-            }
-    }
-    }
+                                                            }
+                                                    }
+                                                }
 
     );
 
@@ -394,19 +419,29 @@ public class ConsultaProdutoActivity extends AppCompatActivity {
         Produtos p = new Produtos();
         p.setIdgrupopoduto(1);
         p.setIdUnidademedida(1);
-        p.setDescricao("Sabão Em pó");
+        p.setDescricao("Detergente");
 
         return p;
     }
 
-    public Tabela_preco insertTabelaPreco() {
-        Tabela_preco tb = new Tabela_preco();
+    public Tabelapreco insertTabelaPreco() {
+        Tabelapreco tb = new Tabelapreco();
         tb.setIdProduto(1);
-        tb.setTp_venda("Varejo");
-        tb.setPreco1(8.00);
-        tb.setPreco2(10.45);
-        tb.setPreco2(12.75);
-        tb.setPreco2(13.50);
+        tb.setDescricao("varejo");
+
+
+
+
+        return tb;
+    }
+
+    public TabelaItenPreco insertTabelaItenPreco() {
+        TabelaItenPreco tb = new TabelaItenPreco();
+        tb.setIdtabelapreco(2);
+        tb.setDescricao("aprazo");
+        tb.setVlunitario(10.00);
+
+
 
         return tb;
     }

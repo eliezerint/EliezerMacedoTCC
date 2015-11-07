@@ -104,13 +104,7 @@ public class PedidoFragment extends Fragment implements FragmentTab {
 
             }
         });
-        edit_vendedor.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-                selecionarVendedor();
-            }
-        });
     }
 
     private static final int REQUEST_CONSULTA_PESSOA = 1001;

@@ -22,8 +22,7 @@ public class VendedorDao extends AppDao {
     public void saveVendedor(String nome,Double max_desc, Double max_acres) {
         ContentValues cv = new ContentValues();
         cv.put("Nome", nome);
-        cv.put("Max_desconto", max_desc);
-        cv.put("Max_acrescimo", max_acres);
+        cv.put("Max_Desconto", max_acres);
 
 
 
@@ -79,7 +78,7 @@ public class VendedorDao extends AppDao {
 
     // Consulta Vendedor
     public Vendedor ConsultaVendedorporid(String id){
-        Cursor consulta = getReadableDatabase().rawQuery("select idVendedor , Nome , Max_desconto , Max_acrescimo from Vendedor " +
+        Cursor consulta = getReadableDatabase().rawQuery("select idVendedor , Nome , Max_desconto  from Vendedor " +
                         "where idVendedor = ? ",
                 new String[]{id});
 
@@ -88,8 +87,7 @@ public class VendedorDao extends AppDao {
                 if (consulta.moveToFirst()) {
                     return  new Vendedor(consulta.getInt(0),
                             consulta.getString(1),
-                            consulta.getDouble(2),
-                            consulta.getDouble(3));
+                            consulta.getDouble(2));
                 }
             } finally {
                 consulta.close();

@@ -9,7 +9,8 @@ import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Produtos.Grupos_Produtos;
 import br.grupointegrado.appmetaforadevenda.Produtos.Produtos;
-import br.grupointegrado.appmetaforadevenda.Produtos.Tabela_preco;
+import br.grupointegrado.appmetaforadevenda.Produtos.TabelaItenPreco;
+import br.grupointegrado.appmetaforadevenda.Produtos.Tabelapreco;
 import br.grupointegrado.appmetaforadevenda.Produtos.UnidadeMedida;
 
 /**
@@ -123,37 +124,29 @@ public class ProdutoDao extends AppDao {
     }
 
     //Tabela de Preço
-    public void savePreco(Tabela_preco tabela_preco){
+    public void savePreco(Tabelapreco tabela_preco){
         ContentValues cv = new ContentValues();
         cv.put("idProduto", tabela_preco.getIdProduto());
-        cv.put("Tipo_venda", tabela_preco.getTp_venda());
-        cv.put("preco1", tabela_preco.getPreco1());
-        cv.put("preco2", tabela_preco.getPreco2());
-        cv.put("preco3", tabela_preco.getPreco3());
-        cv.put("preco4", tabela_preco.getPreco4());
+        cv.put("descricao", tabela_preco.getDescricao());
 
         getWritableDatabase().insert("TabelaPreco", null, cv);
 
     }
 
 
-    public List<Tabela_preco> listPrecoVEnda() {
-        Cursor c = getReadableDatabase().rawQuery("Select idTabela_preco, idProduto, Tipo_venda, preco1, preco2," +
-                "preco3, preco4 from TabelaPreco ", null);
+    public List<Tabelapreco> listPrecoVEnda(String id) {
+        Cursor c = getReadableDatabase().rawQuery("Select idTabelapreco, idProduto, descricao" +
+                " from TabelaPreco where  idProduto = ? ", new String []{id});
 
-        List<Tabela_preco> tabela_precos = new ArrayList<>();
+        List<Tabelapreco> tabela_precos = new ArrayList<>();
 
 
         while (c.moveToNext()) {
 
-            Tabela_preco tabela_preco = new Tabela_preco();
+            Tabelapreco tabela_preco = new Tabelapreco();
             tabela_preco.setIdTabelapreco(c.getInt(0));
             tabela_preco.setIdProduto(c.getInt(1));
-            tabela_preco.setTp_venda(c.getString(2));
-            tabela_preco.setPreco1(c.getDouble(3));
-            tabela_preco.setPreco2(c.getDouble(4));
-            tabela_preco.setPreco3(c.getDouble(5));
-            tabela_preco.setPreco4(c.getDouble(6));
+            tabela_preco.setDescricao(c.getString(2));
 
             tabela_precos.add(tabela_preco);
 
@@ -162,6 +155,43 @@ public class ProdutoDao extends AppDao {
         return tabela_precos;
 
     }
+
+    //Tabela de Preço iten
+    public void saveItemtabelaPreco(TabelaItenPreco tabela_preco){
+        ContentValues cv = new ContentValues();
+        cv.put("idTabelapreco", tabela_preco.getIdtabelapreco());
+        cv.put("descricao", tabela_preco.getDescricao());
+        cv.put("vlunitario", tabela_preco.getVlunitario());
+
+        getWritableDatabase().insert("TabelaItenPreco", null, cv);
+
+    }
+
+
+    public List<TabelaItenPreco> listPrecoVEndaIten(String id) {
+        Cursor c = getReadableDatabase().rawQuery("Select idTabelaItenpreco, idTabelapreco, descricao, vlunitario" +
+                " from TabelaItenPreco where  idTabelapreco = ? ", new String []{id});
+
+        List<TabelaItenPreco> tabela_precos = new ArrayList<>();
+
+
+        while (c.moveToNext()) {
+
+            TabelaItenPreco  itentabela_preco = new TabelaItenPreco();
+            itentabela_preco.setIdtabelaItenpreco(c.getInt(0));
+            itentabela_preco.setIdtabelapreco(c.getInt(1));
+            itentabela_preco.setDescricao(c.getString(2));
+            itentabela_preco.setVlunitario(Double.valueOf(c.getString(3)));
+
+            tabela_precos.add(itentabela_preco);
+
+        }
+        c.close();
+
+        return tabela_precos;
+
+    }
+
 
 
 

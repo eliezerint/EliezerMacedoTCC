@@ -3,7 +3,6 @@ package br.grupointegrado.appmetaforadevenda.TelaConsulta;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
-import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.RecyclerView;
@@ -21,7 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
-import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterCliente;
 
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
@@ -131,9 +129,16 @@ public class ConsultaClienteActivity extends AppCompatActivity {
         conteudoSearch = conteudoQuery;
 
         if (conteudoSearch != null) {
-            Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
-            adaptercliente.setItems(clientedao.list(conteudoSearch));
-            adaptercliente.notifyDataSetChanged();
+            if (soExisteNumero(conteudoSearch)) {
+                conteudoSearch = conteudoSearch.replace(" ","");
+                Toast.makeText(this, conteudoSearch , Toast.LENGTH_SHORT).show();
+                adaptercliente.setItems(clientedao.listCpfCnpj(conteudoSearch));
+                adaptercliente.notifyDataSetChanged();
+            }else {
+                Toast.makeText(this, conteudoQuery, Toast.LENGTH_SHORT).show();
+                adaptercliente.setItems(clientedao.list(conteudoSearch));
+                adaptercliente.notifyDataSetChanged();
+            }
         }
 
     }
@@ -146,7 +151,7 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
         SearchView search = (SearchView) menu.findItem(R.id.ConsultaCliente).getActionView();
 
-        search.setSearchableInfo(searchmanager.getSearchableInfo(getComponentName()));
+        search.setSearchableInfo(searchmanager.getSearchableInfo(this.getComponentName()));
 
         search.setQueryHint(getResources().getString(R.string.search_hint_cliente));
 
@@ -187,8 +192,17 @@ public class ConsultaClienteActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         if (conteudoSearch != null){
-            adaptercliente.setItems(clientedao.list(conteudoSearch));
-            adaptercliente.notifyDataSetChanged();
+            if (soExisteNumero(conteudoSearch)){
+
+                adaptercliente.setItems(clientedao.listCpfCnpj(conteudoSearch));
+
+                adaptercliente.notifyDataSetChanged();
+
+            }else {
+                adaptercliente.setItems(clientedao.list(conteudoSearch));
+
+                adaptercliente.notifyDataSetChanged();
+            }
         }else{
             adaptercliente.setItems(clientedao.list());
             adaptercliente.notifyDataSetChanged();
@@ -198,6 +212,7 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
 
     public void Consultacliente() {
+
         adaptercliente.setItems(clientedao.list());
         adaptercliente.notifyDataSetChanged();
 
@@ -252,7 +267,7 @@ public class ConsultaClienteActivity extends AppCompatActivity {
                 pessoa.getNumero(),
                 pessoa.getBairro(),
                 pessoa.getComplemento(),
-                pessoa.getCidade(),
+                pessoa.getCep(),
                 pessoa.getDataNascimento(),
                 pessoa.getEmail(),
                 pessoa.getDataUltimacompra(),
@@ -272,5 +287,29 @@ public class ConsultaClienteActivity extends AppCompatActivity {
 
 
     }
+
+
+    public Boolean soExisteNumero(String conteudo){
+
+        conteudo = conteudo.replace(" ","");
+
+        char[] c = conteudo.toCharArray();
+        boolean retorno = false;
+        int soma = 0;
+
+
+        for ( int i = 0; i < c.length; i++ ){
+            if ( Character.isDigit( c[ i ] ) ) {
+                soma++;
+            }
+
+        }
+
+        if (soma == c.length ) retorno  = true;
+
+
+        return retorno;
+    }
+
 
 }

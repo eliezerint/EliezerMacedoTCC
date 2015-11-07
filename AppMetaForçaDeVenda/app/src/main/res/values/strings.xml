@@ -47,16 +47,19 @@
     <string name="Max_Value_cpf">CPF ter no maximo 11 digito </string>
     <string name="Min_Value_cnpj">CNPJ ter no minimo 14 digito </string>
     <string name="Max_Value_cnpj">CNPJ ter no maximo 14 digito </string>
-    <string name="MinRG_Value">RG Inválido ter no minimo 10 digitos</string>
+    <string name="MinRG_Value">RG Inválido ter no minimo 9 digitos</string>
     <string name="MaxRG_Value">RG Inválido ter no maximo 10 digitos </string>
     <string name="MinIns_Value">Inscrição Estadual Inválida ter no minimo 10 digitos</string>
     <string name="MaxIns_Value">Inscrição Estadual Inválida ter no maximo 14 digitos </string>
     <string name="Max_numero">O numero ter no maximo 10 digito </string>
+    <string name="email_validation">Email Inválido </string>
+    <string name="cep_validation">CEP Inválido </string>
     <string name="Max_bairro">O bairro ter no maximo 50 caracteres </string>
     <string name="Max_endereco">O endereço ter no maximo 50 caracteres </string>
     <string name="Max_email">O email ter no maximo 50 caracteres</string>
     <string name="Max_comple">Ter no maximo 10 caracteres</string>
-    <string name="Min_comple">Ter no mimino 8 digitos </string>
+    <string name="Min_cep">Ter no mimino 10 digitos </string>
+    <string name="Max_cep">Ter no maximo 10 digitos </string>
     <string name="validation_valid_email">Email Inválido </string>
     <string name="Min_ValueTelefone">Telefone inválido minimo 10</string>
     <string name="Max_ValueTelefone">Telefone inválido maximo 11</string>
@@ -66,7 +69,7 @@
     <string name="max_razaosocial">A Razão social maximo 60 caracteres </string>
     <string name="max_Apelido">O apelido maximo 60 caracteres </string>
     <string name="max_fantasia">O nome fantasia maximo 60 caracteres </string>
-    <string name="max_ibge">O campo ibge maximo 10 numeros </string>
+    <string name="max_ibge">O campo ibge maximo 7 numeros </string>
 
 
 

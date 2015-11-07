@@ -50,7 +50,7 @@ public class Consulta_FilialActivity extends AppCompatActivity {
 
         filialdao = new FilialDao(this);
 
-     /*  filialdao.saveFilial("501");
+       /* filialdao.saveFilial("501");
         filialdao.saveFilial("502");*/
 
 

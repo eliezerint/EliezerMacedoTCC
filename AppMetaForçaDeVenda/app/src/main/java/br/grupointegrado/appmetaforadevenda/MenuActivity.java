@@ -5,10 +5,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.ContextMenu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.afollestad.materialdialogs.MaterialDialog;
 
@@ -29,6 +29,10 @@ public class MenuActivity extends AppCompatActivity {
     private TextView tvCadastrarCliente;
     private FloatingActionButton Pedido;
     private FloatingActionButton Exportacao;
+    private FloatingActionButton produtobutton;
+    private FloatingActionButton relatoriobutton;
+    private FloatingActionButton dadospedidobutton;
+
 
 
     @Override
@@ -60,6 +64,9 @@ public class MenuActivity extends AppCompatActivity {
         Cliente = (FloatingActionButton) findViewById(R.id.Cliente);
         Pedido = (FloatingActionButton) findViewById(R.id.Pedido);
         Exportacao = (FloatingActionButton) findViewById(R.id.Exportacao);
+        produtobutton = (FloatingActionButton) findViewById(R.id.Produto);
+        relatoriobutton = (FloatingActionButton) findViewById(R.id.Relatorio);
+        dadospedidobutton = (FloatingActionButton) findViewById(R.id.DadosPedido);
 
 
 
@@ -80,9 +87,34 @@ public class MenuActivity extends AppCompatActivity {
         Exportacao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DialogsDados();
+                DialogsDadosImporExpor();
             }
         });
+
+        produtobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogsProduto();
+
+            }
+        });
+
+        relatoriobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DialogsDadosRelatorio();
+
+            }
+        });
+        dadospedidobutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                consultaDadosPedido();
+
+            }
+        });
+
+
 
 
 //        tvCadastrarCliente.setOnClickListener(new View.OnClickListener() {
@@ -101,13 +133,42 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
-    public void DialogsDados() {
+    public void DialogsDadosImporExpor() {
         boolean wrapInScrollView = true;
         MaterialDialog app = new MaterialDialog.Builder(this)
                 .title("Importação | Exportação")
-                .customView(R.layout.activity_dialogsdados, wrapInScrollView)
+                .items(R.array.Array_tp_Importação_consulta)
                 .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                        if (text.equals("Importação")) {
+//                            i = new Intent(dialog.getContext(), ConsultaClienteActivity.class);
+//                            startActivity(i);
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } else if (text.equals("Exportação")) {
+                          /*  i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);*/
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        dialog.dismiss();
+                    }
+                })
                 .show();
+
+
 
 
     }
@@ -148,14 +209,169 @@ public class MenuActivity extends AppCompatActivity {
 
     }
 
+    public void DialogsProduto() {
+        boolean wrapInScrollView = true;
+        MaterialDialog app = new MaterialDialog.Builder(this)
+                .title("Dados de Produtos")
+                .items(R.array.Array_tp_produto_consulta)
+                .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                        if (text.equals("Produto")) {
+                            i = new Intent(dialog.getContext(), ConsultaProdutoActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        } else if (text.equals("Grupo produto")) {
+                            i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        }else if (text.equals("Unidade Medida")) {
+                            i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        }
+
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+
+    }
+    public void DialogsDadosRelatorio() {
+        boolean wrapInScrollView = true;
+        MaterialDialog app = new MaterialDialog.Builder(this)
+                .title("Relatorio")
+                .items(R.array.Array_tp_Relatorio_consulta)
+                .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                        if (text.equals("Relatorio de Pedido")) {
+//                            i = new Intent(dialog.getContext(), ConsultaClienteActivity.class);
+//                            startActivity(i);
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        } else if (text.equals("Relatorio de Exportação")) {
+                          /*  i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);*/
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+                        else if (text.equals("Relatorio de Importação")) {
+                          /*  i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);*/
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+
+
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+
+
+
+    }
+
+
+
 
     public void FazerPedido() {
+        boolean wrapInScrollView = true;
+        MaterialDialog app = new MaterialDialog.Builder(this)
+                .title("Pedido")
+                .items(R.array.Array_tp_pedido_consulta)
+                .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                        if (text.equals("Fazer Pedido")) {
+                             i = new Intent(dialog.getContext(), CadastroPedidoActivity.class);
 
-        Intent i = new Intent(this.getApplication(), CadastroPedidoActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        } else if (text.equals("Consulta Pedido")) {
+                          /*  i = new Intent(dialog.getContext(), ConsultaCidadeActivity.class);
+                            startActivity(i);*/
+                            Toast.makeText(dialog.getContext(),"em contrução", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                        }
+
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
+
+                        dialog.dismiss();
+                    }
+                })
+                .show();
+
+    }
+    public void consultaDadosPedido() {
+        boolean wrapInScrollView = true;
+        MaterialDialog app = new MaterialDialog.Builder(this)
+                .title("Relatorio")
+                .items(R.array.Array_tp_Dadospedido_consulta)
+                .positiveText("Sair")
+                .autoDismiss(false)
+                .itemsCallback(new MaterialDialog.ListCallback() {
+                    @Override
+                    public void onSelection(MaterialDialog dialog, View view, int which, CharSequence text) {
+                        Intent i;
+                         if (text.equals("Filial")) {
+                            i = new Intent(dialog.getContext(), Consulta_FilialActivity.class);
+                            startActivity(i);
+                            dialog.dismiss();
+                        } else if (text.equals("Vendedor")) {
+                            i = new Intent(dialog.getContext(), Consulta_VendedorActivity.class);
+                            startActivity(i);
+
+                            dialog.dismiss();
+                        } else if (text.equals("Condição Pagamento")) {
+                            i = new Intent(dialog.getContext(), Consulta_CondicaPgtoActivity.class);
+                             startActivity(i);
+                            dialog.dismiss();
+                        }
 
 
-        startActivity(i);
+                    }
+                })
+                .callback(new MaterialDialog.ButtonCallback() {
+                    @Override
+                    public void onPositive(MaterialDialog dialog) {
+                        super.onPositive(dialog);
 
+                        dialog.dismiss();
+                    }
+                })
+                .show();
 
     }
 
@@ -199,3 +415,5 @@ public class MenuActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 }
+
+

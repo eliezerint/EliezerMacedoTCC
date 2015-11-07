@@ -1,26 +1,12 @@
 package br.grupointegrado.appmetaforadevenda.TelaCadastro;
 
-import android.app.Fragment;
-import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.ViewPager;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.InputDevice;
-import android.view.InputEvent;
-import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.accessibility.AccessibilityManager;
 import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.ExecutionException;
 
 import br.grupointegrado.appmetaforadevenda.Dao.PessoaDao;
 import br.grupointegrado.appmetaforadevenda.Extras.SlidingTabLayout;
@@ -28,10 +14,7 @@ import br.grupointegrado.appmetaforadevenda.Fragments.PessoaFragment;
 import br.grupointegrado.appmetaforadevenda.Fragments.TelefoneFragment;
 import br.grupointegrado.appmetaforadevenda.Listagem.AdapterTabsViewPessoa;
 import br.grupointegrado.appmetaforadevenda.Pessoa.Pessoa;
-import br.grupointegrado.appmetaforadevenda.Pessoa.Telefone;
 import br.grupointegrado.appmetaforadevenda.R;
-import br.grupointegrado.appmetaforadevenda.Util.ConvesorUtil;
-import eu.inmite.android.lib.validations.form.annotations.Length;
 
 /**
  * Created by eli on 18/09/2015.
@@ -125,7 +108,7 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                 PessoaFragment fragPes = (PessoaFragment) tabsAdapter.getFragments()[0];
                 TelefoneFragment fragTel = (TelefoneFragment) tabsAdapter.getFragments()[1];
                 if (fragPes.Validate() == true) {
-                    if (fragPes.pessoAlt() == false) {
+                    if (fragPes.ispessoAlt() == false) {
 
                         try {
                             pessoadao.savePessoa(fragPes.getPessoa());
@@ -157,8 +140,9 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                             int tamanho = fragTel.tamanhoLista();
 
                             pessoadao.Update(fragPes.getPessoa());
+                            pessoadao.deleteTelefone(idpessoa);
                             if (tamanho > 0) {
-                                    pessoadao.deleteTelefone(idpessoa);
+
                                 for (int x = 0; x < tamanho; x++) {
                                      pessoadao.saveTelefone(fragTel.getTelefone(idpessoa, fragPes.getPessoa().getCnpjCpf(), x));
 
@@ -175,8 +159,6 @@ public class CadastroPessoaActivity extends AppCompatActivity {
                         }
                     }
 
-                } else {
-                    Toast.makeText(CadastroPessoaActivity.this, "Preencher Campos Obrigatorios ", Toast.LENGTH_SHORT).show();
                 }
 
 

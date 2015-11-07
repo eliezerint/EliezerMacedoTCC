@@ -90,7 +90,7 @@ public class CidadeDao extends AppDao {
 
     }public List<Cidade> list(String nomecidade) {
         Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais,id_estado ,descricao,IBGE from Cidade where" +
-                " descricao like ? ",new String[]{nomecidade});
+                " descricao like ? ",new String[]{"%"+nomecidade+"%"});
 
         List<Cidade> cidades = new ArrayList<>();
 
@@ -110,6 +110,30 @@ public class CidadeDao extends AppDao {
         c.close();
         return cidades;
     }
+
+    public List<Cidade> listCodIbge(String CodIbge) {
+        Cursor c = getReadableDatabase().rawQuery("Select id_cidade, Pais, id_estado , descricao, IBGE from Cidade where" +
+                " IBGE like ? ",new String[]{CodIbge});
+
+        List<Cidade> cidades = new ArrayList<>();
+
+
+        while (c.moveToNext()) {
+
+            Cidade cidade = new Cidade();
+            cidade.setId(c.getInt(0));
+            cidade.setPais(c.getString(1));
+            cidade.setIdestado(c.getString(2));
+            cidade.setDescricao(c.getString(3));
+            cidade.setIbge(c.getString(4));
+
+            cidades.add(cidade);
+
+        }
+        c.close();
+        return cidades;
+    }
+
 
 
     public void delete(Integer id) {
